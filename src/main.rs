@@ -3,9 +3,17 @@ use ggez::event::KeyCode;
 use ggez::graphics;
 use ggez::graphics::{Mesh, Rect};
 use ggez::input::keyboard;
+use ggez::input::keyboard::KeyMods;
 use ggez::nalgebra as na;
 use ggez::{self, conf};
 use ggez::{Context, GameResult};
+
+enum Translate {
+    Up,
+    Down,
+    Left,
+    Right,
+}
 
 struct MainState {
     pos_x: f32,
@@ -27,24 +35,22 @@ impl MainState {
         };
         Ok(s)
     }
-}
 
-impl event::EventHandler for MainState {
-    fn update(&mut self, ctx: &mut Context) -> GameResult {
-        let distance = 5 as f32;
-        if keyboard::is_key_pressed(ctx, KeyCode::Right) {
-            self.pos_x += distance;
+    fn translate(&mut self, direction: Translate, distance: f32) {
+        match direction {
+            Translate::Up => {
+                self.pos_y += -1.0 * distance;
+            }
+            Translate::Down => {
+                self.pos_y += distance;
+            }
+            Translate::Left => {
+                self.pos_x += -1.0 * distance;
+            }
+            Translate::Right => {
+                self.pos_x += distance;
+            }
         }
-        if keyboard::is_key_pressed(ctx, KeyCode::Left) {
-            self.pos_x += -1.0 * distance;
-        }
-        if keyboard::is_key_pressed(ctx, KeyCode::Down) {
-            self.pos_y += distance;
-        }
-        if keyboard::is_key_pressed(ctx, KeyCode::Up) {
-            self.pos_y += -1.0 * distance;
-        }
-
         if self.pos_x < -self.box_size {
             self.pos_x = self.win_w;
         } else if self.pos_x > self.win_w {
@@ -59,11 +65,27 @@ impl event::EventHandler for MainState {
             println!("x: {}, y: {}", self.pos_x, self.pos_y);
             self.pos_y = -self.box_size;
         }
+    }
+}
 
+impl event::EventHandler for MainState {
+    fn update(&mut self, ctx: &mut Context) -> GameResult {
         if keyboard::is_key_pressed(ctx, KeyCode::D) {
             println!("x: {}, y: {}", self.pos_x, self.pos_y);
         }
 
+        if keyboard::is_key_pressed(ctx, KeyCode::W) {
+            self.translate(Translate::Up, 5.0);
+        }
+        if keyboard::is_key_pressed(ctx, KeyCode::A) {
+            self.translate(Translate::Left, 5.0);
+        }
+        if keyboard::is_key_pressed(ctx, KeyCode::S) {
+            self.translate(Translate::Down, 5.0);
+        }
+        if keyboard::is_key_pressed(ctx, KeyCode::D) {
+            self.translate(Translate::Right, 5.0);
+        }
         Ok(())
     }
 
@@ -87,6 +109,31 @@ impl event::EventHandler for MainState {
 
         graphics::present(ctx)?;
         Ok(())
+    }
+
+    fn key_down_event(
+        &mut self,
+        ctx: &mut Context,
+        key: KeyCode,
+        mods: KeyMods,
+        _: bool,
+    ) {
+        match key {
+            KeyCode::Escape => {
+                ggez::event::quit(ctx);
+            }
+            KeyCode::Right => {
+                self.translate(Translate::Right, self.box_size / 2.0)
+            }
+            KeyCode::Left => {
+                self.translate(Translate::Left, self.box_size / 2.0)
+            }
+            KeyCode::Up => self.translate(Translate::Up, self.box_size / 2.0),
+            KeyCode::Down => {
+                self.translate(Translate::Down, self.box_size / 2.0)
+            }
+            _ => (),
+        }
     }
 }
 
