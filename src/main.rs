@@ -57,12 +57,8 @@ impl MainState {
             self.pos_x = -self.box_size;
         }
         if self.pos_y < -self.box_size {
-            println!("x: {}, y: {}", self.pos_x, self.pos_y);
             self.pos_y = self.win_h;
-            println!("x: {}, y: {}", self.pos_x, self.pos_y);
         } else if self.pos_y > self.win_h {
-            println!("x: {}, y: {}", self.pos_x, self.pos_y);
-            println!("x: {}, y: {}", self.pos_x, self.pos_y);
             self.pos_y = -self.box_size;
         }
     }
@@ -70,10 +66,6 @@ impl MainState {
 
 impl event::EventHandler for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
-        if keyboard::is_key_pressed(ctx, KeyCode::D) {
-            println!("x: {}, y: {}", self.pos_x, self.pos_y);
-        }
-
         if keyboard::is_key_pressed(ctx, KeyCode::W) {
             self.translate(Translate::Up, 5.0);
         }
@@ -115,7 +107,7 @@ impl event::EventHandler for MainState {
         &mut self,
         ctx: &mut Context,
         key: KeyCode,
-        mods: KeyMods,
+        _: KeyMods,
         _: bool,
     ) {
         match key {
