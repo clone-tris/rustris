@@ -11,7 +11,7 @@ use std::env;
 use std::path;
 use std::time::Duration;
 
-const DESIRED_FPS: u32 = 60;
+const DESIRED_FPS: u32 = 50;
 const WIN_WIDTH: f32 = 800.0;
 const WIN_HEIGHT: f32 = 460.0;
 
@@ -42,11 +42,11 @@ impl Player {
             size,
             x: 0.0,
             y: 0.0,
-            acceleration: 2.0,
-            max_velocity: 10.0,
-            x_velocity: 0.0,
+            acceleration: 4.5 * size,
+            max_velocity: 3.0 * size,
+            x_velocity: 100.0,
             y_velocity: 0.0,
-            no_x_force: true,
+            no_x_force: false,
             no_y_force: true,
         };
 
@@ -55,14 +55,13 @@ impl Player {
         return player;
     }
     fn center_player(&mut self) {
-        self.x = WIN_WIDTH / 2.0 - self.size / 2.0;
-        self.y = WIN_HEIGHT / 2.0 - self.size / 2.0;
+        // self.x = WIN_WIDTH / 2.0 - self.size / 2.0;
+        // self.y = WIN_HEIGHT / 2.0 - self.size / 2.0;
     }
 }
 
 struct MainState {
     player: Player,
-    text: graphics::Text,
 }
 
 impl MainState {
@@ -71,19 +70,15 @@ impl MainState {
 
         player.center_player();
 
-        let font = Font::new(ctx, "/SourceCodePro-Regular.ttf")?;
-        let text = graphics::Text::new(("Hello world!", font, 48.0));
-
-        let s = MainState { player, text };
+        let s = MainState { player };
         Ok(s)
     }
 
-    fn apply_force(&mut self, direction: Force, dt: Duration) {
+    fn apply_force(&mut self, direction: Force, dt: f32) {
         let player = &mut self.player;
-        let dt_f32 = dt.as_secs_f32();
 
-        player.y += player.y_velocity;
-        player.x += player.x_velocity;
+        player.y += player.y_velocity * dt;
+        player.x += player.x_velocity * dt;
 
         if player.x < -player.size {
             player.x = WIN_WIDTH;
@@ -98,38 +93,46 @@ impl MainState {
 
         match direction {
             Force::Up => {
-                player.y_velocity -= player.acceleration * dt_f32;
+                player.y_velocity -= player.acceleration * dt;
                 player.no_y_force = false;
             }
             Force::Down => {
-                player.y_velocity += player.acceleration * dt_f32;
+                player.y_velocity += player.acceleration * dt;
                 player.no_y_force = false;
             }
             Force::Left => {
-                player.x_velocity -= player.acceleration * dt_f32;
+                player.x_velocity -= player.acceleration * dt;
                 player.no_x_force = false;
             }
             Force::Right => {
-                player.x_velocity += player.acceleration * dt_f32;
+                player.x_velocity += player.acceleration * dt;
                 player.no_x_force = false;
             }
             Force::Resistence => {
                 if player.x_velocity != 0.0 && player.no_x_force {
                     let u_x = player.x_velocity / player.x_velocity.abs();
-                    player.x_velocity -= u_x * dt_f32 * player.acceleration;
+                    player.x_velocity -= u_x * player.max_velocity * 2.5 * dt;
                     if u_x * player.x_velocity < 0.0 {
                         player.x_velocity = 0.0;
                     }
                 }
+
                 if player.y_velocity != 0.0 && player.no_y_force {
                     let u_y = player.y_velocity / player.y_velocity.abs();
-                    player.y_velocity -= u_y * dt_f32 * player.acceleration;
+                    player.y_velocity -= u_y * player.max_velocity * 3.5 * dt;
                     if u_y * player.y_velocity < 0.0 {
                         player.y_velocity = 0.0;
+                        player.no_y_force = false;
                     }
                 }
-                player.no_x_force = true;
-                player.no_y_force = true;
+
+                if player.x_velocity != 0.0 {
+                    player.no_x_force = true;
+                }
+
+                if player.y_velocity != 0.0 {
+                    player.no_y_force = true;
+                }
             }
         }
 
@@ -151,8 +154,7 @@ impl MainState {
 impl event::EventHandler for MainState {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         while timer::check_update_time(ctx, DESIRED_FPS) {
-            let dt = timer::delta(ctx);
-
+            let dt = timer::delta(ctx).as_secs_f32();
             self.apply_force(Force::Resistence, dt);
 
             if keyboard::is_key_pressed(ctx, KeyCode::W) {
@@ -186,13 +188,30 @@ impl event::EventHandler for MainState {
         graphics::draw(
             ctx,
             &shape,
-            (na::Point2::new(self.player.x, self.player.y),),
+            (
+                na::Point2::new(self.player.x, self.player.y),
+                0.0,
+                graphics::Color::from_rgb(50, 150, 50),
+            ),
         )?;
 
-        let text_position = mint::Point2 { x: 5.0, y: 5.0 };
-        graphics::draw(ctx, &self.text, (text_position,))?;
+        let font = Font::new(ctx, "/SourceCodePro-Regular.ttf")?;
+        let player_velocity = format!(
+            "VX: {}, VY: {}, time: {}",
+            self.player.x_velocity,
+            self.player.y_velocity,
+            timer::time_since_start(ctx).as_secs_f32()
+        );
+
+        let text = graphics::Text::new((player_velocity, font, 16.0));
+        graphics::draw(
+            ctx,
+            &text,
+            (mint::Point2 { x: 5.0, y: 5.0 }, 0.0, graphics::WHITE),
+        )?;
 
         graphics::present(ctx)?;
+        timer::yield_now();
         Ok(())
     }
 }
