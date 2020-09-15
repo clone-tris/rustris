@@ -55,8 +55,8 @@ impl Player {
         return player;
     }
     fn center_player(&mut self) {
-        // self.x = WIN_WIDTH / 2.0 - self.size / 2.0;
-        // self.y = WIN_HEIGHT / 2.0 - self.size / 2.0;
+        self.x = WIN_WIDTH / 2.0 - self.size / 2.0;
+        self.y = WIN_HEIGHT / 2.0 - self.size / 2.0;
     }
 }
 
@@ -111,7 +111,7 @@ impl MainState {
             Force::Resistence => {
                 if player.x_velocity != 0.0 && player.no_x_force {
                     let u_x = player.x_velocity / player.x_velocity.abs();
-                    player.x_velocity -= u_x * player.max_velocity * 2.5 * dt;
+                    player.x_velocity -= u_x * player.max_velocity * 3.0 * dt;
                     if u_x * player.x_velocity < 0.0 {
                         player.x_velocity = 0.0;
                     }
@@ -119,7 +119,7 @@ impl MainState {
 
                 if player.y_velocity != 0.0 && player.no_y_force {
                     let u_y = player.y_velocity / player.y_velocity.abs();
-                    player.y_velocity -= u_y * player.max_velocity * 3.5 * dt;
+                    player.y_velocity -= u_y * player.max_velocity * 3.0 * dt;
                     if u_y * player.y_velocity < 0.0 {
                         player.y_velocity = 0.0;
                         player.no_y_force = false;
