@@ -50,8 +50,6 @@ impl Player {
             no_y_force: true,
         };
 
-        println!("{:?}", player);
-
         return player;
     }
     fn center_player(&mut self) {
