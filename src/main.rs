@@ -193,6 +193,21 @@ impl event::EventHandler for MainState {
             ),
         )?;
 
+        let font = Font::new(ctx, "/SourceCodePro-Regular.ttf")?;
+        let player_velocity = format!(
+            "VX: {}, VY: {}, time: {}",
+            self.player.x_velocity,
+            self.player.y_velocity,
+            timer::time_since_start(ctx).as_secs_f32()
+        );
+
+        let text = graphics::Text::new((player_velocity, font, 16.0));
+        graphics::draw(
+            ctx,
+            &text,
+            (mint::Point2 { x: 5.0, y: 5.0 }, 0.0, graphics::WHITE),
+        )?;
+
         graphics::present(ctx)?;
         timer::yield_now();
         Ok(())
