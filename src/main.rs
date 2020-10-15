@@ -1,4 +1,5 @@
 mod framework;
+mod screens;
 
 use ggez::event;
 use ggez::GameResult;
@@ -7,6 +8,7 @@ use std::env;
 use std::path;
 
 use crate::framework::Game;
+use crate::screens::menu_screen::MenuScreen;
 
 const WIN_WIDTH: f32 = 800.0;
 const WIN_HEIGHT: f32 = 460.0;
@@ -32,8 +34,8 @@ pub fn main() -> GameResult {
         .add_resource_path(resource_dir);
 
     let (ctx, event_loop) = &mut cb.build()?;
+    let initial_screen = Box::new(MenuScreen::new(ctx)?);
+    let game = &mut Game::new(initial_screen)?;
 
-    let state = &mut Game::new(ctx)?;
-
-    event::run(ctx, event_loop, state)
+    event::run(ctx, event_loop, game)
 }
