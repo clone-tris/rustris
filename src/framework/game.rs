@@ -23,7 +23,7 @@ impl EventHandler for Game {
         Ok(())
     }
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
-        let canvas = self.screen.get_canvas();
+        let canvas = self.screen.canvas();
 
         graphics::set_canvas(ctx, Some(canvas));
         self.screen.paint(ctx);

@@ -27,7 +27,7 @@ impl Screen for MenuScreen {
         graphics::clear(ctx, Color::from((80, 150, 200, 128)));
     }
 
-    fn get_canvas(&self) -> &Canvas {
+    fn canvas(&self) -> &Canvas {
         &self.canvas
     }
 }
