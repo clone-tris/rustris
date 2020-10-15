@@ -1,12 +1,8 @@
-use ggez;
-use nalgebra;
-
 use ggez::event::EventHandler;
 use ggez::graphics::{Canvas, Color, DrawParam};
 use ggez::input::keyboard;
 use ggez::input::keyboard::KeyCode;
 use ggez::{graphics, timer, Context, GameResult};
-use ggez::{nalgebra as na, GameError};
 
 trait Scene {
     fn update(&self, ctx: &mut Context);
@@ -43,7 +39,7 @@ impl Scene for MenuScene {
 }
 
 pub struct Game {
-    pub scene: Box<dyn Scene>,
+    scene: Box<dyn Scene>,
 }
 
 impl Game {
@@ -66,7 +62,7 @@ impl EventHandler for Game {
         self.scene.paint(ctx);
 
         graphics::set_canvas(ctx, None);
-        graphics::draw(ctx, canvas, DrawParam::new());
+        graphics::draw(ctx, canvas, DrawParam::new())?;
 
         graphics::present(ctx)?;
         Ok(())
