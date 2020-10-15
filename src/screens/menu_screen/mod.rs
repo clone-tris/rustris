@@ -24,6 +24,7 @@ impl Screen for MenuScreen {
         }
     }
     fn paint(&self, ctx: &mut Context) {
+        graphics::set_canvas(ctx, Some(&self.canvas));
         graphics::clear(ctx, Color::from((80, 150, 200, 128)));
     }
 
