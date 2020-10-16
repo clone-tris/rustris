@@ -1,6 +1,6 @@
-pub const SQUARE_WIDTH: i32 = 24;
-pub const PUZZLE_WIDTH: i32 = 10;
-pub const SQUARE_BORDER_WIDTH: i32 = 3;
-pub const PUZZLE_HEIGHT: i32 = 20;
-pub const SIDEBAR_WIDTH: i32 = SQUARE_WIDTH * 6;
-pub const WAR_ZONE_WIDTH: i32 = PUZZLE_WIDTH * SQUARE_WIDTH;
+pub const SQUARE_WIDTH: u16 = 24;
+pub const PUZZLE_WIDTH: u16 = 10;
+pub const SQUARE_BORDER_WIDTH: u16 = 3;
+pub const PUZZLE_HEIGHT: u16 = 20;
+pub const SIDEBAR_WIDTH: u16 = SQUARE_WIDTH * 6;
+pub const WAR_ZONE_WIDTH: u16 = PUZZLE_WIDTH * SQUARE_WIDTH;
