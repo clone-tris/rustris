@@ -1,3 +1,5 @@
+mod painter;
+
 use ggez::graphics::{Canvas, Color};
 use ggez::input::keyboard::{KeyCode, KeyMods};
 use ggez::{graphics, Context};
@@ -34,9 +36,8 @@ impl Screen for MenuScreen {
 
     fn paint(&mut self, ctx: &mut Context) {
         graphics::set_canvas(ctx, Some(&self.canvas));
-        graphics::clear(ctx, Color::from(ui_colors::BACKGROUND));
-        graphics_painter::draw_line(ctx, 10, 30, 100, 300, Color::from_rgb(50, 100, 150));
-        draw_guide(ctx, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        painter::clear(ctx);
+        painter::draw_background(ctx);
     }
 
     fn key_down_event(
