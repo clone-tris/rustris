@@ -7,7 +7,7 @@ use ggez::{self, conf};
 use std::env;
 use std::path;
 
-use crate::framework::Game;
+use crate::framework::game::Game;
 use crate::screens::menu_screen::MenuScreen;
 
 const WIN_WIDTH: f32 = 800.0;
@@ -34,8 +34,8 @@ pub fn main() -> GameResult {
         .add_resource_path(resource_dir);
 
     let (ctx, event_loop) = &mut cb.build()?;
-    let initial_screen = Box::new(MenuScreen::new(ctx)?);
-    let game = &mut Game::new(initial_screen)?;
+
+    let game = &mut Game::new(Box::new(MenuScreen::new(ctx)));
 
     event::run(ctx, event_loop, game)
 }
