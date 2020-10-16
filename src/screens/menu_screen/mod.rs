@@ -2,7 +2,7 @@ use ggez::graphics::{Canvas, Color};
 use ggez::input::keyboard::{KeyCode, KeyMods};
 use ggez::{graphics, Context};
 
-use crate::framework::graphics_painter::draw_line;
+use crate::framework::graphics_painter;
 use crate::framework::screen::Screen;
 use crate::screens::game_screen::GameScreen;
 
@@ -32,7 +32,7 @@ impl Screen for MenuScreen {
     fn paint(&mut self, ctx: &mut Context) {
         graphics::set_canvas(ctx, Some(&self.canvas));
         graphics::clear(ctx, Color::from((80, 150, 200, 128)));
-        draw_line(ctx, 10, 30, 100, 300, Color::from_rgb(50, 100, 150));
+        graphics_painter::draw_line(ctx, 10, 30, 100, 300, Color::from_rgb(50, 100, 150));
     }
 
     fn key_down_event(

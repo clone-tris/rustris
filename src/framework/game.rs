@@ -46,12 +46,7 @@ impl EventHandler for Game {
         self.screen.key_down_event(ctx, keycode, _keymods, _repeat);
     }
 
-    fn key_up_event(
-        &mut self,
-        ctx: &mut Context,
-        keycode: KeyCode,
-        _keymods: KeyMods,
-    ) {
+    fn key_up_event(&mut self, ctx: &mut Context, keycode: KeyCode, _keymods: KeyMods) {
         self.screen.key_up_event(ctx, keycode, _keymods);
     }
 }

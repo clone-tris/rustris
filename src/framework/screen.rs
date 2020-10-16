@@ -15,13 +15,7 @@ pub trait Screen {
         _repeat: bool,
     ) {
     }
-    fn key_up_event(
-        &mut self,
-        _ctx: &mut Context,
-        _keycode: KeyCode,
-        _keymods: KeyMods,
-    ) {
-    }
+    fn key_up_event(&mut self, _ctx: &mut Context, _keycode: KeyCode, _keymods: KeyMods) {}
     fn canvas(&self) -> &Canvas;
     fn unload(&mut self, _ctx: &mut Context) {}
 }
