@@ -1,5 +1,5 @@
 mod framework;
-mod game_config;
+mod rustris_config;
 mod screens;
 use ggez::event;
 use ggez::GameResult;
@@ -8,7 +8,9 @@ use std::env;
 use std::path;
 
 use crate::framework::game::Game;
-use crate::game_config::CONFIG;
+use crate::rustris_config::{
+    CANVAS_HEIGHT, CANVAS_WIDTH, GAME_AUTHOR, GAME_ID, WINDOW_TITLE,
+};
 use crate::screens::menu_screen::MenuScreen;
 
 pub fn main() -> GameResult {
@@ -22,13 +24,11 @@ pub fn main() -> GameResult {
     };
 
     let (ref mut ctx, ref mut event_loop) =
-        ggez::ContextBuilder::new(CONFIG.game_id, CONFIG.author)
-            .window_setup(
-                conf::WindowSetup::default().title(CONFIG.window_title),
-            )
+        ggez::ContextBuilder::new(GAME_ID, GAME_AUTHOR)
+            .window_setup(conf::WindowSetup::default().title(WINDOW_TITLE))
             .window_mode(
                 conf::WindowMode::default()
-                    .dimensions(CONFIG.width as f32, CONFIG.height as f32),
+                    .dimensions(CANVAS_WIDTH as f32, CANVAS_HEIGHT as f32),
             )
             .add_resource_path(resource_dir)
             .build()

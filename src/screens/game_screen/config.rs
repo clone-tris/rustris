@@ -1,0 +1,6 @@
+pub const SQUARE_WIDTH: i32 = 24;
+pub const PUZZLE_WIDTH: i32 = 10;
+pub const SQUARE_BORDER_WIDTH: i32 = 3;
+pub const PUZZLE_HEIGHT: i32 = 20;
+pub const SIDEBAR_WIDTH: i32 = SQUARE_WIDTH * 6;
+pub const WAR_ZONE_WIDTH: i32 = PUZZLE_WIDTH * SQUARE_WIDTH;

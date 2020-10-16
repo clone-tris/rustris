@@ -1,3 +1,5 @@
+pub mod config;
+
 use ggez::graphics::{Canvas, Color};
 use ggez::input::keyboard::{KeyCode, KeyMods};
 use ggez::{graphics, Context};
