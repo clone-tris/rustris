@@ -9,6 +9,5 @@ pub fn draw_line(ctx: &mut Context, x1: i32, y1: i32, x2: i32, y2: i32, color: C
     );
 
     let line = Mesh::new_line(ctx, &[origin, destination], 1.0, color).unwrap();
-
     graphics::draw(ctx, &line, DrawParam::new()).unwrap();
 }

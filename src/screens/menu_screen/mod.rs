@@ -4,6 +4,7 @@ use ggez::{graphics, Context};
 
 use crate::framework::graphics_painter;
 use crate::framework::screen::Screen;
+use crate::screens::game_screen::colors::shape_colors;
 use crate::screens::game_screen::GameScreen;
 
 pub struct MenuScreen {
@@ -31,7 +32,7 @@ impl Screen for MenuScreen {
 
     fn paint(&mut self, ctx: &mut Context) {
         graphics::set_canvas(ctx, Some(&self.canvas));
-        graphics::clear(ctx, Color::from((80, 150, 200, 128)));
+        graphics::clear(ctx, Color::from(shape_colors::ORANGE));
         graphics_painter::draw_line(ctx, 10, 30, 100, 300, Color::from_rgb(50, 100, 150));
     }
 
