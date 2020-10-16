@@ -1,9 +1,8 @@
-use crate::screens::game_screen::colors::shape_colors::{BLUE, CYAN, RED};
-use crate::screens::game_screen::colors::ui_colors::GUIDE;
+use crate::screens::game_screen::colors::ui_colors;
 use crate::screens::game_screen::config::SQUARE_WIDTH;
 use ggez::graphics::{Color, DrawParam, Mesh};
 use ggez::nalgebra::Point2;
-use ggez::{graphics, Context, GameResult};
+use ggez::{graphics, Context};
 
 pub fn draw_line(ctx: &mut Context, x1: u16, y1: u16, x2: u16, y2: u16, color: Color) {
     let (origin, destination) = (
@@ -21,10 +20,10 @@ pub fn draw_guide(ctx: &mut Context, x: u16, y: u16, width: u16, height: u16) {
 
     for i in 0..(puzzle_height + 1) {
         let y = x + i * SQUARE_WIDTH;
-        draw_line(ctx, x, y, x + width, y, Color::from(GUIDE));
+        draw_line(ctx, x, y, x + width, y, Color::from(ui_colors::GUIDE));
     }
     for i in 0..(puzzle_width + 1) {
         let x = y + i * SQUARE_WIDTH;
-        draw_line(ctx, x, y, x, y + height, Color::from(GUIDE));
+        draw_line(ctx, x, y, x, y + height, Color::from(ui_colors::GUIDE));
     }
 }
