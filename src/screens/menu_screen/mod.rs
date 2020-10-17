@@ -1,14 +1,10 @@
 mod painter;
 
-use ggez::graphics::{Canvas, Color};
-use ggez::input::keyboard::{KeyCode, KeyMods};
+use ggez::graphics::Canvas;
+use ggez::input::keyboard::KeyCode;
 use ggez::{graphics, Context};
 
-use crate::framework::graphics_painter;
-use crate::framework::graphics_painter::draw_guide;
 use crate::framework::screen::Screen;
-use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH};
-use crate::screens::game_screen::colors::ui_colors;
 use crate::screens::game_screen::GameScreen;
 
 pub struct MenuScreen {
@@ -36,7 +32,6 @@ impl Screen for MenuScreen {
 
     fn paint(&mut self, ctx: &mut Context) {
         graphics::set_canvas(ctx, Some(&self.canvas));
-        painter::clear(ctx);
         painter::draw_background(ctx);
     }
 

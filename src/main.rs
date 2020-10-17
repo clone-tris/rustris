@@ -9,7 +9,7 @@ use std::path;
 
 use crate::framework::game::Game;
 use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH, GAME_AUTHOR, GAME_ID, WINDOW_TITLE};
-use crate::screens::menu_screen::MenuScreen;
+use crate::screens::game_screen::GameScreen;
 
 pub fn main() -> GameResult {
     let resource_dir = if let Ok(manifest_dir) = env::var("CARGO_MANIFEST_DIR") {
@@ -29,7 +29,7 @@ pub fn main() -> GameResult {
         .build()
         .unwrap();
 
-    let game = &mut Game::new(Box::new(MenuScreen::new(ctx)));
+    let game = &mut Game::new(Box::new(GameScreen::new(ctx)));
 
     event::run(ctx, event_loop, game)
 }

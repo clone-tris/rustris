@@ -1,11 +1,18 @@
 pub mod colors;
 pub mod config;
+pub mod painter;
+pub mod shape;
+pub mod square;
 
 use ggez::graphics::{Canvas, Color};
 use ggez::input::keyboard::{KeyCode, KeyMods};
 use ggez::{graphics, Context};
 
+use crate::framework::graphics_painter::draw_line;
 use crate::framework::screen::Screen;
+use crate::screens::game_screen::colors::shape_colors;
+use crate::screens::game_screen::colors::shape_colors::CYAN;
+use crate::screens::game_screen::config::SQUARE_WIDTH;
 use crate::screens::over_screen::OverScreen;
 
 pub struct GameScreen {
@@ -33,7 +40,9 @@ impl Screen for GameScreen {
 
     fn paint(&mut self, ctx: &mut Context) {
         graphics::set_canvas(ctx, Some(&self.canvas));
-        graphics::clear(ctx, Color::from((200, 80, 150, 128)));
+        painter::clear(ctx);
+        painter::draw_guide(ctx);
+        painter::draw_tetromino_square(ctx, SQUARE_WIDTH * 5, SQUARE_WIDTH * 4, Color::from(CYAN));
     }
 
     fn key_down_event(&mut self, _ctx: &mut Context, key: KeyCode) {

@@ -1,6 +1,6 @@
 pub const SQUARE_WIDTH: u16 = 24;
-pub const PUZZLE_WIDTH: u16 = 10;
 pub const SQUARE_BORDER_WIDTH: u16 = 3;
 pub const PUZZLE_HEIGHT: u16 = 20;
+pub const PUZZLE_WIDTH: u16 = 10;
 pub const SIDEBAR_WIDTH: u16 = SQUARE_WIDTH * 6;
 pub const WAR_ZONE_WIDTH: u16 = PUZZLE_WIDTH * SQUARE_WIDTH;
