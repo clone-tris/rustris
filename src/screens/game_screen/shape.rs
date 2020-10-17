@@ -3,33 +3,19 @@ use ggez::graphics::Color;
 
 #[derive(Debug, Clone)]
 pub struct Shape {
-    grid: Vec<Square>,
-    row: u16,
-    column: u16,
+    pub grid: Vec<Square>,
+    pub row: u16,
+    pub column: u16,
     color: Color,
-    width: u16,
-    height: u16,
-    compute_height: bool,
 }
 
 impl Shape {
-    pub fn new(
-        grid: Vec<Square>,
-        row: u16,
-        column: u16,
-        color: Color,
-        width: u16,
-        height: u16,
-        compute_height: bool,
-    ) -> Shape {
+    pub fn new(grid: Vec<Square>, row: u16, column: u16, color: Color) -> Shape {
         Shape {
             grid,
             row,
             column,
             color,
-            width,
-            height,
-            compute_height,
         }
     }
 

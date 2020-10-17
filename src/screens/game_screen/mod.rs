@@ -13,6 +13,8 @@ use crate::framework::screen::Screen;
 use crate::screens::game_screen::colors::shape_colors;
 use crate::screens::game_screen::colors::shape_colors::CYAN;
 use crate::screens::game_screen::config::SQUARE_WIDTH;
+use crate::screens::game_screen::shape::Shape;
+use crate::screens::game_screen::square::Square;
 use crate::screens::over_screen::OverScreen;
 
 pub struct GameScreen {
@@ -42,7 +44,20 @@ impl Screen for GameScreen {
         graphics::set_canvas(ctx, Some(&self.canvas));
         painter::clear(ctx);
         painter::draw_guide(ctx);
-        painter::draw_tetromino_square(ctx, SQUARE_WIDTH * 5, SQUARE_WIDTH * 4, Color::from(CYAN));
+
+        let shape = Shape::new(
+            vec![
+                Square::default(0, 0),
+                Square::default(1, 0),
+                Square::default(1, 1),
+                Square::default(1, 2),
+            ],
+            2,
+            2,
+            Color::from(CYAN),
+        );
+
+        painter::draw_shape(ctx, shape)
     }
 
     fn key_down_event(&mut self, _ctx: &mut Context, key: KeyCode) {
