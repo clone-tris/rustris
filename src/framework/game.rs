@@ -43,10 +43,10 @@ impl EventHandler for Game {
         _keymods: KeyMods,
         _repeat: bool,
     ) {
-        self.screen.key_down_event(ctx, keycode, _keymods, _repeat);
+        self.screen.key_down_event(ctx, keycode);
     }
 
     fn key_up_event(&mut self, ctx: &mut Context, keycode: KeyCode, _keymods: KeyMods) {
-        self.screen.key_up_event(ctx, keycode, _keymods);
+        self.screen.key_up_event(ctx, keycode);
     }
 }

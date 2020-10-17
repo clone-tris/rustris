@@ -7,15 +7,8 @@ pub trait Screen {
         None
     }
     fn paint(&mut self, ctx: &mut Context);
-    fn key_down_event(
-        &mut self,
-        _ctx: &mut Context,
-        _key: KeyCode,
-        _keymods: KeyMods,
-        _repeat: bool,
-    ) {
-    }
-    fn key_up_event(&mut self, _ctx: &mut Context, _keycode: KeyCode, _keymods: KeyMods) {}
+    fn key_down_event(&mut self, _ctx: &mut Context, _keycode: KeyCode) {}
+    fn key_up_event(&mut self, _ctx: &mut Context, _keycode: KeyCode) {}
     fn canvas(&self) -> &Canvas;
     fn unload(&mut self, _ctx: &mut Context) {}
 }

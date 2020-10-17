@@ -1,5 +1,5 @@
-pub mod config;
 pub mod colors;
+pub mod config;
 
 use ggez::graphics::{Canvas, Color};
 use ggez::input::keyboard::{KeyCode, KeyMods};
@@ -36,13 +36,7 @@ impl Screen for GameScreen {
         graphics::clear(ctx, Color::from((200, 80, 150, 128)));
     }
 
-    fn key_down_event(
-        &mut self,
-        _ctx: &mut Context,
-        key: KeyCode,
-        _keymods: KeyMods,
-        _repeat: bool,
-    ) {
+    fn key_down_event(&mut self, _ctx: &mut Context, key: KeyCode) {
         match key {
             KeyCode::Q => self.goto_over_screen = true,
             _ => (),

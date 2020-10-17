@@ -40,13 +40,7 @@ impl Screen for MenuScreen {
         painter::draw_background(ctx);
     }
 
-    fn key_down_event(
-        &mut self,
-        _ctx: &mut Context,
-        key: KeyCode,
-        _keymods: KeyMods,
-        _repeat: bool,
-    ) {
+    fn key_down_event(&mut self, _ctx: &mut Context, key: KeyCode) {
         match key {
             KeyCode::S => self.goto_game_screen = true,
             _ => (),

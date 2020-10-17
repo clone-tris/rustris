@@ -32,13 +32,7 @@ impl Screen for OverScreen {
         graphics::clear(ctx, Color::from((150, 200, 80, 128)));
     }
 
-    fn key_down_event(
-        &mut self,
-        _ctx: &mut Context,
-        key: KeyCode,
-        _keymods: KeyMods,
-        _repeat: bool,
-    ) {
+    fn key_down_event(&mut self, _ctx: &mut Context, key: KeyCode) {
         match key {
             KeyCode::M => self.goto_menu_screen = true,
             _ => (),
