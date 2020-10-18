@@ -11,6 +11,7 @@ pub struct Shape {
 
 impl Shape {
     pub fn new(grid: Vec<Square>, row: u16, column: u16, color: Color) -> Shape {
+        // todo: Compute size
         Shape {
             grid,
             row,
