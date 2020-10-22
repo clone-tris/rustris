@@ -1,7 +1,6 @@
 use crate::framework::graphics_painter;
 use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH};
-use crate::screens::game_screen::colors::ui_colors;
-use ggez::graphics::Color;
+use crate::screens::game_screen::colors::{ui_color, UiColors};
 use ggez::{graphics, Context};
 
 pub fn draw_background(ctx: &mut Context) {
@@ -10,7 +9,7 @@ pub fn draw_background(ctx: &mut Context) {
 }
 
 pub fn clear(ctx: &mut Context) {
-    graphics::clear(ctx, Color::from(ui_colors::BACKGROUND));
+    graphics::clear(ctx, ui_color(UiColors::Background));
 }
 
 pub fn draw_guide(ctx: &mut Context) {

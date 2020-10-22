@@ -1,4 +1,4 @@
-use crate::screens::game_screen::colors::shape_colors::DEFAULT_SQUARE_COLOR;
+use crate::screens::game_screen::colors::{shaope_color, ShapeColors};
 use ggez::graphics::Color;
 
 #[derive(Debug, Clone, Copy)]
@@ -17,7 +17,7 @@ impl Square {
         Square {
             row,
             column,
-            color: Color::from(DEFAULT_SQUARE_COLOR),
+            color: shaope_color(ShapeColors::DefaultSquareColor),
         }
     }
 }

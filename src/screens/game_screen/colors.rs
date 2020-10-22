@@ -1,29 +1,73 @@
-pub type RGB = (u8, u8, u8);
+use ggez::graphics::Color;
+
 pub type RGBA = (u8, u8, u8, u8);
+// Ui
+pub const BACKGROUND: RGBA = (0x33, 0x33, 0x33, 0xFF);
+pub const SIDEBAR_BACKGROUND: RGBA = (0x54, 0x54, 0x54, 0xFF);
+pub const POPUP_BACKGROUND: RGBA = (0x21, 0x21, 0x21, 0xFF);
+pub const GUIDE: RGBA = (0x55, 0x55, 0x55, 0xFF);
+pub const WHITE_TEXT: RGBA = (0xFF, 0xFF, 0xFF, 0xFF);
+pub const POPUP_TEXT: RGBA = (0xEF, 0xEF, 0xEF, 0xFF);
 
-pub mod ui_colors {
-    use crate::screens::game_screen::colors::RGB;
+// Shapes
+pub const CYAN: RGBA = (0x6D, 0xEC, 0xEE, 0xFF);
+pub const BLUE: RGBA = (0x00, 0x14, 0xE6, 0xFF);
+pub const ORANGE: RGBA = (0xE4, 0xA3, 0x38, 0xFF);
+pub const YELLOW: RGBA = (0xF0, 0xEF, 0x4F, 0xFF);
+pub const GREEN: RGBA = (0x6E, 0xEB, 0x47, 0xFF);
+pub const PURPLE: RGBA = (0x92, 0x25, 0xE7, 0xFF);
+pub const RED: RGBA = (0xDC, 0x2F, 0x20, 0xFF);
+pub const DEFAULT_SQUARE_COLOR: RGBA = (0xCC, 0x80, 0x81, 0xFF);
+pub const BORDER_TOP: RGBA = (0xFF, 0xFF, 0xFF, 178);
+pub const BORDER_BOTTOM: RGBA = (0, 0, 0, 127);
+pub const BORDER_SIDE: RGBA = (0, 0, 0, 25);
 
-    pub const BACKGROUND: RGB = (0x33, 0x33, 0x33);
-    pub const SIDEBAR_BACKGROUND: RGB = (0x54, 0x54, 0x54);
-    pub const POPUP_BACKGROUND: RGB = (0x21, 0x21, 0x21);
-    pub const GUIDE: RGB = (0x55, 0x55, 0x55);
-    pub const WHITE_TEXT: RGB = (0xFF, 0xFF, 0xFF);
-    pub const POPUP_TEXT: RGB = (0xEF, 0xEF, 0xEF);
+pub enum UiColors {
+    Background,
+    SidebarBackground,
+    PopupBackground,
+    Guide,
+    WhiteText,
+    PopupText,
 }
 
-pub mod shape_colors {
-    use crate::screens::game_screen::colors::{RGB, RGBA};
+pub enum ShapeColors {
+    Cyan,
+    Blue,
+    Orange,
+    Yellow,
+    Green,
+    Purple,
+    Red,
+    DefaultSquareColor,
+    BorderTop,
+    BorderBottom,
+    BorderSide,
+}
 
-    pub const CYAN: RGB = (0x6D, 0xEC, 0xEE);
-    pub const BLUE: RGB = (0x00, 0x14, 0xE6);
-    pub const ORANGE: RGB = (0xE4, 0xA3, 0x38);
-    pub const YELLOW: RGB = (0xF0, 0xEF, 0x4F);
-    pub const GREEN: RGB = (0x6E, 0xEB, 0x47);
-    pub const PURPLE: RGB = (0x92, 0x25, 0xE7);
-    pub const RED: RGB = (0xDC, 0x2F, 0x20);
-    pub const DEFAULT_SQUARE_COLOR: RGB = (0xCC, 0x80, 0x81);
-    pub const BORDER_TOP: RGBA = (0xFF, 0xFF, 0xFF, 178);
-    pub const BORDER_BOTTOM: RGBA = (0, 0, 0, 127);
-    pub const BORDER_SIDE: RGBA = (0, 0, 0, 25);
+pub fn ui_color(color: UiColors) -> Color {
+    match color {
+        UiColors::Background => Color::from(BACKGROUND),
+        UiColors::SidebarBackground => Color::from(SIDEBAR_BACKGROUND),
+        UiColors::PopupBackground => Color::from(POPUP_BACKGROUND),
+        UiColors::Guide => Color::from(GUIDE),
+        UiColors::WhiteText => Color::from(WHITE_TEXT),
+        UiColors::PopupText => Color::from(POPUP_TEXT),
+    }
+}
+
+pub fn shaope_color(color: ShapeColors) -> Color {
+    match color {
+        ShapeColors::Cyan => Color::from(CYAN),
+        ShapeColors::Blue => Color::from(BLUE),
+        ShapeColors::Orange => Color::from(ORANGE),
+        ShapeColors::Yellow => Color::from(YELLOW),
+        ShapeColors::Green => Color::from(GREEN),
+        ShapeColors::Purple => Color::from(PURPLE),
+        ShapeColors::Red => Color::from(RED),
+        ShapeColors::DefaultSquareColor => Color::from(DEFAULT_SQUARE_COLOR),
+        ShapeColors::BorderTop => Color::from(BORDER_TOP),
+        ShapeColors::BorderBottom => Color::from(BORDER_BOTTOM),
+        ShapeColors::BorderSide => Color::from(BORDER_SIDE),
+    }
 }

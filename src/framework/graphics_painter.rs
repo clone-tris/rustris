@@ -1,5 +1,4 @@
-use crate::screens::game_screen::colors::shape_colors;
-use crate::screens::game_screen::colors::ui_colors;
+use crate::screens::game_screen::colors::{ui_color, UiColors};
 use crate::screens::game_screen::config::SQUARE_WIDTH;
 use ggez::graphics::{Color, DrawParam, Mesh};
 use ggez::nalgebra::Point2;
@@ -34,7 +33,7 @@ pub fn draw_guide(ctx: &mut Context, x: u16, y: u16, width: u16, height: u16) {
             y as f32 + 0.5,
             x as f32 + width as f32,
             y as f32 + 0.5,
-            Color::from(ui_colors::GUIDE),
+            ui_color(UiColors::Guide),
         );
     }
     for i in 0..(puzzle_width + 1) {
@@ -45,7 +44,7 @@ pub fn draw_guide(ctx: &mut Context, x: u16, y: u16, width: u16, height: u16) {
             y as f32,
             x as f32 + 0.5,
             y as f32 + height as f32,
-            Color::from(ui_colors::GUIDE),
+            ui_color(UiColors::Guide),
         );
     }
 }

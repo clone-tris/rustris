@@ -4,15 +4,12 @@ pub mod painter;
 pub mod shape;
 pub mod square;
 
-use ggez::graphics::{Canvas, Color};
-use ggez::input::keyboard::{KeyCode, KeyMods};
+use ggez::graphics::Canvas;
+use ggez::input::keyboard::KeyCode;
 use ggez::{graphics, Context};
 
-use crate::framework::graphics_painter::draw_line;
 use crate::framework::screen::Screen;
-use crate::screens::game_screen::colors::shape_colors;
-use crate::screens::game_screen::colors::shape_colors::CYAN;
-use crate::screens::game_screen::config::SQUARE_WIDTH;
+use crate::screens::game_screen::colors::{shaope_color, ShapeColors};
 use crate::screens::game_screen::shape::Shape;
 use crate::screens::game_screen::square::Square;
 use crate::screens::over_screen::OverScreen;
@@ -54,7 +51,7 @@ impl Screen for GameScreen {
             ],
             2,
             2,
-            Color::from(CYAN),
+            shaope_color(ShapeColors::Cyan),
         );
 
         painter::draw_shape(ctx, shape)
