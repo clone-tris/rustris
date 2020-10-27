@@ -1,7 +1,9 @@
 pub mod colors;
 pub mod config;
 pub mod painter;
+pub mod playfield;
 pub mod shape;
+pub mod sidebar;
 pub mod square;
 
 use ggez::graphics::Canvas;
@@ -9,13 +11,15 @@ use ggez::input::keyboard::KeyCode;
 use ggez::{graphics, Context};
 
 use crate::framework::screen::Screen;
+use crate::rustris_config::CANVAS_HEIGHT;
 use crate::screens::game_screen::colors::{shaope_color, ShapeColors};
-use crate::screens::game_screen::shape::Shape;
-use crate::screens::game_screen::square::Square;
+use crate::screens::game_screen::config::WAR_ZONE_WIDTH;
+use crate::screens::game_screen::playfield::PlayFieldScreen;
 use crate::screens::over_screen::OverScreen;
 
 pub struct GameScreen {
     canvas: Canvas,
+    playfield: PlayFieldScreen,
     goto_over_screen: bool,
 }
 
@@ -23,6 +27,7 @@ impl GameScreen {
     pub fn new(ctx: &mut Context) -> GameScreen {
         GameScreen {
             canvas: graphics::Canvas::with_window_size(ctx).unwrap(),
+            playfield: PlayFieldScreen::new(ctx, WAR_ZONE_WIDTH, CANVAS_HEIGHT),
             goto_over_screen: false,
         }
     }
@@ -39,22 +44,7 @@ impl Screen for GameScreen {
 
     fn paint(&mut self, ctx: &mut Context) {
         graphics::set_canvas(ctx, Some(&self.canvas));
-        painter::clear(ctx);
-        painter::draw_guide(ctx);
-
-        let shape = Shape::new(
-            vec![
-                Square::default(0, 0),
-                Square::default(1, 0),
-                Square::default(1, 1),
-                Square::default(1, 2),
-            ],
-            2,
-            2,
-            shaope_color(ShapeColors::Cyan),
-        );
-
-        painter::draw_shape(ctx, shape)
+        self.playfield.paint(ctx);
     }
 
     fn key_down_event(&mut self, _ctx: &mut Context, key: KeyCode) {
@@ -64,7 +54,9 @@ impl Screen for GameScreen {
         }
     }
 
-    fn canvas(&self) -> &Canvas {
+    fn canvas(&self, ctx: &mut Context) -> &Canvas {
+        let playfield_canvas = &self.playfield.canvas(ctx);
+        painter::stitch(ctx, &self.canvas, playfield_canvas);
         &self.canvas
     }
 }

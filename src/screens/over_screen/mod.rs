@@ -39,7 +39,7 @@ impl Screen for OverScreen {
         }
     }
 
-    fn canvas(&self) -> &Canvas {
+    fn canvas(&self, _ctx: &mut Context) -> &Canvas {
         &self.canvas
     }
 }

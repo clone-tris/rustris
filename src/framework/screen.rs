@@ -9,6 +9,6 @@ pub trait Screen {
     fn paint(&mut self, ctx: &mut Context);
     fn key_down_event(&mut self, _ctx: &mut Context, _keycode: KeyCode) {}
     fn key_up_event(&mut self, _ctx: &mut Context, _keycode: KeyCode) {}
-    fn canvas(&self) -> &Canvas;
+    fn canvas(&self, _ctx: &mut Context) -> &Canvas;
     fn unload(&mut self, _ctx: &mut Context) {}
 }

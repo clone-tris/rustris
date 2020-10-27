@@ -42,7 +42,7 @@ impl Screen for MenuScreen {
         }
     }
 
-    fn canvas(&self) -> &Canvas {
+    fn canvas(&self, _ctx: &mut Context) -> &Canvas {
         &self.canvas
     }
 }

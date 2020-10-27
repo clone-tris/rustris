@@ -29,7 +29,7 @@ impl EventHandler for Game {
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         self.screen.paint(ctx);
-        let canvas = self.screen.canvas();
+        let canvas = self.screen.canvas(ctx);
         graphics::set_canvas(ctx, None);
         graphics::draw(ctx, canvas, DrawParam::new())?;
         graphics::present(ctx)?;
