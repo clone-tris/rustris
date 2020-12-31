@@ -12,7 +12,6 @@ use ggez::{graphics, Context};
 
 use crate::framework::screen::Screen;
 use crate::rustris_config::CANVAS_HEIGHT;
-use crate::screens::game_screen::colors::{shaope_color, ShapeColors};
 use crate::screens::game_screen::config::WAR_ZONE_WIDTH;
 use crate::screens::game_screen::playfield::PlayFieldScreen;
 use crate::screens::over_screen::OverScreen;

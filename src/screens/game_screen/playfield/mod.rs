@@ -1,7 +1,7 @@
 mod painter;
 
 use crate::framework::screen::Screen;
-use crate::screens::game_screen::colors::{shaope_color, ShapeColors};
+use crate::screens::game_screen::colors::{ ShapeColors};
 use crate::screens::game_screen::playfield::painter::Painter;
 use crate::screens::game_screen::shape::Shape;
 use crate::screens::game_screen::square::Square;
@@ -44,7 +44,7 @@ impl Screen for PlayFieldScreen {
             ],
             2,
             2,
-            shaope_color(ShapeColors::Cyan),
+            ShapeColors::Cyan.value(),
         );
 
         self.painter.draw_shape(ctx, shape)

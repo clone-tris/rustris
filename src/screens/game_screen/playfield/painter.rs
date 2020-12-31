@@ -1,6 +1,6 @@
 use crate::framework::graphics_painter;
 use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH};
-use crate::screens::game_screen::colors::{ui_color, UiColors};
+use crate::screens::game_screen::colors::{UiColors};
 use crate::screens::game_screen::config::SQUARE_WIDTH;
 use crate::screens::game_screen::shape::Shape;
 use ggez::graphics::{Color, DrawParam};
@@ -17,7 +17,7 @@ impl Painter {
     }
 
     pub fn clear(&self, ctx: &mut Context) {
-        graphics::clear(ctx, ui_color(UiColors::Background));
+        graphics::clear(ctx, UiColors::Background.value());
     }
 
     pub fn draw_shape(&self, ctx: &mut Context, shape: Shape) {

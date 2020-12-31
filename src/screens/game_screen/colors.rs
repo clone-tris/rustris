@@ -1,6 +1,7 @@
 use ggez::graphics::Color;
 
 pub type RGBA = (u8, u8, u8, u8);
+
 // Ui
 pub const BACKGROUND: RGBA = (0x33, 0x33, 0x33, 0xFF);
 pub const SIDEBAR_BACKGROUND: RGBA = (0x54, 0x54, 0x54, 0xFF);
@@ -31,7 +32,20 @@ pub enum UiColors {
     PopupText,
 }
 
-pub enum ShapeColors {
+impl UiColors {
+    pub fn value(&self) -> Color {
+        match *self {
+            UiColors::Background => Color::from(BACKGROUND),
+            UiColors::SidebarBackground => Color::from(SIDEBAR_BACKGROUND),
+            UiColors::PopupBackground => Color::from(POPUP_BACKGROUND),
+            UiColors::Guide => Color::from(GUIDE),
+            UiColors::WhiteText => Color::from(WHITE_TEXT),
+            UiColors::PopupText => Color::from(POPUP_TEXT),
+        }
+    }
+}
+
+pub enum ShapeColors {  
     Cyan,
     Blue,
     Orange,
@@ -45,29 +59,20 @@ pub enum ShapeColors {
     BorderSide,
 }
 
-pub fn ui_color(color: UiColors) -> Color {
-    match color {
-        UiColors::Background => Color::from(BACKGROUND),
-        UiColors::SidebarBackground => Color::from(SIDEBAR_BACKGROUND),
-        UiColors::PopupBackground => Color::from(POPUP_BACKGROUND),
-        UiColors::Guide => Color::from(GUIDE),
-        UiColors::WhiteText => Color::from(WHITE_TEXT),
-        UiColors::PopupText => Color::from(POPUP_TEXT),
-    }
-}
-
-pub fn shaope_color(color: ShapeColors) -> Color {
-    match color {
-        ShapeColors::Cyan => Color::from(CYAN),
-        ShapeColors::Blue => Color::from(BLUE),
-        ShapeColors::Orange => Color::from(ORANGE),
-        ShapeColors::Yellow => Color::from(YELLOW),
-        ShapeColors::Green => Color::from(GREEN),
-        ShapeColors::Purple => Color::from(PURPLE),
-        ShapeColors::Red => Color::from(RED),
-        ShapeColors::DefaultSquareColor => Color::from(DEFAULT_SQUARE_COLOR),
-        ShapeColors::BorderTop => Color::from(BORDER_TOP),
-        ShapeColors::BorderBottom => Color::from(BORDER_BOTTOM),
-        ShapeColors::BorderSide => Color::from(BORDER_SIDE),
+impl ShapeColors {
+    pub fn value(&self) -> Color {
+        match *self {
+            ShapeColors::Cyan => Color::from(CYAN),
+            ShapeColors::Blue => Color::from(BLUE),
+            ShapeColors::Orange => Color::from(ORANGE),
+            ShapeColors::Yellow => Color::from(YELLOW),
+            ShapeColors::Green => Color::from(GREEN),
+            ShapeColors::Purple => Color::from(PURPLE),
+            ShapeColors::Red => Color::from(RED),
+            ShapeColors::DefaultSquareColor => Color::from(DEFAULT_SQUARE_COLOR),
+            ShapeColors::BorderTop => Color::from(BORDER_TOP),
+            ShapeColors::BorderBottom => Color::from(BORDER_BOTTOM),
+            ShapeColors::BorderSide => Color::from(BORDER_SIDE),
+        }
     }
 }
