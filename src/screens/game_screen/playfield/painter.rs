@@ -20,7 +20,7 @@ impl Painter {
         graphics::clear(ctx, UiColors::Background.value());
     }
 
-    pub fn draw_shape(&self, ctx: &mut Context, shape: Shape) {
+    pub fn draw_shape(&self, ctx: &mut Context, shape: &Shape) {
         for square in shape.grid.iter() {
             self.draw_square_at(
                 ctx,

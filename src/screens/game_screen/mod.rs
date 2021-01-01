@@ -42,7 +42,6 @@ impl Screen for GameScreen {
     }
 
     fn paint(&mut self, ctx: &mut Context) {
-        graphics::set_canvas(ctx, Some(&self.canvas));
         self.playfield.paint(ctx);
     }
 
