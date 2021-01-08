@@ -1,15 +1,12 @@
 mod painter;
 
 use crate::framework::screen::Screen;
-use crate::screens::game_screen::colors::{ShapeColors};
+use crate::screens::game_screen::colors::ShapeColors;
 use crate::screens::game_screen::playfield::painter::Painter;
 use crate::screens::game_screen::shape::Shape;
 use crate::screens::game_screen::square::Square;
-use crate::screens::game_screen::GameScreen;
-use crate::screens::over_screen::OverScreen;
 use ggez::conf::NumSamples;
 use ggez::graphics::Canvas;
-use ggez::input::keyboard::KeyCode;
 use ggez::{graphics, Context};
 
 pub struct PlayFieldScreen {
@@ -43,10 +40,10 @@ impl PlayFieldScreen {
 
 impl Screen for PlayFieldScreen {
     fn paint(&mut self, ctx: &mut Context) {
-        graphics::set_canvas(ctx, Some(&self.canvas));
+        self.painter.setup(ctx, &self.canvas);
         self.painter.clear(ctx);
         self.painter.draw_guide(ctx);
-        self.painter.draw_shape(ctx, &self.player)
+        self.painter.draw_shape(ctx, &self.player);
     }
 
     fn canvas(&self, _ctx: &mut Context) -> &Canvas {

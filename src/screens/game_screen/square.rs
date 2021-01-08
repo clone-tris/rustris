@@ -1,4 +1,4 @@
-use crate::screens::game_screen::colors::{ShapeColors};
+use crate::screens::game_screen::colors::ShapeColors;
 use ggez::graphics::Color;
 
 #[derive(Debug, Clone, Copy)]

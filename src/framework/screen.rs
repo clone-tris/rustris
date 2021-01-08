@@ -1,5 +1,5 @@
 use ggez::graphics::Canvas;
-use ggez::input::keyboard::{KeyCode, KeyMods};
+use ggez::input::keyboard::KeyCode;
 use ggez::Context;
 
 pub trait Screen {

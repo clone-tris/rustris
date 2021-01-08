@@ -1,10 +1,11 @@
 use crate::framework::graphics_painter;
-use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH};
-use crate::screens::game_screen::colors::{UiColors};
-use crate::screens::game_screen::config::SQUARE_WIDTH;
+use crate::rustris_config::CANVAS_HEIGHT;
+use crate::screens::game_screen::colors::{ShapeColors, UiColors};
+use crate::screens::game_screen::config::{SQUARE_WIDTH, WAR_ZONE_WIDTH};
 use crate::screens::game_screen::shape::Shape;
-use ggez::graphics::{Color, DrawParam};
+use ggez::graphics::{Canvas, Color, DrawParam, Mesh};
 use ggez::{graphics, Context};
+use nalgebra::Point2;
 
 pub struct Painter {
     width: u16,
@@ -14,6 +15,15 @@ pub struct Painter {
 impl Painter {
     pub fn new(width: u16, height: u16) -> Painter {
         Painter { width, height }
+    }
+
+    pub fn setup(&self, ctx: &mut Context, canvas: &Canvas) {
+        graphics::set_canvas(ctx, Some(canvas));
+        graphics::set_screen_coordinates(
+            ctx,
+            [0.0, 0.0, WAR_ZONE_WIDTH as f32, CANVAS_HEIGHT as f32].into(),
+        )
+        .unwrap();
     }
 
     pub fn clear(&self, ctx: &mut Context) {
@@ -45,5 +55,18 @@ impl Painter {
 
     pub fn draw_guide(&self, ctx: &mut Context) {
         graphics_painter::draw_guide(ctx, 0, 0, self.width, self.height);
+    }
+
+    pub fn draw_green_line(&self, ctx: &mut Context) {
+        // graph\ics_painter::draw_line(ctx, 0, 10, self.width, 10, ShapeColors::Green.value());
+
+        let line = Mesh::new_line(
+            ctx,
+            &[Point2::new(0.0, 20.0), Point2::new(self.width as f32, 20.0)],
+            10.0,
+            ShapeColors::Green.value(),
+        )
+        .unwrap();
+        graphics::draw(ctx, &line, DrawParam::new()).unwrap();
     }
 }

@@ -11,10 +11,11 @@ use ggez::input::keyboard::KeyCode;
 use ggez::{graphics, Context};
 
 use crate::framework::screen::Screen;
-use crate::rustris_config::CANVAS_HEIGHT;
+use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH};
 use crate::screens::game_screen::config::WAR_ZONE_WIDTH;
 use crate::screens::game_screen::playfield::PlayFieldScreen;
 use crate::screens::over_screen::OverScreen;
+use ggez::conf::NumSamples;
 
 pub struct GameScreen {
     canvas: Canvas,
@@ -25,7 +26,8 @@ pub struct GameScreen {
 impl GameScreen {
     pub fn new(ctx: &mut Context) -> GameScreen {
         GameScreen {
-            canvas: graphics::Canvas::with_window_size(ctx).unwrap(),
+            canvas: graphics::Canvas::new(ctx, CANVAS_WIDTH, CANVAS_HEIGHT, NumSamples::One)
+                .unwrap(),
             playfield: PlayFieldScreen::new(ctx, WAR_ZONE_WIDTH, CANVAS_HEIGHT),
             goto_over_screen: false,
         }

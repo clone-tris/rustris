@@ -1,4 +1,4 @@
-use crate::screens::game_screen::colors::{UiColors};
+use crate::screens::game_screen::colors::UiColors;
 use crate::screens::game_screen::config::SQUARE_WIDTH;
 use ggez::graphics::{Color, DrawParam, Mesh};
 use ggez::nalgebra::Point2;

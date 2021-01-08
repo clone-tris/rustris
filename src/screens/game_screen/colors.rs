@@ -45,7 +45,7 @@ impl UiColors {
     }
 }
 
-pub enum ShapeColors {  
+pub enum ShapeColors {
     Cyan,
     Blue,
     Orange,
