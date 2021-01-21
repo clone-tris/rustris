@@ -5,6 +5,7 @@ use crate::screens::game_screen::colors::ShapeColors;
 use crate::screens::game_screen::playfield::painter::Painter;
 use crate::screens::game_screen::shape::Shape;
 use crate::screens::game_screen::square::Square;
+use crate::screens::game_screen::tetromino::random_tetromino;
 use ggez::conf::NumSamples;
 use ggez::graphics::Canvas;
 use ggez::{graphics, Context};
@@ -22,17 +23,7 @@ impl PlayFieldScreen {
             canvas: graphics::Canvas::new(ctx, width, height, NumSamples::One).unwrap(),
             goto_over_screen: false,
             painter: Painter::new(width, height),
-            player: Shape::new(
-                vec![
-                    Square::default(0, 0),
-                    Square::default(1, 0),
-                    Square::default(1, 1),
-                    Square::default(1, 2),
-                ],
-                2,
-                2,
-                ShapeColors::Cyan.value(),
-            ),
+            player: random_tetromino(),
         }
     }
 }

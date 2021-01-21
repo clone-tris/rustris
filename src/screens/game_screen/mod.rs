@@ -27,7 +27,6 @@ pub struct GameScreen {
 
 impl GameScreen {
     pub fn new(ctx: &mut Context) -> GameScreen {
-        random_tetromino();
         GameScreen {
             canvas: graphics::Canvas::new(ctx, CANVAS_WIDTH, CANVAS_HEIGHT, NumSamples::One)
                 .unwrap(),
