@@ -18,7 +18,6 @@ pub struct PlayFieldScreen {
 
 impl PlayFieldScreen {
     pub fn new(ctx: &mut Context, width: u16, height: u16) -> PlayFieldScreen {
-        println!("PlayFieldScreen, w: {} h: {}", width, height);
         PlayFieldScreen {
             canvas: graphics::Canvas::new(ctx, width, height, NumSamples::One).unwrap(),
             goto_over_screen: false,

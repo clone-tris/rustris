@@ -32,11 +32,6 @@ pub fn main() -> GameResult {
         .build()
         .unwrap();
 
-    println!(
-        "{} : {} + {},  {}",
-        CANVAS_WIDTH as f32, SIDEBAR_WIDTH, WAR_ZONE_WIDTH, CANVAS_HEIGHT as f32
-    );
-
     let game = &mut Game::new(Box::new(GameScreen::new(ctx)));
     let test = &mut Test::new(ctx);
 

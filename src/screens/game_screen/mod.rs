@@ -5,6 +5,7 @@ pub mod playfield;
 pub mod shape;
 pub mod sidebar;
 pub mod square;
+pub mod tetromino;
 
 use ggez::graphics::Canvas;
 use ggez::input::keyboard::KeyCode;
@@ -14,6 +15,7 @@ use crate::framework::screen::Screen;
 use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH};
 use crate::screens::game_screen::config::WAR_ZONE_WIDTH;
 use crate::screens::game_screen::playfield::PlayFieldScreen;
+use crate::screens::game_screen::tetromino::{random_tetromino, Tetromino};
 use crate::screens::over_screen::OverScreen;
 use ggez::conf::NumSamples;
 
@@ -25,6 +27,7 @@ pub struct GameScreen {
 
 impl GameScreen {
     pub fn new(ctx: &mut Context) -> GameScreen {
+        random_tetromino();
         GameScreen {
             canvas: graphics::Canvas::new(ctx, CANVAS_WIDTH, CANVAS_HEIGHT, NumSamples::One)
                 .unwrap(),
