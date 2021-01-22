@@ -24,10 +24,4 @@ impl Shape {
             color,
         }
     }
-
-    pub fn set_color(&mut self, color: Color) {
-        for square in self.grid.iter_mut() {
-            square.color = color;
-        }
-    }
 }

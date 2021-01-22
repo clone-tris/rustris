@@ -1,10 +1,10 @@
 use crate::framework::graphics_painter;
 use crate::rustris_config::CANVAS_HEIGHT;
 use crate::screens::game_screen::colors::{ShapeColors, UiColors};
-use crate::screens::game_screen::config::{SQUARE_WIDTH, WAR_ZONE_WIDTH};
+use crate::screens::game_screen::config::{SQUARE_BORDER_WIDTH, SQUARE_WIDTH, WAR_ZONE_WIDTH};
 use crate::screens::game_screen::shape::Shape;
-use ggez::graphics::{Canvas, Color, DrawParam, Mesh};
-use ggez::{graphics, Context};
+use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, MeshBuilder, Rect};
+use ggez::{graphics, Context, GameResult};
 use nalgebra::Point2;
 
 pub struct Painter {
@@ -47,15 +47,42 @@ impl Painter {
             column as u16 * SQUARE_WIDTH,
             row as u16 * SQUARE_WIDTH,
             color,
-        )
+        );
     }
 
     pub fn draw_tetromino_square(&self, ctx: &mut Context, x: u16, y: u16, color: Color) {
-        let rect =
-            graphics::Rect::new(x as f32, y as f32, SQUARE_WIDTH as f32, SQUARE_WIDTH as f32);
-        let r1 =
-            graphics::Mesh::new_rectangle(ctx, graphics::DrawMode::fill(), rect, color).unwrap();
-        graphics::draw(ctx, &r1, DrawParam::default()).unwrap();
+        let x = x as f32;
+        let y = y as f32;
+        let square_width = SQUARE_WIDTH as f32;
+        let square_border_width = SQUARE_BORDER_WIDTH as f32;
+
+        let mb = &mut MeshBuilder::new();
+
+        // Background
+        mb.rectangle(
+            DrawMode::fill(),
+            Rect::new(x as f32, y as f32, SQUARE_WIDTH as f32, SQUARE_WIDTH as f32),
+            color,
+        );
+
+        // Left Border
+        mb.polygon(
+            DrawMode::fill(),
+            &[
+                Point2::new(x, y),
+                Point2::new(x + square_border_width, y + square_border_width),
+                Point2::new(
+                    x + square_border_width,
+                    y + square_width - square_border_width,
+                ),
+                Point2::new(x, y + square_width),
+            ],
+            ShapeColors::BorderSide.value(),
+        )
+        .unwrap();
+
+        let mesh = mb.build(ctx).unwrap();
+        graphics::draw(ctx, &mesh, DrawParam::default()).unwrap();
     }
 
     pub fn draw_guide(&self, ctx: &mut Context) {
