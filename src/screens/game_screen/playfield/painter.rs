@@ -81,6 +81,60 @@ impl Painter {
         )
         .unwrap();
 
+        // Right Border
+        mb.polygon(
+            DrawMode::fill(),
+            &[
+                Point2::new(x + square_width, y),
+                Point2::new(
+                    x + square_width - square_border_width,
+                    y + square_border_width,
+                ),
+                Point2::new(
+                    x + square_width - square_border_width,
+                    y + square_width - square_border_width,
+                ),
+                Point2::new(x + square_width, y + square_width),
+            ],
+            ShapeColors::BorderSide.value(),
+        )
+        .unwrap();
+
+        // Top Border
+        mb.polygon(
+            DrawMode::fill(),
+            &[
+                Point2::new(x, y),
+                Point2::new(x + square_border_width, y + square_border_width),
+                Point2::new(
+                    x + square_width - square_border_width,
+                    y + square_border_width,
+                ),
+                Point2::new(x + square_width, y),
+            ],
+            ShapeColors::BorderTop.value(),
+        )
+        .unwrap();
+
+        // Bottom Border
+        mb.polygon(
+            DrawMode::fill(),
+            &[
+                Point2::new(x, y + square_width),
+                Point2::new(
+                    x + square_border_width,
+                    y + square_width - square_border_width,
+                ),
+                Point2::new(
+                    x + square_width - square_border_width,
+                    y + square_width - square_border_width,
+                ),
+                Point2::new(x + square_width, y + square_width),
+            ],
+            ShapeColors::BorderBottom.value(),
+        )
+        .unwrap();
+
         let mesh = mb.build(ctx).unwrap();
         graphics::draw(ctx, &mesh, DrawParam::default()).unwrap();
     }
