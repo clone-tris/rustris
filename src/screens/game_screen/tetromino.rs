@@ -56,6 +56,5 @@ pub fn random_tetromino() -> Shape {
     .choose(&mut rng)
     .unwrap();
 
-    println!("{:?}", tetromino_color(tetromino));
-    return Shape::new(tetromino_grid(tetromino), 2, 2, tetromino_color(tetromino));
+    return Shape::new(tetromino_grid(tetromino), 0, 0, tetromino_color(tetromino));
 }
