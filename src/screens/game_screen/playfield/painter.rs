@@ -142,17 +142,4 @@ impl Painter {
     pub fn draw_guide(&self, ctx: &mut Context) {
         graphics_painter::draw_guide(ctx, 0, 0, self.width, self.height);
     }
-
-    pub fn draw_green_line(&self, ctx: &mut Context) {
-        // graph\ics_painter::draw_line(ctx, 0, 10, self.width, 10, ShapeColors::Green.value());
-
-        let line = Mesh::new_line(
-            ctx,
-            &[Point2::new(0.0, 20.0), Point2::new(self.width as f32, 20.0)],
-            10.0,
-            ShapeColors::Green.value(),
-        )
-        .unwrap();
-        graphics::draw(ctx, &line, DrawParam::new()).unwrap();
-    }
 }
