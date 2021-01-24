@@ -8,12 +8,12 @@ use ggez::{graphics, Context, GameResult};
 use nalgebra::Point2;
 
 pub struct Painter {
-    width: u16,
-    height: u16,
+    width: i16,
+    height: i16,
 }
 
 impl Painter {
-    pub fn new(width: u16, height: u16) -> Painter {
+    pub fn new(width: i16, height: i16) -> Painter {
         Painter { width, height }
     }
 
@@ -34,23 +34,23 @@ impl Painter {
         for square in shape.grid.iter() {
             self.draw_square_at(
                 ctx,
-                shape.row + square.row,
-                shape.column + square.column,
+                shape.row + square.row as i8,
+                shape.column + square.column as i8,
                 square.color,
             );
         }
     }
 
-    pub fn draw_square_at(&self, ctx: &mut Context, row: u16, column: u16, color: Color) {
+    pub fn draw_square_at(&self, ctx: &mut Context, row: i8, column: i8, color: Color) {
         self.draw_tetromino_square(
             ctx,
-            column as u16 * SQUARE_WIDTH,
-            row as u16 * SQUARE_WIDTH,
+            column as i16 * SQUARE_WIDTH,
+            row as i16 * SQUARE_WIDTH,
             color,
         );
     }
 
-    pub fn draw_tetromino_square(&self, ctx: &mut Context, x: u16, y: u16, color: Color) {
+    pub fn draw_tetromino_square(&self, ctx: &mut Context, x: i16, y: i16, color: Color) {
         let x = x as f32;
         let y = y as f32;
         let square_width = SQUARE_WIDTH as f32;

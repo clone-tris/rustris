@@ -4,7 +4,7 @@ use ggez::graphics::{Color, DrawParam, Mesh};
 use ggez::nalgebra::Point2;
 use ggez::{graphics, Context};
 
-pub fn draw_line(ctx: &mut Context, x1: u16, y1: u16, x2: u16, y2: u16, color: Color) {
+pub fn draw_line(ctx: &mut Context, x1: i16, y1: i16, x2: i16, y2: i16, color: Color) {
     let (origin, destination) = (
         Point2::new(x1 as f32, y1 as f32),
         Point2::new(x2 as f32, y2 as f32),
@@ -21,9 +21,9 @@ pub fn draw_line_f32(ctx: &mut Context, x1: f32, y1: f32, x2: f32, y2: f32, colo
     graphics::draw(ctx, &line, DrawParam::new()).unwrap();
 }
 
-pub fn draw_guide(ctx: &mut Context, x: u16, y: u16, width: u16, height: u16) {
-    let rows = (height as f32 / SQUARE_WIDTH as f32) as u16;
-    let columns = (width as f32 / SQUARE_WIDTH as f32) as u16;
+pub fn draw_guide(ctx: &mut Context, x: i16, y: i16, width: i16, height: i16) {
+    let rows = (height as f32 / SQUARE_WIDTH as f32) as i16;
+    let columns = (width as f32 / SQUARE_WIDTH as f32) as i16;
 
     for i in 0..(rows + 1) {
         let line_y = y + i * SQUARE_WIDTH;

@@ -28,8 +28,13 @@ pub struct GameScreen {
 impl GameScreen {
     pub fn new(ctx: &mut Context) -> GameScreen {
         GameScreen {
-            canvas: graphics::Canvas::new(ctx, CANVAS_WIDTH, CANVAS_HEIGHT, NumSamples::One)
-                .unwrap(),
+            canvas: graphics::Canvas::new(
+                ctx,
+                CANVAS_WIDTH as u16,
+                CANVAS_HEIGHT as u16,
+                NumSamples::One,
+            )
+            .unwrap(),
             playfield: PlayFieldScreen::new(ctx, WAR_ZONE_WIDTH, CANVAS_HEIGHT),
             goto_over_screen: false,
         }

@@ -2,7 +2,7 @@ mod painter;
 
 use crate::framework::screen::Screen;
 use crate::screens::game_screen::colors::{ShapeColors, UiColors};
-use crate::screens::game_screen::config::PUZZLE_HEIGHT;
+use crate::screens::game_screen::config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
 use crate::screens::game_screen::playfield::painter::Painter;
 use crate::screens::game_screen::shape::Shape;
 use crate::screens::game_screen::square::Square;
@@ -21,17 +21,34 @@ pub struct PlayFieldScreen {
 }
 
 impl PlayFieldScreen {
-    pub fn new(ctx: &mut Context, width: u16, height: u16) -> PlayFieldScreen {
-        PlayFieldScreen {
-            canvas: graphics::Canvas::new(ctx, width, height, NumSamples::One).unwrap(),
+    pub fn new(ctx: &mut Context, width: i16, height: i16) -> PlayFieldScreen {
+        let mut opponent = Shape::new(Vec::new(), 0, 0, ShapeColors::DefaultSquareColor.value());
+        opponent.width = PUZZLE_WIDTH;
+        opponent.height = PUZZLE_HEIGHT;
+
+        let mut screen = PlayFieldScreen {
+            canvas: graphics::Canvas::new(ctx, width as u16, height as u16, NumSamples::One)
+                .unwrap(),
             goto_over_screen: false,
             painter: Painter::new(width, height),
             player: random_tetromino(),
             next_player: random_tetromino(),
-            opponent: Shape::new(Vec::new(), 0, 0, ShapeColors::DefaultSquareColor.value()),
-        }
+            opponent,
+        };
+
+        screen.spawn_player();
+
+        screen
     }
-    pub fn spawnPlayer(&mut self) {}
+
+    pub fn spawn_player(&mut self) {
+        let mut player = self.next_player.clone();
+        player.row -= player.height as i8;
+        player.column = (PUZZLE_WIDTH - player.width) as i8 / 2;
+
+        self.player = player;
+        self.next_player = random_tetromino();
+    }
 }
 
 impl Screen for PlayFieldScreen {

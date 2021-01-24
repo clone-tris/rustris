@@ -15,12 +15,17 @@ pub struct Test {
 impl Test {
     pub fn new(ctx: &mut Context) -> Test {
         Test {
-            left_canvas: graphics::Canvas::new(ctx, SIDEBAR_WIDTH, CANVAS_HEIGHT, NumSamples::One)
-                .unwrap(),
+            left_canvas: graphics::Canvas::new(
+                ctx,
+                SIDEBAR_WIDTH as u16,
+                CANVAS_HEIGHT as u16,
+                NumSamples::One,
+            )
+            .unwrap(),
             right_canvas: graphics::Canvas::new(
                 ctx,
-                WAR_ZONE_WIDTH,
-                CANVAS_HEIGHT,
+                WAR_ZONE_WIDTH as u16,
+                CANVAS_HEIGHT as u16,
                 NumSamples::One,
             )
             .unwrap(),

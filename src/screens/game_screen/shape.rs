@@ -5,15 +5,15 @@ use ggez::graphics::Color;
 #[derive(Debug, Clone)]
 pub struct Shape {
     pub grid: Vec<Square>,
-    pub row: u16,
-    pub column: u16,
-    pub width: u16,
-    pub height: u16,
+    pub row: i8,
+    pub column: i8,
+    pub width: i16,
+    pub height: i16,
     color: Color,
 }
 
 impl Shape {
-    pub fn new(grid: Vec<Square>, row: u16, column: u16, color: Color) -> Shape {
+    pub fn new(grid: Vec<Square>, row: i8, column: i8, color: Color) -> Shape {
         let grid_size = grid.len();
 
         let mut shape = Shape {
@@ -33,10 +33,10 @@ impl Shape {
     }
 
     pub fn compute_size(&mut self) {
-        let mut min_row: u16 = PUZZLE_HEIGHT;
-        let mut max_row: u16 = 0;
-        let mut min_column: u16 = PUZZLE_WIDTH;
-        let mut max_column: u16 = 0;
+        let mut min_row: i16 = PUZZLE_HEIGHT;
+        let mut max_row: i16 = 0;
+        let mut min_column: i16 = PUZZLE_WIDTH;
+        let mut max_column: i16 = 0;
 
         self.grid.iter().for_each(|cell| {
             if cell.row > max_row {

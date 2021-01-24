@@ -15,7 +15,7 @@ pub enum Tetromino {
     I,
 }
 
-pub type ShapeGrid = [[u16; 2]; 4];
+pub type ShapeGrid = [[i16; 2]; 4];
 
 pub fn tetromino_grid(tetromino: &Tetromino) -> ShapeGrid {
     return match tetromino {
