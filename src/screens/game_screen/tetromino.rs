@@ -2,7 +2,6 @@ use crate::screens::game_screen::colors::ShapeColors;
 use crate::screens::game_screen::shape::Shape;
 use crate::screens::game_screen::square::Square;
 use ggez::graphics::Color;
-use ggez::GameResult;
 use rand::seq::SliceRandom;
 
 #[derive(Debug, Clone, Copy)]
@@ -16,7 +15,7 @@ pub enum Tetromino {
     I,
 }
 
-pub type ShapeGrid = [[u8; 2]; 4];
+pub type ShapeGrid = [[u16; 2]; 4];
 
 pub fn tetromino_grid(tetromino: &Tetromino) -> ShapeGrid {
     return match tetromino {
@@ -56,5 +55,13 @@ pub fn random_tetromino() -> Shape {
     .choose(&mut rng)
     .unwrap();
 
-    return Shape::new(tetromino_grid(tetromino), 0, 0, tetromino_color(tetromino));
+    let grid = tetromino_grid(tetromino);
+    let color = tetromino_color(tetromino);
+
+    let square_grid = grid
+        .iter()
+        .map(|coords| Square::new(coords[0], coords[1], color))
+        .collect::<Vec<_>>();
+
+    return Shape::new(square_grid, 0, 0, color);
 }

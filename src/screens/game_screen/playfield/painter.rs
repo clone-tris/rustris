@@ -41,7 +41,7 @@ impl Painter {
         }
     }
 
-    pub fn draw_square_at(&self, ctx: &mut Context, row: u8, column: u8, color: Color) {
+    pub fn draw_square_at(&self, ctx: &mut Context, row: u16, column: u16, color: Color) {
         self.draw_tetromino_square(
             ctx,
             column as u16 * SQUARE_WIDTH,

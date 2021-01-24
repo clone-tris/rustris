@@ -1,7 +1,8 @@
 mod painter;
 
 use crate::framework::screen::Screen;
-use crate::screens::game_screen::colors::ShapeColors;
+use crate::screens::game_screen::colors::{ShapeColors, UiColors};
+use crate::screens::game_screen::config::PUZZLE_HEIGHT;
 use crate::screens::game_screen::playfield::painter::Painter;
 use crate::screens::game_screen::shape::Shape;
 use crate::screens::game_screen::square::Square;
@@ -15,6 +16,8 @@ pub struct PlayFieldScreen {
     canvas: Canvas,
     goto_over_screen: bool,
     player: Shape,
+    next_player: Shape,
+    opponent: Shape,
 }
 
 impl PlayFieldScreen {
@@ -24,8 +27,11 @@ impl PlayFieldScreen {
             goto_over_screen: false,
             painter: Painter::new(width, height),
             player: random_tetromino(),
+            next_player: random_tetromino(),
+            opponent: Shape::new(Vec::new(), 0, 0, ShapeColors::DefaultSquareColor.value()),
         }
     }
+    pub fn spawnPlayer(&mut self) {}
 }
 
 impl Screen for PlayFieldScreen {
