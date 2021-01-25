@@ -56,4 +56,36 @@ impl Shape {
         self.height = max_row - min_row + 1;
         self.width = max_column - min_column + 1;
     }
+
+    pub fn translate(&mut self, row_direction: u8, column_direction: u8) {
+        self.row += row_direction as i8;
+        self.column += column_direction as i8;
+    }
+
+    pub fn absolute_grid(&self) -> Vec<Square> {
+        self.grid
+            .iter()
+            .map(|square| {
+                let mut absolute_square = square.clone();
+                absolute_square.row = square.row + self.row as i16;
+                absolute_square.column = square.column + self.column as i16;
+                absolute_square
+            })
+            .collect::<Vec<_>>()
+    }
+
+    pub fn collides_with(&self, b: Shape) -> bool {
+        self.absolute_grid().iter().any(|square_a| {
+            b.absolute_grid()
+                .iter()
+                .any(|square_b| square_b.row == square_a.row && square_b.column == square_a.column)
+        })
+    }
+
+    pub fn merge(&mut self, b: Shape) {
+        let mut a_grid = self.absolute_grid();
+        let mut b_grid = b.absolute_grid();
+        a_grid.append(&mut b_grid);
+        self.grid = a_grid;
+    }
 }

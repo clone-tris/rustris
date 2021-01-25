@@ -20,6 +20,19 @@ pub struct PlayFieldScreen {
     opponent: Shape,
 }
 
+impl Screen for PlayFieldScreen {
+    fn paint(&mut self, ctx: &mut Context) {
+        self.painter.setup(ctx, &self.canvas);
+        self.painter.clear(ctx);
+        self.painter.draw_guide(ctx);
+        self.painter.draw_shape(ctx, &self.player);
+    }
+
+    fn canvas(&self, _ctx: &mut Context) -> &Canvas {
+        &self.canvas
+    }
+}
+
 impl PlayFieldScreen {
     pub fn new(ctx: &mut Context, width: i16, height: i16) -> PlayFieldScreen {
         let mut opponent = Shape::new(Vec::new(), 0, 0, ShapeColors::DefaultSquareColor.value());
@@ -49,17 +62,11 @@ impl PlayFieldScreen {
         self.player = player;
         self.next_player = random_tetromino();
     }
-}
 
-impl Screen for PlayFieldScreen {
-    fn paint(&mut self, ctx: &mut Context) {
-        self.painter.setup(ctx, &self.canvas);
-        self.painter.clear(ctx);
-        self.painter.draw_guide(ctx);
-        self.painter.draw_shape(ctx, &self.player);
-    }
-
-    fn canvas(&self, _ctx: &mut Context) -> &Canvas {
-        &self.canvas
+    pub fn move_player(&mut self, row_direction: u8, column_direction: u8) {
+        let mut foreshadow = self.player.clone();
+        let moving_down = row_direction == 1;
+        foreshadow.translate(row_direction, column_direction);
+        // todo : continue here
     }
 }
