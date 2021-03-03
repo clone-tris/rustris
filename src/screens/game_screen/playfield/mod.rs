@@ -67,6 +67,7 @@ impl PlayFieldScreen {
         let mut foreshadow = self.player.clone();
         let moving_down = row_direction == 1;
         foreshadow.translate(row_direction, column_direction);
+        let able_to_move = foreshadow.collides_with(&self.opponent) && foreshadow.within_bounds();
         // todo : continue here
     }
 }

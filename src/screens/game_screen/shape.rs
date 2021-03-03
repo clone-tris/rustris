@@ -74,7 +74,7 @@ impl Shape {
             .collect::<Vec<_>>()
     }
 
-    pub fn collides_with(&self, b: Shape) -> bool {
+    pub fn collides_with(&self, b: &Shape) -> bool {
         self.absolute_grid().iter().any(|square_a| {
             b.absolute_grid()
                 .iter()
@@ -87,5 +87,30 @@ impl Shape {
         let mut b_grid = b.absolute_grid();
         a_grid.append(&mut b_grid);
         self.grid = a_grid;
+    }
+
+    pub fn within_bounds(&self) -> bool {
+        let absolute_grid = self.absolute_grid();
+
+        let after_right = absolute_grid
+            .iter()
+            .any(|square| square.column >= PUZZLE_WIDTH);
+        if after_right {
+            return false;
+        }
+
+        let before_left = absolute_grid.iter().any(|square| square.column < 0);
+        if before_left {
+            return false;
+        }
+
+        let bellow_bottom = absolute_grid
+            .iter()
+            .any(|square| square.row >= PUZZLE_HEIGHT);
+        if bellow_bottom {
+            return false;
+        }
+
+        true
     }
 }
