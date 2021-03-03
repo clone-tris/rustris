@@ -48,7 +48,7 @@ impl PlayFieldScreen {
             player: random_tetromino(),
             next_player: random_tetromino(),
             opponent,
-            on_floor: false
+            on_floor: false,
         };
 
         screen.spawn_player();
@@ -71,7 +71,7 @@ impl PlayFieldScreen {
         foreshadow.translate(row_direction, column_direction);
         let able_to_move = foreshadow.collides_with(&self.opponent) && foreshadow.within_bounds();
         if able_to_move {
-            self.player = foreshadow
+            self.player = foreshadow;
             if moving_down {
                 self.on_floor = false
             }
