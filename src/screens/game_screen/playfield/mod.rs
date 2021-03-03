@@ -18,6 +18,7 @@ pub struct PlayFieldScreen {
     player: Shape,
     next_player: Shape,
     opponent: Shape,
+    on_floor: bool,
 }
 
 impl Screen for PlayFieldScreen {
@@ -47,6 +48,7 @@ impl PlayFieldScreen {
             player: random_tetromino(),
             next_player: random_tetromino(),
             opponent,
+            on_floor: false
         };
 
         screen.spawn_player();
@@ -63,11 +65,20 @@ impl PlayFieldScreen {
         self.next_player = random_tetromino();
     }
 
-    pub fn move_player(&mut self, row_direction: u8, column_direction: u8) {
+    pub fn move_player(&mut self, row_direction: u8, column_direction: u8) -> bool {
         let mut foreshadow = self.player.clone();
         let moving_down = row_direction == 1;
         foreshadow.translate(row_direction, column_direction);
         let able_to_move = foreshadow.collides_with(&self.opponent) && foreshadow.within_bounds();
-        // todo : continue here
+        if able_to_move {
+            self.player = foreshadow
+            if moving_down {
+                self.on_floor = false
+            }
+        } else if moving_down {
+            // handle falling down
+        }
+
+        able_to_move
     }
 }
