@@ -113,4 +113,6 @@ impl Shape {
 
         true
     }
+
+    pub fn rotate(&mut self) {}
 }
