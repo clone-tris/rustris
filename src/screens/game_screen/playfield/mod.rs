@@ -5,12 +5,10 @@ use crate::screens::game_screen::colors::{ShapeColors, UiColors};
 use crate::screens::game_screen::config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
 use crate::screens::game_screen::playfield::painter::Painter;
 use crate::screens::game_screen::shape::Shape;
-use crate::screens::game_screen::square::Square;
 use crate::screens::game_screen::tetromino::random_tetromino;
 use ggez::conf::NumSamples;
 use ggez::graphics::Canvas;
 use ggez::{graphics, Context};
-use std::ops::Add;
 use std::time::{Duration, Instant};
 
 pub struct PlayFieldScreen {
