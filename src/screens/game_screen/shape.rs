@@ -57,9 +57,9 @@ impl Shape {
         self.width = max_column - min_column + 1;
     }
 
-    pub fn translate(&mut self, row_direction: u8, column_direction: u8) {
+    pub fn translate(&mut self, row_direction: u8, column_direction: i8) {
         self.row += row_direction as i8;
-        self.column += column_direction as i8;
+        self.column += column_direction;
     }
 
     pub fn absolute_grid(&self) -> Vec<Square> {

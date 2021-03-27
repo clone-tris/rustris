@@ -10,15 +10,20 @@ use crate::screens::game_screen::tetromino::random_tetromino;
 use ggez::conf::NumSamples;
 use ggez::graphics::Canvas;
 use ggez::{graphics, Context};
+use std::ops::Add;
+use std::time::{Duration, Instant};
 
 pub struct PlayFieldScreen {
     painter: Painter,
     canvas: Canvas,
     goto_over_screen: bool,
+    on_floor: bool,
+    game_ended: bool,
+    floor_rate: Duration,
+    end_of_lock: Instant,
     player: Shape,
     next_player: Shape,
     opponent: Shape,
-    on_floor: bool,
 }
 
 impl Screen for PlayFieldScreen {
@@ -43,17 +48,24 @@ impl PlayFieldScreen {
         let mut screen = PlayFieldScreen {
             canvas: graphics::Canvas::new(ctx, width as u16, height as u16, NumSamples::One)
                 .unwrap(),
-            goto_over_screen: false,
             painter: Painter::new(width, height),
             player: random_tetromino(),
             next_player: random_tetromino(),
             opponent,
+            goto_over_screen: false,
             on_floor: false,
+            floor_rate: Duration::from_millis(500),
+            end_of_lock: Instant::now(),
+            game_ended: false,
         };
 
         screen.spawn_player();
 
         screen
+    }
+
+    pub fn eat_player(&mut self) {
+        self.opponent.merge(self.player.clone());
     }
 
     pub fn spawn_player(&mut self) {
@@ -65,7 +77,7 @@ impl PlayFieldScreen {
         self.next_player = random_tetromino();
     }
 
-    pub fn move_player(&mut self, row_direction: u8, column_direction: u8) -> bool {
+    pub fn move_player(&mut self, row_direction: u8, column_direction: i8) -> bool {
         let mut foreshadow = self.player.clone();
         let moving_down = row_direction == 1;
         foreshadow.translate(row_direction, column_direction);
@@ -76,8 +88,40 @@ impl PlayFieldScreen {
                 self.on_floor = false
             }
         } else if moving_down {
-            // handle falling down
+            self.handle_falling_down();
         }
+
+        able_to_move
+    }
+
+    pub fn handle_falling_down(&mut self) {
+        let time = Instant::now();
+        if !self.on_floor {
+            self.on_floor = true;
+            self.end_of_lock = time + self.floor_rate;
+            return;
+        } else if time < self.end_of_lock {
+            return;
+        }
+
+        self.eat_player();
+        self.spawn_player();
+
+        if self.player.collides_with(&self.opponent) {
+            self.game_ended = true
+        }
+    }
+
+    pub fn move_right(&mut self) {
+        self.move_player(0, 1);
+    }
+
+    pub fn move_left(&mut self) {
+        self.move_player(0, -1);
+    }
+
+    pub fn fall_down(&mut self) -> bool {
+        let able_to_move = self.move_player(1, 0);
 
         able_to_move
     }
