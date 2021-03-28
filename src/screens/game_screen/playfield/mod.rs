@@ -30,6 +30,7 @@ impl Screen for PlayFieldScreen {
         self.painter.clear(ctx);
         self.painter.draw_guide(ctx);
         self.painter.draw_shape(ctx, &self.player);
+        self.painter.draw_shape(ctx, &self.opponent);
     }
 
     fn canvas(&self, _ctx: &mut Context) -> &Canvas {
