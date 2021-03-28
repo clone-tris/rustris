@@ -15,10 +15,10 @@ pub struct PlayFieldScreen {
     painter: Painter,
     canvas: Canvas,
     goto_over_screen: bool,
-    on_floor: bool,
+    pub on_floor: bool,
     game_ended: bool,
     floor_rate: Duration,
-    end_of_lock: Instant,
+    pub end_of_lock: Instant,
     player: Shape,
     next_player: Shape,
     opponent: Shape,
@@ -79,7 +79,8 @@ impl PlayFieldScreen {
         let mut foreshadow = self.player.clone();
         let moving_down = row_direction == 1;
         foreshadow.translate(row_direction, column_direction);
-        let able_to_move = foreshadow.collides_with(&self.opponent) && foreshadow.within_bounds();
+        let able_to_move = !foreshadow.collides_with(&self.opponent) && foreshadow.within_bounds();
+
         if able_to_move {
             self.player = foreshadow;
             if moving_down {
@@ -88,7 +89,6 @@ impl PlayFieldScreen {
         } else if moving_down {
             self.handle_falling_down();
         }
-
         able_to_move
     }
 
@@ -122,5 +122,9 @@ impl PlayFieldScreen {
         let able_to_move = self.move_player(1, 0);
 
         able_to_move
+    }
+
+    pub fn is_game_ended(&self) -> bool {
+        self.game_ended
     }
 }

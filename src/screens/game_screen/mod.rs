@@ -18,11 +18,16 @@ use crate::screens::game_screen::playfield::PlayFieldScreen;
 use crate::screens::game_screen::tetromino::{random_tetromino, Tetromino};
 use crate::screens::over_screen::OverScreen;
 use ggez::conf::NumSamples;
+use std::time::{Duration, Instant};
 
 pub struct GameScreen {
     canvas: Canvas,
     playfield: PlayFieldScreen,
     goto_over_screen: bool,
+    player_is_falling: bool,
+    paused: bool,
+    next_fall: Instant,
+    remaining_after_paused: Duration,
 }
 
 impl GameScreen {
@@ -37,7 +42,30 @@ impl GameScreen {
             .unwrap(),
             playfield: PlayFieldScreen::new(ctx, WAR_ZONE_WIDTH, CANVAS_HEIGHT),
             goto_over_screen: false,
+            player_is_falling: false,
+            paused: false,
+            next_fall: Instant::now(),
+            remaining_after_paused: Duration::from_millis(0),
         }
+    }
+
+    pub fn make_player_fall(&mut self) {
+        if self.player_is_falling {
+            return;
+        }
+
+        self.player_is_falling = true;
+        let able_to_move = self.playfield.fall_down();
+        if !able_to_move && self.playfield.is_game_ended() {
+            self.goto_over_screen = true;
+            return;
+        }
+
+        if !able_to_move && self.playfield.on_floor {
+            self.next_fall = self.playfield.end_of_lock
+            // update sidebar's next player
+        }
+        self.player_is_falling = false
     }
 }
 
@@ -56,7 +84,11 @@ impl Screen for GameScreen {
 
     fn key_down_event(&mut self, _ctx: &mut Context, key: KeyCode) {
         match key {
-            KeyCode::Q => self.goto_over_screen = true,
+            // KeyCode::O => self.goto_over_screen = true,
+            // KeyCode::W => self.playfield.move_left(),
+            KeyCode::A => self.playfield.move_left(),
+            KeyCode::S => self.make_player_fall(),
+            KeyCode::D => self.playfield.move_right(),
             _ => (),
         }
     }
