@@ -49,6 +49,15 @@ impl GameScreen {
         }
     }
 
+    pub fn apply_gravity(&mut self) {
+        let now = Instant::now();
+
+        if (now >= self.next_fall) {
+            self.next_fall = now + self.playfield.fall_rate;
+            self.make_player_fall();
+        }
+    }
+
     pub fn make_player_fall(&mut self) {
         if self.player_is_falling {
             return;
@@ -72,10 +81,10 @@ impl GameScreen {
 impl Screen for GameScreen {
     fn update(&mut self, ctx: &mut Context) -> Option<Box<dyn Screen>> {
         if self.goto_over_screen {
-            Some(Box::new(OverScreen::new(ctx)))
-        } else {
-            None
+            return Some(Box::new(OverScreen::new(ctx)));
         }
+        self.apply_gravity();
+        None
     }
 
     fn paint(&mut self, ctx: &mut Context) {

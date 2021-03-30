@@ -18,6 +18,7 @@ pub struct PlayFieldScreen {
     pub on_floor: bool,
     game_ended: bool,
     floor_rate: Duration,
+    pub fall_rate: Duration,
     pub end_of_lock: Instant,
     player: Shape,
     next_player: Shape,
@@ -56,6 +57,7 @@ impl PlayFieldScreen {
             floor_rate: Duration::from_millis(500),
             end_of_lock: Instant::now(),
             game_ended: false,
+            fall_rate: Duration::from_millis(1000),
         };
 
         screen.spawn_player();
