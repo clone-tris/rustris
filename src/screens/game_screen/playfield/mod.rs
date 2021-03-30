@@ -76,6 +76,15 @@ impl PlayFieldScreen {
         self.next_player = random_tetromino();
     }
 
+    pub fn rotate_player(&mut self) {
+        let mut foreshadow = self.player.clone();
+        foreshadow.rotate();
+        if foreshadow.collides_with(&self.opponent) || !foreshadow.within_bounds() {
+            return;
+        }
+        self.player = foreshadow
+    }
+
     pub fn move_player(&mut self, row_direction: u8, column_direction: i8) -> bool {
         let mut foreshadow = self.player.clone();
         let moving_down = row_direction == 1;

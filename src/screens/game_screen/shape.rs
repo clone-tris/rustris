@@ -71,7 +71,7 @@ impl Shape {
                 absolute_square.column = square.column + self.column as i16;
                 absolute_square
             })
-            .collect::<Vec<_>>()
+            .collect()
     }
 
     pub fn collides_with(&self, b: &Shape) -> bool {
@@ -114,5 +114,17 @@ impl Shape {
         true
     }
 
-    pub fn rotate(&mut self) {}
+    pub fn rotate(&mut self) {
+        self.grid = self
+            .grid
+            .iter()
+            .map(|square| {
+                let mut new_square = square.clone();
+                new_square.row = square.column;
+                new_square.column = self.height - square.row - 1;
+                new_square
+            })
+            .collect();
+        self.compute_size();
+    }
 }

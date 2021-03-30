@@ -85,7 +85,7 @@ impl Screen for GameScreen {
     fn key_down_event(&mut self, _ctx: &mut Context, key: KeyCode) {
         match key {
             // KeyCode::O => self.goto_over_screen = true,
-            // KeyCode::W => self.playfield.move_left(),
+            KeyCode::W => self.playfield.rotate_player(),
             KeyCode::A => self.playfield.move_left(),
             KeyCode::S => self.make_player_fall(),
             KeyCode::D => self.playfield.move_right(),
