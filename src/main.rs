@@ -10,7 +10,7 @@ use std::path;
 
 use crate::framework::game::Game;
 use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH, GAME_AUTHOR, GAME_ID, WINDOW_TITLE};
-use crate::screens::game_screen::config::{SIDEBAR_WIDTH, WAR_ZONE_WIDTH};
+use crate::screens::game_screen::config::WAR_ZONE_WIDTH;
 use crate::screens::game_screen::GameScreen;
 use crate::test::Test;
 

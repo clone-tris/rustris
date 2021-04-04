@@ -1,6 +1,9 @@
 use crate::screens::game_screen::config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
 use crate::screens::game_screen::square::Square;
 use ggez::graphics::Color;
+use std::collections::hash_map::RandomState;
+use std::collections::{HashMap, HashSet};
+use std::fmt::Debug;
 
 #[derive(Debug, Clone)]
 pub struct Shape {
@@ -126,5 +129,51 @@ impl Shape {
             })
             .collect();
         self.compute_size();
+    }
+
+    pub fn remove_full_lines(&mut self) -> i16 {
+        let full_rows = self.find_full_rows();
+        if full_rows.len() == 0 {
+            return 0;
+        }
+
+        let mut new_grid: Vec<Square> = Vec::new();
+
+        for square in &self.grid {
+            if full_rows.contains(&square.row) {
+                continue;
+            }
+
+            let mut clone = square.clone();
+
+            let mut square_row_before_shifting = clone.row;
+
+            for full_row in &full_rows {
+                if full_row > &square_row_before_shifting {
+                    clone.row += 1;
+                }
+            }
+
+            new_grid.push(clone);
+        }
+
+        self.grid = new_grid;
+
+        return full_rows.len() as i16;
+    }
+
+    // todo : only look for full rows in the height of the player that was just eaten
+    pub fn find_full_rows(&self) -> HashSet<i16> {
+        let mut full_rows = HashSet::<i16>::new();
+        let mut row_population = HashMap::<i16, i16>::new();
+
+        for square in self.grid.iter() {
+            *row_population.entry(square.row).or_insert(0) += 1;
+            if row_population.get(&square.row) == Some(&PUZZLE_WIDTH) {
+                full_rows.insert(square.row);
+            }
+        }
+
+        full_rows
     }
 }

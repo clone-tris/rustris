@@ -80,6 +80,9 @@ impl GameScreen {
 
 impl Screen for GameScreen {
     fn update(&mut self, ctx: &mut Context) -> Option<Box<dyn Screen>> {
+        if self.paused {
+            return None;
+        }
         if self.goto_over_screen {
             return Some(Box::new(OverScreen::new(ctx)));
         }
@@ -98,6 +101,7 @@ impl Screen for GameScreen {
             KeyCode::A => self.playfield.move_left(),
             KeyCode::S => self.make_player_fall(),
             KeyCode::D => self.playfield.move_right(),
+            KeyCode::P => self.paused = !self.paused,
             _ => (),
         }
     }
