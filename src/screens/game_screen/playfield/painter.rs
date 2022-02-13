@@ -5,7 +5,7 @@ use crate::screens::game_screen::config::{SQUARE_BORDER_WIDTH, SQUARE_WIDTH, WAR
 use crate::screens::game_screen::shape::Shape;
 use ggez::graphics::{Canvas, Color, DrawMode, DrawParam, Mesh, MeshBuilder, Rect};
 use ggez::{graphics, Context, GameResult};
-use nalgebra::Point2;
+use glam;
 
 pub struct Painter {
     width: i16,
@@ -69,13 +69,13 @@ impl Painter {
         mb.polygon(
             DrawMode::fill(),
             &[
-                Point2::new(x, y),
-                Point2::new(x + square_border_width, y + square_border_width),
-                Point2::new(
+                glam::Vec2::new(x, y),
+                glam::Vec2::new(x + square_border_width, y + square_border_width),
+                glam::Vec2::new(
                     x + square_border_width,
                     y + square_width - square_border_width,
                 ),
-                Point2::new(x, y + square_width),
+                glam::Vec2::new(x, y + square_width),
             ],
             ShapeColors::BorderSide.value(),
         )
@@ -85,16 +85,16 @@ impl Painter {
         mb.polygon(
             DrawMode::fill(),
             &[
-                Point2::new(x + square_width, y),
-                Point2::new(
+                glam::Vec2::new(x + square_width, y),
+                glam::Vec2::new(
                     x + square_width - square_border_width,
                     y + square_border_width,
                 ),
-                Point2::new(
+                glam::Vec2::new(
                     x + square_width - square_border_width,
                     y + square_width - square_border_width,
                 ),
-                Point2::new(x + square_width, y + square_width),
+                glam::Vec2::new(x + square_width, y + square_width),
             ],
             ShapeColors::BorderSide.value(),
         )
@@ -104,13 +104,13 @@ impl Painter {
         mb.polygon(
             DrawMode::fill(),
             &[
-                Point2::new(x, y),
-                Point2::new(x + square_border_width, y + square_border_width),
-                Point2::new(
+                glam::Vec2::new(x, y),
+                glam::Vec2::new(x + square_border_width, y + square_border_width),
+                glam::Vec2::new(
                     x + square_width - square_border_width,
                     y + square_border_width,
                 ),
-                Point2::new(x + square_width, y),
+                glam::Vec2::new(x + square_width, y),
             ],
             ShapeColors::BorderTop.value(),
         )
@@ -120,16 +120,16 @@ impl Painter {
         mb.polygon(
             DrawMode::fill(),
             &[
-                Point2::new(x, y + square_width),
-                Point2::new(
+                glam::Vec2::new(x, y + square_width),
+                glam::Vec2::new(
                     x + square_border_width,
                     y + square_width - square_border_width,
                 ),
-                Point2::new(
+                glam::Vec2::new(
                     x + square_width - square_border_width,
                     y + square_width - square_border_width,
                 ),
-                Point2::new(x + square_width, y + square_width),
+                glam::Vec2::new(x + square_width, y + square_width),
             ],
             ShapeColors::BorderBottom.value(),
         )

@@ -5,9 +5,9 @@ authors = ["Abderrahmane TAHRI JOUTI <tj.abderrahmane@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-ggez = "0.5.1"
+ggez = "0.7"
 mint = "0.5"
 nalgebra = "0.18"
 structopt = "0.2"
-cgmath = { version = "0.17", features = ["mint"] }
+glam = { version = "0.15.2", features = ["mint"] }
 rand = "0.7"

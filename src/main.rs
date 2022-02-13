@@ -2,6 +2,7 @@ mod framework;
 mod rustris_config;
 mod screens;
 mod test;
+
 use ggez::event;
 use ggez::GameResult;
 use ggez::{self, conf};
@@ -23,17 +24,17 @@ pub fn main() -> GameResult {
         path::PathBuf::from("./resources")
     };
 
-    let (ref mut ctx, ref mut event_loop) = ggez::ContextBuilder::new(GAME_ID, GAME_AUTHOR)
+    let context_builder = ggez::ContextBuilder::new(GAME_ID, GAME_AUTHOR)
         .window_setup(conf::WindowSetup::default().title(WINDOW_TITLE))
         .window_mode(
             conf::WindowMode::default().dimensions(CANVAS_WIDTH as f32, CANVAS_HEIGHT as f32),
         )
-        .add_resource_path(resource_dir)
-        .build()
-        .unwrap();
+        .add_resource_path(resource_dir);
 
-    let game = &mut Game::new(Box::new(GameScreen::new(ctx)));
-    let test = &mut Test::new(ctx);
+    let (mut ctx, event_loop) = context_builder.build()?;
+
+    let game = Game::new(Box::new(GameScreen::new(&mut ctx)))?;
+    let test = Test::new(&mut ctx)?;
 
     event::run(ctx, event_loop, game)
 }

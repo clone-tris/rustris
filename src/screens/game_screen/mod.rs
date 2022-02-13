@@ -7,7 +7,7 @@ pub mod sidebar;
 pub mod square;
 pub mod tetromino;
 
-use ggez::graphics::Canvas;
+use ggez::graphics::{Canvas, get_window_color_format};
 use ggez::input::keyboard::KeyCode;
 use ggez::{graphics, Context};
 
@@ -38,6 +38,7 @@ impl GameScreen {
                 CANVAS_WIDTH as u16,
                 CANVAS_HEIGHT as u16,
                 NumSamples::One,
+                get_window_color_format(ctx)
             )
             .unwrap(),
             playfield: PlayFieldScreen::new(ctx, WAR_ZONE_WIDTH, CANVAS_HEIGHT),

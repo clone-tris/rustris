@@ -7,7 +7,7 @@ use crate::screens::game_screen::playfield::painter::Painter;
 use crate::screens::game_screen::shape::Shape;
 use crate::screens::game_screen::tetromino::random_tetromino;
 use ggez::conf::NumSamples;
-use ggez::graphics::Canvas;
+use ggez::graphics::{Canvas, get_window_color_format};
 use ggez::{graphics, Context};
 use std::time::{Duration, Instant};
 
@@ -46,7 +46,7 @@ impl PlayFieldScreen {
         opponent.height = PUZZLE_HEIGHT;
 
         let mut screen = PlayFieldScreen {
-            canvas: graphics::Canvas::new(ctx, width as u16, height as u16, NumSamples::One)
+            canvas: graphics::Canvas::new(ctx, width as u16, height as u16, NumSamples::One, get_window_color_format(ctx))
                 .unwrap(),
             painter: Painter::new(width, height),
             player: random_tetromino(),

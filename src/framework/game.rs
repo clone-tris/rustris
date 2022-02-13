@@ -10,15 +10,15 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(initial_screen: Box<dyn Screen>) -> Game {
+    pub fn new(initial_screen: Box<dyn Screen>) -> GameResult<Game> {
         let game = Game {
             screen: initial_screen,
         };
-        game
+        Ok(game)
     }
 }
 
-impl EventHandler for Game {
+impl EventHandler<ggez::GameError> for Game {
     fn update(&mut self, ctx: &mut Context) -> GameResult {
         if let Some(next_screen) = self.screen.update(ctx) {
             self.screen.unload(ctx);

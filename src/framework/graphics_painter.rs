@@ -1,13 +1,13 @@
 use crate::screens::game_screen::colors::UiColors;
 use crate::screens::game_screen::config::SQUARE_WIDTH;
 use ggez::graphics::{Color, DrawParam, Mesh};
-use ggez::nalgebra::Point2;
 use ggez::{graphics, Context};
+use glam;
 
 pub fn draw_line(ctx: &mut Context, x1: i16, y1: i16, x2: i16, y2: i16, color: Color) {
     let (origin, destination) = (
-        Point2::new(x1 as f32, y1 as f32),
-        Point2::new(x2 as f32, y2 as f32),
+        glam::Vec2::new(x1 as f32, y1 as f32),
+        glam::Vec2::new(x2 as f32, y2 as f32),
     );
 
     let line = Mesh::new_line(ctx, &[origin, destination], 1.0, color).unwrap();
@@ -15,7 +15,7 @@ pub fn draw_line(ctx: &mut Context, x1: i16, y1: i16, x2: i16, y2: i16, color: C
 }
 
 pub fn draw_line_f32(ctx: &mut Context, x1: f32, y1: f32, x2: f32, y2: f32, color: Color) {
-    let (origin, destination) = (Point2::new(x1, y1), Point2::new(x2, y2));
+    let (origin, destination) = (glam::Vec2::new(x1, y1), glam::Vec2::new(x2, y2));
 
     let line = Mesh::new_line(ctx, &[origin, destination], 1.0, color).unwrap();
     graphics::draw(ctx, &line, DrawParam::new()).unwrap();
