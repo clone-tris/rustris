@@ -20,6 +20,9 @@ impl<'t> Screen for Game<'t> {
 
         self.canvas.set_draw_color(Color::RGB(67, 220, 139));
         self.canvas.fill_rect(Rect::new(10, 10, 140, 140)).unwrap();
-        self.canvas.present();
+    }
+
+    fn get_canvas(&mut self) -> &mut WindowCanvas {
+        self.canvas
     }
 }

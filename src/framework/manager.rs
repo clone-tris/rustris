@@ -12,6 +12,7 @@ impl<'t> Manager<'t> {
     }
 
     pub fn paint(&mut self) {
-        self.screen.paint()
+        self.screen.paint();
+        self.screen.get_canvas().present();
     }
 }
