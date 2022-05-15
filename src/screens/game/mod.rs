@@ -1,4 +1,6 @@
+use crate::framework::change_screen::ScreenChange;
 use crate::framework::screen::Screen;
+use sdl2::event::Event;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
@@ -41,8 +43,9 @@ impl<'t> Screen for Game<'t> {
         self.canvas
     }
 
-    fn update(&mut self) {
+    fn update(&mut self) -> Option<ScreenChange> {
         self.player.x += 0.1;
         self.player.y += 0.1;
+        None
     }
 }

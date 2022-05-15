@@ -5,6 +5,7 @@ mod screens;
 
 use crate::framework::manager::Manager;
 use crate::screens::game::Game;
+use crate::screens::menu::Menu;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use std::time::Duration;
@@ -27,7 +28,8 @@ pub fn main() {
     //     sdl: &sdl,
     // };
 
-    let mut manager = Manager::new(Box::new(Game::new(&mut canvas)));
+    // let mut manager = Manager::new(Box::new(Game::new(&mut canvas)));
+    let mut manager = Manager::new(Box::new(Menu::new(&mut canvas)));
 
     let mut event_pump = sdl.event_pump().unwrap();
 
@@ -41,6 +43,7 @@ pub fn main() {
                 } => break 'running,
                 _ => {}
             }
+            manager.handle_event(event);
         }
         manager.update();
         manager.paint();
