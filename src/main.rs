@@ -29,7 +29,7 @@ pub fn main() {
     // };
 
     // let mut manager = Manager::new(Box::new(Game::new(&mut canvas)));
-    let mut manager = Manager::new(Box::new(Menu::new(&mut canvas)));
+    let mut manager = Manager::new(&mut canvas);
 
     let mut event_pump = sdl.event_pump().unwrap();
 
@@ -43,9 +43,9 @@ pub fn main() {
                 } => break 'running,
                 _ => {}
             }
-            manager.handle_event(event);
+            // manager.handle_event(event);
         }
-        manager.update();
+        // manager.update();
         manager.paint();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
     }

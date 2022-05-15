@@ -1,36 +1,42 @@
-use crate::framework::change_screen::ScreenChange;
 use crate::framework::screen::Screen;
-use sdl2::event::Event;
+use crate::framework::screen_name::ScreenName;
+use crate::{Game, Menu};
+use sdl2::render::WindowCanvas;
 
-pub struct Manager<'t> {
-    screen: Box<dyn Screen + 't>,
+pub struct Manager<'m> {
+    canvas: &'m mut WindowCanvas,
+    screen: Option<Box<dyn Screen>>,
 }
 
-impl<'t> Manager<'t> {
-    pub(crate) fn new(initial_screen: Box<dyn Screen + 't>) -> Manager<'t> {
+impl<'m> Manager<'m> {
+    pub(crate) fn new(canvas: &'m mut WindowCanvas) -> Manager<'m> {
         Manager {
-            screen: initial_screen,
+            canvas,
+            screen: None,
         }
     }
 
-    pub(crate) fn handle_event(&mut self, event: Event) {
-        self.screen.handle_event(event);
+    pub(crate) fn start(&'m mut self, initial_screen: ScreenName) {
+        self.screen = Some(self.spaw_screen(initial_screen));
     }
 
-    pub(crate) fn update(&mut self) {
-        if let Some(next_screen) = self.screen.update() {}
-    }
-
-    // fn spaw_screen(&mut self, screen: ScreenChange) -> Box<dyn Screen> {
-    //     match screen {
-    //         ScreenChange::Game => println!("Going to gae screen"),
-    //         ScreenChange::Menu => {}
-    //         ScreenChange::Over => {}
-    //     }
+    // pub(crate) fn handle_event(&mut self, event: Event) {
+    //     self.screen.handle_event(event);
     // }
 
+    // pub(crate) fn update(&mut self) {
+    //     if let Some(next_screen) = self.screen.update() {}
+    // }
+
+    fn spaw_screen(&'m mut self, screen: ScreenName) -> Box<dyn Screen + 'm> {
+        match screen {
+            ScreenName::Menu => Box::new(Menu::new(self.canvas)),
+            ScreenName::Game => Box::new(Game::new(self.canvas)),
+        }
+    }
+
     pub(crate) fn paint(&mut self) {
-        self.screen.paint();
-        self.screen.get_canvas().present();
+        // self.screen.paint();
+        // self.screen.get_canvas().present();
     }
 }

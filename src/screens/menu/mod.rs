@@ -1,5 +1,5 @@
-use crate::framework::change_screen::ScreenChange;
 use crate::framework::screen::Screen;
+use crate::framework::screen_name::ScreenName;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
@@ -17,7 +17,7 @@ pub struct Menu<'t> {
 }
 
 impl<'t> Menu<'t> {
-    pub fn new(canvas: &'t mut WindowCanvas) -> Menu<'t> {
+    pub fn new(canvas: &'t mut WindowCanvas) -> Menu {
         Menu {
             canvas,
             player: Player {
@@ -49,14 +49,15 @@ impl<'t> Screen for Menu<'t> {
         self.canvas
     }
 
-    fn update(&mut self) -> Option<ScreenChange> {
+    fn update(&mut self) -> Option<ScreenName> {
         self.player.x -= 0.1;
         self.player.y -= 0.1;
         if self.goto_game {
-            return Some(ScreenChange::Game);
+            // return Some(ScreenName::Game);
         } else {
-            return None;
+            // return None;
         }
+        None
     }
 
     fn handle_event(&mut self, event: Event) {

@@ -1,5 +1,5 @@
-use crate::framework::change_screen::ScreenChange;
 use crate::framework::screen::Screen;
+use crate::framework::screen_name::ScreenName;
 use sdl2::event::Event;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
@@ -43,7 +43,7 @@ impl<'t> Screen for Game<'t> {
         self.canvas
     }
 
-    fn update(&mut self) -> Option<ScreenChange> {
+    fn update(&mut self) -> Option<ScreenName> {
         self.player.x += 0.1;
         self.player.y += 0.1;
         None
