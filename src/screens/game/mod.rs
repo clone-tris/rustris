@@ -1,6 +1,5 @@
 use crate::framework::screen::Screen;
 use crate::framework::screen_name::ScreenName;
-use sdl2::event::Event;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
@@ -9,27 +8,25 @@ struct Player {
     x: f32,
     y: f32,
 }
-pub struct Game<'t> {
-    canvas: &'t mut WindowCanvas,
+pub struct Game {
     player: Player,
 }
 
-impl<'t> Game<'t> {
-    pub fn new(canvas: &'t mut WindowCanvas) -> Game<'t> {
+impl Game {
+    pub fn new() -> Game {
         Game {
-            canvas,
             player: Player { x: 0f32, y: 0f32 },
         }
     }
 }
 
-impl<'t> Screen for Game<'t> {
-    fn paint(&mut self) {
-        self.canvas.set_draw_color(Color::RGB(67, 139, 220));
-        self.canvas.clear();
+impl<'t> Screen for Game {
+    fn paint(&mut self, canvas: &mut WindowCanvas) {
+        canvas.set_draw_color(Color::RGB(67, 139, 220));
+        canvas.clear();
 
-        self.canvas.set_draw_color(Color::RGB(67, 220, 139));
-        self.canvas
+        canvas.set_draw_color(Color::RGB(67, 220, 139));
+        canvas
             .fill_rect(Rect::new(
                 self.player.x as i32,
                 self.player.y as i32,
@@ -37,10 +34,6 @@ impl<'t> Screen for Game<'t> {
                 140,
             ))
             .unwrap();
-    }
-
-    fn get_canvas(&mut self) -> &mut WindowCanvas {
-        self.canvas
     }
 
     fn update(&mut self) -> Option<ScreenName> {

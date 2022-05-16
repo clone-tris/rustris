@@ -3,8 +3,7 @@ use sdl2::event::Event;
 use sdl2::render::WindowCanvas;
 
 pub trait Screen {
-    fn paint(&mut self);
-    fn get_canvas(&mut self) -> &mut WindowCanvas;
+    fn paint(&mut self, canvas: &mut WindowCanvas);
     fn update(&mut self) -> Option<ScreenName> {
         None
     }

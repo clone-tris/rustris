@@ -10,16 +10,14 @@ struct Player {
     x: f32,
     y: f32,
 }
-pub struct Menu<'t> {
-    canvas: &'t mut WindowCanvas,
+pub struct Menu {
     player: Player,
     goto_game: bool,
 }
 
-impl<'t> Menu<'t> {
-    pub fn new(canvas: &'t mut WindowCanvas) -> Menu {
+impl Menu {
+    pub fn new() -> Menu {
         Menu {
-            canvas,
             player: Player {
                 x: 700f32,
                 y: 500f32,
@@ -29,13 +27,13 @@ impl<'t> Menu<'t> {
     }
 }
 
-impl<'t> Screen for Menu<'t> {
-    fn paint(&mut self) {
-        self.canvas.set_draw_color(Color::RGB(46, 2, 73));
-        self.canvas.clear();
+impl Screen for Menu {
+    fn paint(&mut self, canvas: &mut WindowCanvas) {
+        canvas.set_draw_color(Color::RGB(46, 2, 73));
+        canvas.clear();
 
-        self.canvas.set_draw_color(Color::RGB(169, 16, 121));
-        self.canvas
+        canvas.set_draw_color(Color::RGB(169, 16, 121));
+        canvas
             .fill_rect(Rect::new(
                 self.player.x as i32,
                 self.player.y as i32,
@@ -45,17 +43,11 @@ impl<'t> Screen for Menu<'t> {
             .unwrap();
     }
 
-    fn get_canvas(&mut self) -> &mut WindowCanvas {
-        self.canvas
-    }
-
     fn update(&mut self) -> Option<ScreenName> {
         self.player.x -= 0.1;
         self.player.y -= 0.1;
         if self.goto_game {
-            // return Some(ScreenName::Game);
-        } else {
-            // return None;
+            return Some(ScreenName::Game);
         }
         None
     }
