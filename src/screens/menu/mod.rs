@@ -52,7 +52,7 @@ impl Screen for Menu {
         None
     }
 
-    fn handle_event(&mut self, event: Event) {
+    fn handle_event(&mut self, event: Event) -> bool {
         match event {
             Event::KeyDown {
                 keycode: Some(Keycode::S),
@@ -60,5 +60,6 @@ impl Screen for Menu {
             } => self.goto_game = true,
             _ => {}
         }
+        false
     }
 }

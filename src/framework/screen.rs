@@ -7,6 +7,8 @@ pub trait Screen {
     fn update(&mut self) -> Option<ScreenName> {
         None
     }
-    fn handle_event(&mut self, _event: Event) {}
+    fn handle_event(&mut self, _event: Event) -> bool {
+        false
+    }
     fn unload(&mut self) {}
 }

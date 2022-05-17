@@ -21,28 +21,15 @@ pub fn main() {
         .unwrap();
 
     let mut canvas = window.into_canvas().build().unwrap();
-    // let texture_creator = canvas.texture_creator();
-    // let root_context = &mut RootContext {
-    //     canvas: &mut canvas,
-    //     texture_creator,
-    //     sdl: &sdl,
-    // };
-
     let mut manager = Manager::new(&mut canvas, Box::new(Menu::new()));
-
     let mut event_pump = sdl.event_pump().unwrap();
 
-    'running: loop {
+    'gameloop: loop {
         for event in event_pump.poll_iter() {
-            match event {
-                Event::Quit { .. }
-                | Event::KeyDown {
-                    keycode: Some(Keycode::Escape),
-                    ..
-                } => break 'running,
-                _ => {}
+            let stop = manager.handle_event(event);
+            if stop {
+                break 'gameloop;
             }
-            manager.handle_event(event);
         }
         manager.update();
         manager.paint();

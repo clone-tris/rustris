@@ -2,7 +2,9 @@ use crate::framework::screen::Screen;
 use crate::framework::screen_name::ScreenName;
 use crate::{Game, Menu};
 use sdl2::event::Event;
+use sdl2::keyboard::Keycode;
 use sdl2::render::WindowCanvas;
+use std::mem::transmute;
 
 pub struct Manager<'m> {
     canvas: &'m mut WindowCanvas,
@@ -14,8 +16,17 @@ impl<'m> Manager<'m> {
         Manager { canvas, screen }
     }
 
-    pub(crate) fn handle_event(&mut self, event: Event) {
-        self.screen.handle_event(event);
+    pub(crate) fn handle_event(&mut self, event: Event) -> bool {
+        match event {
+            Event::Quit { .. }
+            | Event::KeyDown {
+                keycode: Some(Keycode::Escape),
+                ..
+            } => return true,
+            _ => {}
+        };
+
+        return self.screen.handle_event(event);
     }
 
     pub(crate) fn update(&mut self) {
