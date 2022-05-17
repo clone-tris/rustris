@@ -3,7 +3,7 @@ extern crate sdl2;
 mod framework;
 mod screens;
 
-use crate::framework::manager::Manager;
+use crate::framework::game_manager::GameManager;
 use crate::screens::game::Game;
 use crate::screens::menu::Menu;
 use sdl2::event::Event;
@@ -21,8 +21,8 @@ pub fn main() {
         .unwrap();
 
     let mut canvas = window.into_canvas().build().unwrap();
-    let mut manager = Manager::new(&mut canvas, Box::new(Menu::new()));
     let mut event_pump = sdl.event_pump().unwrap();
+    let mut manager = GameManager::new(&mut canvas, Box::new(Menu::new()));
 
     'gameloop: loop {
         for event in event_pump.poll_iter() {

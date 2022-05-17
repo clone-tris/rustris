@@ -6,14 +6,17 @@ use sdl2::keyboard::Keycode;
 use sdl2::render::WindowCanvas;
 use std::mem::transmute;
 
-pub struct Manager<'m> {
+pub struct GameManager<'m> {
     canvas: &'m mut WindowCanvas,
     screen: Box<dyn Screen + 'm>,
 }
 
-impl<'m> Manager<'m> {
-    pub(crate) fn new(canvas: &'m mut WindowCanvas, screen: Box<dyn Screen + 'm>) -> Manager<'m> {
-        Manager { canvas, screen }
+impl<'m> GameManager<'m> {
+    pub(crate) fn new(
+        canvas: &'m mut WindowCanvas,
+        screen: Box<dyn Screen + 'm>,
+    ) -> GameManager<'m> {
+        GameManager { canvas, screen }
     }
 
     pub(crate) fn handle_event(&mut self, event: Event) -> bool {
