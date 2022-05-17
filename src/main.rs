@@ -22,17 +22,6 @@ pub fn main() {
 
     let mut canvas = window.into_canvas().build().unwrap();
     let mut event_pump = sdl.event_pump().unwrap();
-    let mut manager = GameManager::new(&mut canvas, Box::new(Menu::new()));
-
-    'gameloop: loop {
-        for event in event_pump.poll_iter() {
-            let stop = manager.handle_event(event);
-            if stop {
-                break 'gameloop;
-            }
-        }
-        manager.update();
-        manager.paint();
-        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
-    }
+    let mut manager = GameManager::new(Box::new(Menu::new()), &mut canvas, &mut event_pump);
+    manager.gameloop();
 }

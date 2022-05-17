@@ -4,19 +4,49 @@ use crate::{Game, Menu};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::render::WindowCanvas;
+use sdl2::EventPump;
+use std::borrow::{Borrow, BorrowMut};
 use std::mem::transmute;
+use std::time::Duration;
 
 pub struct GameManager<'m> {
-    canvas: &'m mut WindowCanvas,
     screen: Box<dyn Screen + 'm>,
+    canvas: &'m mut WindowCanvas,
+    event_pump: &'m mut EventPump,
 }
 
 impl<'m> GameManager<'m> {
     pub(crate) fn new(
-        canvas: &'m mut WindowCanvas,
         screen: Box<dyn Screen + 'm>,
+        canvas: &'m mut WindowCanvas,
+        event_pump: &'m mut EventPump,
     ) -> GameManager<'m> {
-        GameManager { canvas, screen }
+        GameManager {
+            canvas,
+            screen,
+            event_pump,
+        }
+    }
+
+    pub(crate) fn gameloop(&mut self) {
+        loop {
+            for event in self.event_pump.poll_iter() {
+                let stop = match event {
+                    Event::Quit { .. }
+                    | Event::KeyDown {
+                        keycode: Some(Keycode::Escape),
+                        ..
+                    } => true,
+                    _ => false,
+                } || self.screen.handle_event(event);
+                if stop {
+                    return;
+                }
+            }
+            self.update();
+            self.paint();
+            ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
+        }
     }
 
     pub(crate) fn handle_event(&mut self, event: Event) -> bool {
