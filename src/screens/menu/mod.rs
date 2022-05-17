@@ -53,13 +53,31 @@ impl Screen for Menu {
     }
 
     fn handle_event(&mut self, event: Event) -> bool {
-        match event {
+        if matches!(
+            event,
             Event::KeyDown {
                 keycode: Some(Keycode::S),
                 ..
-            } => self.goto_game = true,
-            _ => {}
+            }
+        ) {
+            self.goto_game = true;
         }
+        if matches!(
+            event,
+            Event::KeyDown {
+                keycode: Some(Keycode::Q),
+                ..
+            }
+        ) {
+            return true;
+        }
+        // match event {
+        //     Event::KeyDown {
+        //         keycode: Some(Keycode::S),
+        //         ..
+        //     } => self.goto_game = true,
+        //     _ => {}
+        // }
         false
     }
 }

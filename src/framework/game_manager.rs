@@ -30,16 +30,8 @@ impl<'m> GameManager<'m> {
 
     pub(crate) fn gameloop(&mut self) {
         loop {
-            for event in self.event_pump.poll_iter() {
-                let stop = match event {
-                    Event::Quit { .. }
-                    | Event::KeyDown {
-                        keycode: Some(Keycode::Escape),
-                        ..
-                    } => true,
-                    _ => false,
-                } || self.screen.handle_event(event);
-                if stop {
+            for event in self.event_pump.poll_iter().collect::<Vec<_>>() {
+                if self.handle_event(event.clone()) || self.screen.handle_event(event.clone()) {
                     return;
                 }
             }
