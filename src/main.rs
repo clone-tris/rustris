@@ -6,9 +6,6 @@ mod screens;
 use crate::framework::game_manager::GameManager;
 use crate::screens::game::Game;
 use crate::screens::menu::Menu;
-use sdl2::event::Event;
-use sdl2::keyboard::Keycode;
-use std::time::Duration;
 
 pub fn main() {
     let sdl = sdl2::init().unwrap();
