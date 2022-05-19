@@ -1,23 +1,21 @@
 pub mod components;
 pub mod playfield;
+pub mod sidebar;
 
-use crate::colors::UiColors;
-use crate::engine::game_painter;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use sdl2::pixels::Color;
-use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
 use std::time::{Duration, Instant};
 
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
-use crate::main_config::{CANVAS_HEIGHT, WAR_ZONE_WIDTH};
-use crate::screens::game::playfield::PlayFieldScreen;
-use crate::Menu;
+use crate::main_config::{CANVAS_HEIGHT, SIDEBAR_WIDTH, WAR_ZONE_WIDTH};
+use crate::screens::game::playfield::PlayField;
+use crate::screens::game::sidebar::Sidebar;
 
 pub struct Game {
-    playfield: PlayFieldScreen,
+    playfield: PlayField,
+    sidebar: Sidebar,
     goto_over_screen: bool,
     player_is_falling: bool,
     paused: bool,
@@ -28,7 +26,8 @@ pub struct Game {
 impl Game {
     pub fn new() -> Game {
         Game {
-            playfield: PlayFieldScreen::new(WAR_ZONE_WIDTH, CANVAS_HEIGHT),
+            playfield: PlayField::new(WAR_ZONE_WIDTH, CANVAS_HEIGHT),
+            sidebar: Sidebar::new(SIDEBAR_WIDTH, CANVAS_HEIGHT),
             goto_over_screen: false,
             player_is_falling: false,
             paused: false,
@@ -40,7 +39,7 @@ impl Game {
     pub fn apply_gravity(&mut self) {
         let now = Instant::now();
 
-        if (now >= self.next_fall) {
+        if now >= self.next_fall {
             self.next_fall = now + self.playfield.fall_rate;
             self.make_player_fall();
         }
@@ -69,6 +68,7 @@ impl Game {
 impl<'t> Screen for Game {
     fn paint(&mut self, canvas: &mut WindowCanvas) {
         self.playfield.paint(canvas);
+        self.sidebar.paint(canvas);
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {

@@ -1,8 +1,6 @@
 use crate::colors::UiColors;
 use crate::engine::game_painter;
-use crate::main_config::{
-    CANVAS_HEIGHT, SIDEBAR_WIDTH, SQUARE_BORDER_WIDTH, SQUARE_WIDTH, WAR_ZONE_WIDTH,
-};
+use crate::main_config::{SIDEBAR_WIDTH, SQUARE_BORDER_WIDTH, SQUARE_WIDTH};
 use crate::screens::game::components::shape::Shape;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
@@ -22,14 +20,16 @@ impl Painter {
         canvas.set_viewport(Rect::new(
             SIDEBAR_WIDTH,
             0,
-            WAR_ZONE_WIDTH as u32,
-            CANVAS_HEIGHT as u32,
+            self.width as u32,
+            self.height as u32,
         ));
     }
 
-    pub fn clear(&self, canvas: &mut WindowCanvas) {
+    pub fn background(&self, canvas: &mut WindowCanvas) {
         canvas.set_draw_color(UiColors::Background.value());
-        canvas.clear();
+        canvas
+            .fill_rect(Rect::new(0, 0, self.width as u32, self.height as u32))
+            .unwrap();
     }
 
     pub fn draw_shape(&self, canvas: &mut WindowCanvas, shape: &Shape) {

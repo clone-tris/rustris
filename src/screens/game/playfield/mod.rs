@@ -11,7 +11,7 @@ use crate::screens::game::components::tetromino::random_tetromino;
 use sdl2::render::WindowCanvas;
 use std::time::{Duration, Instant};
 
-pub struct PlayFieldScreen {
+pub struct PlayField {
     painter: Painter,
     goto_over_screen: bool,
     pub on_floor: bool,
@@ -24,23 +24,23 @@ pub struct PlayFieldScreen {
     opponent: Shape,
 }
 
-impl Screen for PlayFieldScreen {
+impl Screen for PlayField {
     fn paint(&mut self, canvas: &mut WindowCanvas) {
         self.painter.setup(canvas);
-        self.painter.clear(canvas);
+        self.painter.background(canvas);
         self.painter.draw_guide(canvas);
         self.painter.draw_shape(canvas, &self.player);
         self.painter.draw_shape(canvas, &self.opponent);
     }
 }
 
-impl PlayFieldScreen {
-    pub fn new(width: i32, height: i32) -> PlayFieldScreen {
+impl PlayField {
+    pub fn new(width: i32, height: i32) -> PlayField {
         let mut opponent = Shape::new(Vec::new(), 0, 0, ShapeColors::DefaultSquareColor.value());
         opponent.width = PUZZLE_WIDTH;
         opponent.height = PUZZLE_HEIGHT;
 
-        let mut screen = PlayFieldScreen {
+        let mut screen = PlayField {
             painter: Painter::new(width, height),
             player: random_tetromino(),
             next_player: random_tetromino(),
