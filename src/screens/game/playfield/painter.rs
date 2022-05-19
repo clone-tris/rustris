@@ -1,4 +1,5 @@
 use crate::colors::UiColors;
+use crate::engine::game_painter;
 use crate::main_config::{CANVAS_HEIGHT, SQUARE_BORDER_WIDTH, SQUARE_WIDTH, WAR_ZONE_WIDTH};
 use crate::screens::game::components::shape::Shape;
 use sdl2::pixels::Color;
@@ -6,17 +7,17 @@ use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
 
 pub struct Painter {
-    width: i16,
-    height: i16,
+    width: i32,
+    height: i32,
 }
 
 impl Painter {
-    pub fn new(width: i16, height: i16) -> Painter {
+    pub fn new(width: i32, height: i32) -> Painter {
         Painter { width, height }
     }
 
     pub fn setup(&self, canvas: &mut WindowCanvas) {
-        canvas.set_viewport(Rect::new(0, 0, WAR_ZONE_WIDTH, CANVAS_HEIGHT));
+        canvas.set_viewport(Rect::new(0, 0, WAR_ZONE_WIDTH as u32, CANVAS_HEIGHT as u32));
     }
 
     pub fn clear(&self, canvas: &mut WindowCanvas) {
@@ -45,7 +46,7 @@ impl Painter {
 
         // Background
         canvas.set_draw_color(color);
-        canvas.fill_rect(Rect::new(x, y, SQUARE_WIDTH, SQUARE_WIDTH));
+        canvas.fill_rect(Rect::new(x, y, SQUARE_WIDTH as u32, SQUARE_WIDTH as u32));
 
         // Left Border
         // mb.polygon(
@@ -122,6 +123,6 @@ impl Painter {
     }
 
     pub fn draw_guide(&self, canvas: &mut WindowCanvas) {
-        // graphics_painter::draw_guide(ctx, 0, 0, self.width, self.height);
+        game_painter::draw_guide(canvas, 0, 0, self.width, self.height);
     }
 }

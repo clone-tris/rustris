@@ -22,6 +22,6 @@ pub fn main() {
 
     let mut canvas = window.into_canvas().build().unwrap();
     let mut event_pump = sdl.event_pump().unwrap();
-    let mut manager = GameManager::new(Box::new(Menu::new()), &mut canvas, &mut event_pump);
+    let mut manager = GameManager::new(Box::new(Game::new()), &mut canvas, &mut event_pump);
     manager.gameloop();
 }

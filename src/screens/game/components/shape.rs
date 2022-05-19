@@ -59,7 +59,7 @@ impl Shape {
         self.width = max_column - min_column + 1;
     }
 
-    pub fn translate(&mut self, row_direction: u8, column_direction: i32) {
+    pub fn translate(&mut self, row_direction: i32, column_direction: i32) {
         self.row += row_direction as i32;
         self.column += column_direction;
     }
