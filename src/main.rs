@@ -15,7 +15,7 @@ pub fn main() {
     let video_subsystem = sdl.video().unwrap();
 
     let window = video_subsystem
-        .window("rust-sdl2 demo", CANVAS_WIDTH, CANVAS_HEIGHT)
+        .window("rust-sdl2 demo", CANVAS_WIDTH as u32, CANVAS_HEIGHT as u32)
         .position_centered()
         .build()
         .unwrap();

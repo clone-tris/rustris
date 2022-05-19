@@ -12,11 +12,11 @@ pub fn draw_line(canvas: &mut WindowCanvas, x1: i32, y1: i32, x2: i32, y2: i32, 
 }
 
 pub fn draw_guide(canvas: &mut WindowCanvas, x: i32, y: i32, width: i32, height: i32) {
-    let rows = (height / SQUARE_WIDTH as i32);
-    let columns = (width / SQUARE_WIDTH as i32);
+    let rows = height / SQUARE_WIDTH;
+    let columns = width / SQUARE_WIDTH;
 
     for i in 0..(rows + 1) {
-        let line_y = y + i * SQUARE_WIDTH as i32;
+        let line_y = y + i * SQUARE_WIDTH;
         draw_line(
             canvas,
             x,
@@ -27,7 +27,7 @@ pub fn draw_guide(canvas: &mut WindowCanvas, x: i32, y: i32, width: i32, height:
         );
     }
     for i in 0..(columns + 1) {
-        let line_x = x + i * SQUARE_WIDTH as i32;
+        let line_x = x + i * SQUARE_WIDTH;
         draw_line(
             canvas,
             line_x,
