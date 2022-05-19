@@ -4,6 +4,7 @@ pub mod playfield;
 use crate::colors::UiColors;
 use crate::engine::game_painter;
 use sdl2::event::Event;
+use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
@@ -85,15 +86,36 @@ impl<'t> Screen for Game {
         None
     }
 
-    fn handle_event(&mut self, _event: Event) {
-        // match key {
-        //     // KeyCode::O => self.goto_over_screen = true,
-        //     KeyCode::W => self.playfield.rotate_player(),
-        //     KeyCode::A => self.playfield.move_left(),
-        //     KeyCode::S => self.make_player_fall(),
-        //     KeyCode::D => self.playfield.move_right(),
-        //     KeyCode::P => self.paused = !self.paused,
-        //     _ => (),
-        // }
+    fn handle_event(&mut self, event: Event) {
+        match event {
+            Event::KeyDown {
+                keycode: Some(Keycode::O),
+                ..
+            } => self.goto_over_screen = true,
+            Event::KeyDown {
+                keycode: Some(Keycode::W),
+                ..
+            } => {
+                self.playfield.rotate_player();
+            }
+            Event::KeyDown {
+                keycode: Some(Keycode::A),
+                ..
+            } => self.playfield.move_left(),
+            Event::KeyDown {
+                keycode: Some(Keycode::S),
+                ..
+            } => self.make_player_fall(),
+            Event::KeyDown {
+                keycode: Some(Keycode::D),
+                ..
+            } => self.playfield.move_right(),
+            Event::KeyDown {
+                keycode: Some(Keycode::P),
+                ..
+            } => self.paused = !self.paused,
+
+            _ => {}
+        };
     }
 }

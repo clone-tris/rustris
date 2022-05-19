@@ -52,8 +52,6 @@ impl<'m> GameManager<'m> {
             } => self.close_application(),
             _ => {}
         };
-
-        self.screen.handle_event(event);
     }
 
     pub(crate) fn update(&mut self) {

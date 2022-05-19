@@ -59,30 +59,16 @@ impl Screen for Menu {
     }
 
     fn handle_event(&mut self, event: Event) {
-        if matches!(
-            event,
+        match event {
             Event::KeyDown {
                 keycode: Some(Keycode::S),
                 ..
-            }
-        ) {
-            self.goto_game = true;
-        }
-        if matches!(
-            event,
+            } => self.goto_game = true,
             Event::KeyDown {
                 keycode: Some(Keycode::Q),
                 ..
-            }
-        ) {
-            self.close_application = true;
-        }
-        // match event {
-        //     Event::KeyDown {
-        //         keycode: Some(Keycode::S),
-        //         ..
-        //     } => self.goto_game = true,
-        //     _ => {}
-        // }
+            } => self.close_application = true,
+            _ => {}
+        };
     }
 }
