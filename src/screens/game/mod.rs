@@ -1,12 +1,15 @@
-mod components;
-mod playfield;
+pub mod components;
+// pub mod playfield;
 
+use crate::colors::UiColors;
+use crate::engine::game_painter;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
 
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
+use crate::main_config::{CANVAS_HEIGHT, WAR_ZONE_WIDTH};
 
 struct Player {
     x: f32,
@@ -26,18 +29,10 @@ impl Game {
 
 impl<'t> Screen for Game {
     fn paint(&mut self, canvas: &mut WindowCanvas) {
-        canvas.set_draw_color(Color::RGB(67, 139, 220));
+        canvas.set_draw_color(UiColors::Background.value());
         canvas.clear();
 
-        canvas.set_draw_color(Color::RGB(67, 220, 139));
-        canvas
-            .fill_rect(Rect::new(
-                self.player.x as i32,
-                self.player.y as i32,
-                140,
-                140,
-            ))
-            .unwrap();
+        game_painter::draw_guide(canvas, 0, 0, WAR_ZONE_WIDTH as i32, CANVAS_HEIGHT as i32);
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {

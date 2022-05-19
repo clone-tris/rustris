@@ -1,4 +1,4 @@
-use crate::screens::game::components::colors::ShapeColors;
+use crate::colors::ShapeColors;
 use crate::screens::game::components::shape::Shape;
 use crate::screens::game::components::square::Square;
 use rand::seq::SliceRandom;
@@ -15,7 +15,7 @@ pub enum Tetromino {
     I,
 }
 
-pub type ShapeGrid = [[i16; 2]; 4];
+pub type ShapeGrid = [[i32; 2]; 4];
 
 pub fn tetromino_grid(tetromino: &Tetromino) -> ShapeGrid {
     return match tetromino {

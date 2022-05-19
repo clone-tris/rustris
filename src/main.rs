@@ -1,10 +1,12 @@
 extern crate sdl2;
 
+mod colors;
 mod engine;
 mod main_config;
 mod screens;
 
 use crate::engine::game_manager::GameManager;
+use crate::main_config::{CANVAS_HEIGHT, CANVAS_WIDTH};
 use crate::screens::game::Game;
 use crate::screens::menu::Menu;
 
@@ -13,7 +15,7 @@ pub fn main() {
     let video_subsystem = sdl.video().unwrap();
 
     let window = video_subsystem
-        .window("rust-sdl2 demo", 800, 600)
+        .window("rust-sdl2 demo", CANVAS_WIDTH, CANVAS_HEIGHT)
         .position_centered()
         .build()
         .unwrap();

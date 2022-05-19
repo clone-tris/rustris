@@ -168,7 +168,7 @@ impl Shape {
 
         for square in self.grid.iter() {
             *row_population.entry(square.row).or_insert(0) += 1;
-            if row_population.get(&square.row) == Some(&PUZZLE_WIDTH) {
+            if row_population.get(&square.row) == Some(&(PUZZLE_WIDTH as i32)) {
                 full_rows.insert(square.row);
             }
         }

@@ -1,5 +1,5 @@
+use crate::colors::UiColors;
 use crate::main_config::{CANVAS_HEIGHT, SQUARE_BORDER_WIDTH, SQUARE_WIDTH, WAR_ZONE_WIDTH};
-use crate::screens::game::components::colors::UiColors;
 use crate::screens::game::components::shape::Shape;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
