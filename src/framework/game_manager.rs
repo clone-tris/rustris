@@ -1,18 +1,17 @@
 use crate::framework::screen::Screen;
-use crate::framework::screen_name::ScreenName;
+use crate::framework::screen_event::ScreenEvent;
 use crate::{Game, Menu};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::render::WindowCanvas;
 use sdl2::EventPump;
-use std::borrow::{Borrow, BorrowMut};
-use std::mem::transmute;
 use std::time::Duration;
 
 pub struct GameManager<'m> {
     screen: Box<dyn Screen + 'm>,
     canvas: &'m mut WindowCanvas,
     event_pump: &'m mut EventPump,
+    close_application: bool,
 }
 
 impl<'m> GameManager<'m> {
@@ -25,15 +24,18 @@ impl<'m> GameManager<'m> {
             canvas,
             screen,
             event_pump,
+            close_application: false,
         }
     }
 
     pub(crate) fn gameloop(&mut self) {
         loop {
+            if self.close_application {
+                break;
+            }
             for event in self.event_pump.poll_iter().collect::<Vec<_>>() {
-                if self.handle_event(event.clone()) || self.screen.handle_event(event.clone()) {
-                    return;
-                }
+                self.handle_event(event.clone());
+                self.screen.handle_event(event.clone());
             }
             self.update();
             self.paint();
@@ -41,30 +43,42 @@ impl<'m> GameManager<'m> {
         }
     }
 
-    pub(crate) fn handle_event(&mut self, event: Event) -> bool {
+    pub(crate) fn handle_event(&mut self, event: Event) {
         match event {
             Event::Quit { .. }
             | Event::KeyDown {
                 keycode: Some(Keycode::Escape),
                 ..
-            } => return true,
+            } => self.close_application(),
             _ => {}
         };
 
-        return self.screen.handle_event(event);
+        self.screen.handle_event(event);
     }
 
     pub(crate) fn update(&mut self) {
-        if let Some(next_screen_name) = self.screen.update() {
-            self.screen = self.spaw_screen(next_screen_name);
+        if let Some(screen_event) = self.screen.update() {
+            self.handle_screen_events(screen_event);
         }
     }
 
-    fn spaw_screen(&mut self, screen: ScreenName) -> Box<dyn Screen> {
+    fn handle_screen_events(&mut self, screen: ScreenEvent) {
         match screen {
-            ScreenName::Menu => Box::new(Menu::new()),
-            ScreenName::Game => Box::new(Game::new()),
-        }
+            ScreenEvent::GoToMenu => self.swap_screen(Box::new(Menu::new())),
+            ScreenEvent::GoToGame => self.swap_screen(Box::new(Game::new())),
+            ScreenEvent::CloseApplication => {
+                self.close_application();
+            }
+        };
+    }
+
+    fn close_application(&mut self) {
+        self.close_application = true;
+    }
+
+    pub(crate) fn swap_screen(&mut self, screen: Box<dyn Screen>) {
+        self.screen.unload();
+        self.screen = screen;
     }
 
     pub(crate) fn paint(&mut self) {

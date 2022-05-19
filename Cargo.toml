@@ -5,4 +5,8 @@ authors = ["Abderrahmane TAHRI JOUTI <tj.abderrahmane@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-sdl2 = "0.35"
+
+[dependencies.sdl2]
+version = "0.35"
+default-features = false
+features = ["gfx"]

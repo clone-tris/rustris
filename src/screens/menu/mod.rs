@@ -1,5 +1,5 @@
 use crate::framework::screen::Screen;
-use crate::framework::screen_name::ScreenName;
+use crate::framework::screen_event::ScreenEvent;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
@@ -13,6 +13,7 @@ struct Player {
 pub struct Menu {
     player: Player,
     goto_game: bool,
+    close_application: bool,
 }
 
 impl Menu {
@@ -23,6 +24,7 @@ impl Menu {
                 y: 500f32,
             },
             goto_game: false,
+            close_application: false,
         }
     }
 }
@@ -43,16 +45,19 @@ impl Screen for Menu {
             .unwrap();
     }
 
-    fn update(&mut self) -> Option<ScreenName> {
+    fn update(&mut self) -> Option<ScreenEvent> {
         self.player.x -= 0.1;
         self.player.y -= 0.1;
         if self.goto_game {
-            return Some(ScreenName::Game);
+            return Some(ScreenEvent::GoToGame);
+        }
+        if self.close_application {
+            return Some(ScreenEvent::CloseApplication);
         }
         None
     }
 
-    fn handle_event(&mut self, event: Event) -> bool {
+    fn handle_event(&mut self, event: Event) {
         if matches!(
             event,
             Event::KeyDown {
@@ -69,7 +74,7 @@ impl Screen for Menu {
                 ..
             }
         ) {
-            return true;
+            self.close_application = true;
         }
         // match event {
         //     Event::KeyDown {
@@ -78,6 +83,5 @@ impl Screen for Menu {
         //     } => self.goto_game = true,
         //     _ => {}
         // }
-        false
     }
 }

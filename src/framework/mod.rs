@@ -1,3 +1,3 @@
 pub mod game_manager;
 pub mod screen;
-pub mod screen_name;
+pub mod screen_event;
