@@ -1,9 +1,9 @@
 extern crate sdl2;
 
-mod framework;
+mod engine;
 mod screens;
 
-use crate::framework::game_manager::GameManager;
+use crate::engine::game_manager::GameManager;
 use crate::screens::game::Game;
 use crate::screens::menu::Menu;
 

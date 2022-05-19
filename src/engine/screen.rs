@@ -1,4 +1,4 @@
-use crate::framework::screen_event::ScreenEvent;
+use crate::engine::screen_event::ScreenEvent;
 use sdl2::event::Event;
 use sdl2::render::WindowCanvas;
 

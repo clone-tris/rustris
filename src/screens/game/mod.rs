@@ -1,5 +1,5 @@
-use crate::framework::screen::Screen;
-use crate::framework::screen_event::ScreenEvent;
+use crate::engine::screen::Screen;
+use crate::engine::screen_event::ScreenEvent;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
