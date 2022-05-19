@@ -2,13 +2,13 @@ use sdl2::pixels::Color;
 
 #[derive(Debug, Clone)]
 pub struct Square {
-    pub row: i16,
-    pub column: i16,
-    pub color: sdl2::pixels::Color,
+    pub row: i32,
+    pub column: i32,
+    pub color: Color,
 }
 
 impl Square {
-    pub fn new(row: i16, column: i16, color: Color) -> Square {
+    pub fn new(row: i32, column: i32, color: Color) -> Square {
         Square { row, column, color }
     }
 }

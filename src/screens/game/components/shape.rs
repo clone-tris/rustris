@@ -7,15 +7,15 @@ use std::fmt::Debug;
 #[derive(Debug, Clone)]
 pub struct Shape {
     pub grid: Vec<Square>,
-    pub row: i8,
-    pub column: i8,
-    pub width: i16,
-    pub height: i16,
+    pub row: i32,
+    pub column: i32,
+    pub width: i32,
+    pub height: i32,
     color: Color,
 }
 
 impl Shape {
-    pub fn new(grid: Vec<Square>, row: i8, column: i8, color: Color) -> Shape {
+    pub fn new(grid: Vec<Square>, row: i32, column: i32, color: Color) -> Shape {
         let grid_size = grid.len();
 
         let mut shape = Shape {
@@ -35,10 +35,10 @@ impl Shape {
     }
 
     pub fn compute_size(&mut self) {
-        let mut min_row: i16 = PUZZLE_HEIGHT;
-        let mut max_row: i16 = 0;
-        let mut min_column: i16 = PUZZLE_WIDTH;
-        let mut max_column: i16 = 0;
+        let mut min_row: i32 = PUZZLE_HEIGHT as i32;
+        let mut max_row: i32 = 0;
+        let mut min_column: i32 = PUZZLE_WIDTH as i32;
+        let mut max_column: i32 = 0;
 
         self.grid.iter().for_each(|cell| {
             if cell.row > max_row {
@@ -59,8 +59,8 @@ impl Shape {
         self.width = max_column - min_column + 1;
     }
 
-    pub fn translate(&mut self, row_direction: u8, column_direction: i8) {
-        self.row += row_direction as i8;
+    pub fn translate(&mut self, row_direction: u8, column_direction: i32) {
+        self.row += row_direction as i32;
         self.column += column_direction;
     }
 
@@ -69,8 +69,8 @@ impl Shape {
             .iter()
             .map(|square| {
                 let mut absolute_square = square.clone();
-                absolute_square.row = square.row + self.row as i16;
-                absolute_square.column = square.column + self.column as i16;
+                absolute_square.row = square.row + self.row as i32;
+                absolute_square.column = square.column + self.column as i32;
                 absolute_square
             })
             .collect()
@@ -96,7 +96,7 @@ impl Shape {
 
         let after_right = absolute_grid
             .iter()
-            .any(|square| square.column >= PUZZLE_WIDTH);
+            .any(|square| square.column >= PUZZLE_WIDTH as i32);
         if after_right {
             return false;
         }
@@ -108,7 +108,7 @@ impl Shape {
 
         let bellow_bottom = absolute_grid
             .iter()
-            .any(|square| square.row >= PUZZLE_HEIGHT);
+            .any(|square| square.row >= PUZZLE_HEIGHT as i32);
         if bellow_bottom {
             return false;
         }
@@ -130,7 +130,7 @@ impl Shape {
         self.compute_size();
     }
 
-    pub fn remove_full_lines(&mut self) -> i16 {
+    pub fn remove_full_lines(&mut self) -> i32 {
         let full_rows = self.find_full_rows();
         if full_rows.len() == 0 {
             return 0;
@@ -158,13 +158,13 @@ impl Shape {
 
         self.grid = new_grid;
 
-        return full_rows.len() as i16;
+        return full_rows.len() as i32;
     }
 
     // todo : only look for full rows in the height of the player that was just eaten
-    pub fn find_full_rows(&self) -> HashSet<i16> {
-        let mut full_rows = HashSet::<i16>::new();
-        let mut row_population = HashMap::<i16, i16>::new();
+    pub fn find_full_rows(&self) -> HashSet<i32> {
+        let mut full_rows = HashSet::<i32>::new();
+        let mut row_population = HashMap::<i32, i32>::new();
 
         for square in self.grid.iter() {
             *row_population.entry(square.row).or_insert(0) += 1;

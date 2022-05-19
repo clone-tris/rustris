@@ -1,4 +1,5 @@
 mod components;
+mod playfield;
 
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
