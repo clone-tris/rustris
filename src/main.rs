@@ -1,6 +1,7 @@
 extern crate sdl2;
 
 mod engine;
+mod main_config;
 mod screens;
 
 use crate::engine::game_manager::GameManager;

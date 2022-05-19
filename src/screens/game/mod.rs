@@ -1,8 +1,11 @@
-use crate::engine::screen::Screen;
-use crate::engine::screen_event::ScreenEvent;
+mod components;
+
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
+
+use crate::engine::screen::Screen;
+use crate::engine::screen_event::ScreenEvent;
 
 struct Player {
     x: f32,
