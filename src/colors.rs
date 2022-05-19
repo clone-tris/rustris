@@ -1,4 +1,4 @@
-use ggez::graphics::Color;
+use sdl2::pixels::Color;
 
 pub type RGBA = (u8, u8, u8, u8);
 

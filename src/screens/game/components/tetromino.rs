@@ -1,8 +1,8 @@
-use crate::screens::game_screen::colors::ShapeColors;
-use crate::screens::game_screen::shape::Shape;
-use crate::screens::game_screen::square::Square;
-use ggez::graphics::Color;
+use crate::colors::ShapeColors;
+use crate::screens::game::components::shape::Shape;
+use crate::screens::game::components::square::Square;
 use rand::seq::SliceRandom;
+use sdl2::pixels::Color;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Tetromino {
@@ -15,7 +15,7 @@ pub enum Tetromino {
     I,
 }
 
-pub type ShapeGrid = [[i16; 2]; 4];
+pub type ShapeGrid = [[i32; 2]; 4];
 
 pub fn tetromino_grid(tetromino: &Tetromino) -> ShapeGrid {
     return match tetromino {

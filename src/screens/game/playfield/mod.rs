@@ -1,19 +1,18 @@
 mod painter;
 
-use crate::framework::screen::Screen;
-use crate::screens::game_screen::colors::{ShapeColors, UiColors};
-use crate::screens::game_screen::config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
-use crate::screens::game_screen::playfield::painter::Painter;
-use crate::screens::game_screen::shape::Shape;
-use crate::screens::game_screen::tetromino::random_tetromino;
-use ggez::conf::NumSamples;
-use ggez::graphics::{Canvas, get_window_color_format};
-use ggez::{graphics, Context};
+use crate::engine::screen::Screen;
+
+use crate::screens::game::playfield::painter::Painter;
+
+use crate::colors::ShapeColors;
+use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
+use crate::screens::game::components::shape::Shape;
+use crate::screens::game::components::tetromino::random_tetromino;
+use sdl2::render::WindowCanvas;
 use std::time::{Duration, Instant};
 
 pub struct PlayFieldScreen {
     painter: Painter,
-    canvas: Canvas,
     goto_over_screen: bool,
     pub on_floor: bool,
     game_ended: bool,
@@ -26,28 +25,22 @@ pub struct PlayFieldScreen {
 }
 
 impl Screen for PlayFieldScreen {
-    fn paint(&mut self, ctx: &mut Context) {
-        self.painter.setup(ctx, &self.canvas);
-        self.painter.clear(ctx);
-        self.painter.draw_guide(ctx);
-        self.painter.draw_shape(ctx, &self.player);
-        self.painter.draw_shape(ctx, &self.opponent);
-    }
-
-    fn canvas(&self, _ctx: &mut Context) -> &Canvas {
-        &self.canvas
+    fn paint(&mut self, canvas: &mut WindowCanvas) {
+        self.painter.setup(canvas);
+        self.painter.clear(canvas);
+        self.painter.draw_guide(canvas);
+        self.painter.draw_shape(canvas, &self.player);
+        self.painter.draw_shape(canvas, &self.opponent);
     }
 }
 
 impl PlayFieldScreen {
-    pub fn new(ctx: &mut Context, width: i16, height: i16) -> PlayFieldScreen {
+    pub fn new(width: i32, height: i32) -> PlayFieldScreen {
         let mut opponent = Shape::new(Vec::new(), 0, 0, ShapeColors::DefaultSquareColor.value());
         opponent.width = PUZZLE_WIDTH;
         opponent.height = PUZZLE_HEIGHT;
 
         let mut screen = PlayFieldScreen {
-            canvas: graphics::Canvas::new(ctx, width as u16, height as u16, NumSamples::One, get_window_color_format(ctx))
-                .unwrap(),
             painter: Painter::new(width, height),
             player: random_tetromino(),
             next_player: random_tetromino(),
@@ -72,8 +65,8 @@ impl PlayFieldScreen {
 
     pub fn spawn_player(&mut self) {
         let mut player = self.next_player.clone();
-        player.row -= player.height as i8;
-        player.column = (PUZZLE_WIDTH - player.width) as i8 / 2;
+        player.row -= player.height;
+        player.column = (PUZZLE_WIDTH - player.width) / 2;
 
         self.player = player;
         self.next_player = random_tetromino();
@@ -88,7 +81,7 @@ impl PlayFieldScreen {
         self.player = foreshadow
     }
 
-    pub fn move_player(&mut self, row_direction: u8, column_direction: i8) -> bool {
+    pub fn move_player(&mut self, row_direction: i32, column_direction: i32) -> bool {
         let mut foreshadow = self.player.clone();
         let moving_down = row_direction == 1;
         foreshadow.translate(row_direction, column_direction);

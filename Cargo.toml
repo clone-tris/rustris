@@ -1,13 +1,13 @@
 [package]
 name = "rustris"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Abderrahmane TAHRI JOUTI <tj.abderrahmane@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
-ggez = "0.7"
-mint = "0.5"
-nalgebra = "0.18"
-structopt = "0.2"
-glam = { version = "0.15.2", features = ["mint"] }
-rand = "0.7"
+rand = "0.8.5"
+
+[dependencies.sdl2]
+version = "0.35"
+default-features = false
+features = ["gfx"]

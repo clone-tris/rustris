@@ -1,40 +1,27 @@
-mod framework;
-mod rustris_config;
+extern crate sdl2;
+
+mod colors;
+mod engine;
+mod main_config;
 mod screens;
-mod test;
 
-use ggez::event;
-use ggez::GameResult;
-use ggez::{self, conf};
-use std::env;
-use std::path;
+use crate::engine::game_manager::GameManager;
+use crate::main_config::{CANVAS_HEIGHT, CANVAS_WIDTH};
+use crate::screens::game::Game;
+use crate::screens::menu::Menu;
 
-use crate::framework::game::Game;
-use crate::rustris_config::{CANVAS_HEIGHT, CANVAS_WIDTH, GAME_AUTHOR, GAME_ID, WINDOW_TITLE};
-use crate::screens::game_screen::config::WAR_ZONE_WIDTH;
-use crate::screens::game_screen::GameScreen;
-use crate::test::Test;
+pub fn main() {
+    let sdl = sdl2::init().unwrap();
+    let video_subsystem = sdl.video().unwrap();
 
-pub fn main() -> GameResult {
-    let resource_dir = if let Ok(manifest_dir) = env::var("CARGO_MANIFEST_DIR") {
-        let mut path = path::PathBuf::from(manifest_dir);
-        path.push("resources");
-        path
-    } else {
-        path::PathBuf::from("./resources")
-    };
+    let window = video_subsystem
+        .window("rust-sdl2 demo", CANVAS_WIDTH as u32, CANVAS_HEIGHT as u32)
+        .position_centered()
+        .build()
+        .unwrap();
 
-    let context_builder = ggez::ContextBuilder::new(GAME_ID, GAME_AUTHOR)
-        .window_setup(conf::WindowSetup::default().title(WINDOW_TITLE))
-        .window_mode(
-            conf::WindowMode::default().dimensions(CANVAS_WIDTH as f32, CANVAS_HEIGHT as f32),
-        )
-        .add_resource_path(resource_dir);
-
-    let (mut ctx, event_loop) = context_builder.build()?;
-
-    let game = Game::new(Box::new(GameScreen::new(&mut ctx)))?;
-    let test = Test::new(&mut ctx)?;
-
-    event::run(ctx, event_loop, game)
+    let mut canvas = window.into_canvas().build().unwrap();
+    let mut event_pump = sdl.event_pump().unwrap();
+    let mut manager = GameManager::new(Box::new(Game::new()), &mut canvas, &mut event_pump);
+    manager.gameloop();
 }
