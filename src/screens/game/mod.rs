@@ -69,10 +69,6 @@ impl Game {
 impl<'t> Screen for Game {
     fn paint(&mut self, canvas: &mut WindowCanvas) {
         self.playfield.paint(canvas);
-        // canvas.set_draw_color(UiColors::Background.value());
-        // canvas.clear();
-        //
-        // game_painter::draw_guide(canvas, 0, 0, WAR_ZONE_WIDTH as i32, CANVAS_HEIGHT as i32);
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {
