@@ -25,7 +25,7 @@ impl Screen for Sidebar {
     fn paint(&mut self, canvas: &mut WindowCanvas) {
         self.painter.setup(canvas);
         self.painter.background(canvas);
-        self.painter.draw_guide(canvas);
+        // self.painter.draw_guide(canvas);
         self.next_player.draw_at(canvas, 1, 1);
     }
 }
