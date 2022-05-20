@@ -13,10 +13,10 @@ pub struct Sidebar {
 }
 
 impl Sidebar {
-    pub fn new(width: i32, height: i32) -> Sidebar {
+    pub fn new(width: i32, height: i32, next_player: Shape) -> Sidebar {
         Sidebar {
             painter: Painter::new(width, height),
-            next_player: random_tetromino(),
+            next_player,
         }
     }
 }

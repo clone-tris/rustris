@@ -26,9 +26,11 @@ pub struct Game {
 
 impl Game {
     pub fn new() -> Game {
+        let playfield = PlayField::new(WAR_ZONE_WIDTH, CANVAS_HEIGHT);
+        let next_player = playfield.next_player.clone();
         Game {
-            playfield: PlayField::new(WAR_ZONE_WIDTH, CANVAS_HEIGHT),
-            sidebar: Sidebar::new(SIDEBAR_WIDTH, CANVAS_HEIGHT),
+            playfield: playfield,
+            sidebar: Sidebar::new(SIDEBAR_WIDTH, CANVAS_HEIGHT, next_player),
             player_is_falling: false,
             paused: false,
             next_fall: Instant::now(),
