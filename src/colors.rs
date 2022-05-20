@@ -1,3 +1,6 @@
+// #![allow(dead_code)]
+// #![allow(unused_variables)]
+
 use sdl2::pixels::Color;
 
 pub type RGBA = (u8, u8, u8, u8);

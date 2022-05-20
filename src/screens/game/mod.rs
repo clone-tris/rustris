@@ -16,11 +16,12 @@ use crate::screens::game::sidebar::Sidebar;
 pub struct Game {
     playfield: PlayField,
     sidebar: Sidebar,
-    goto_over_screen: bool,
     player_is_falling: bool,
     paused: bool,
     next_fall: Instant,
     remaining_after_paused: Duration,
+    goto_over_screen: bool,
+    restart: bool,
 }
 
 impl Game {
@@ -28,11 +29,12 @@ impl Game {
         Game {
             playfield: PlayField::new(WAR_ZONE_WIDTH, CANVAS_HEIGHT),
             sidebar: Sidebar::new(SIDEBAR_WIDTH, CANVAS_HEIGHT),
-            goto_over_screen: false,
             player_is_falling: false,
             paused: false,
             next_fall: Instant::now(),
             remaining_after_paused: Duration::from_millis(0),
+            goto_over_screen: false,
+            restart: false,
         }
     }
 
@@ -63,6 +65,22 @@ impl Game {
         }
         self.player_is_falling = false
     }
+
+    pub fn toggle_paused(&mut self) {
+        self.paused = !self.paused;
+        if self.paused {
+            let now = Instant::now();
+            self.remaining_after_paused = if now < self.next_fall {
+                self.next_fall - now
+            } else {
+                Duration::from_secs(0)
+            };
+        }
+    }
+
+    pub fn restart(&mut self) {
+        self.restart = true;
+    }
 }
 
 impl<'t> Screen for Game {
@@ -78,6 +96,9 @@ impl<'t> Screen for Game {
         if self.goto_over_screen {
             return Some(ScreenEvent::GoToMenu);
         }
+        if self.restart {
+            return Some(ScreenEvent::GoToGame);
+        }
         self.apply_gravity();
         None
     }
@@ -85,15 +106,9 @@ impl<'t> Screen for Game {
     fn handle_event(&mut self, event: Event) {
         match event {
             Event::KeyDown {
-                keycode: Some(Keycode::O),
-                ..
-            } => self.goto_over_screen = true,
-            Event::KeyDown {
                 keycode: Some(Keycode::W),
                 ..
-            } => {
-                self.playfield.rotate_player();
-            }
+            } => self.playfield.rotate_player(),
             Event::KeyDown {
                 keycode: Some(Keycode::A),
                 ..
@@ -107,9 +122,18 @@ impl<'t> Screen for Game {
                 ..
             } => self.playfield.move_right(),
             Event::KeyDown {
+                keycode: Some(Keycode::R),
+                ..
+            } => self.restart(),
+            Event::KeyDown {
                 keycode: Some(Keycode::P),
                 ..
-            } => self.paused = !self.paused,
+            } => self.toggle_paused(),
+
+            Event::KeyDown {
+                keycode: Some(Keycode::O),
+                ..
+            } => self.goto_over_screen = true,
 
             _ => {}
         };

@@ -152,7 +152,7 @@ impl Shape {
 
             let mut clone = square.clone();
 
-            let mut square_row_before_shifting = clone.row;
+            let square_row_before_shifting = clone.row;
 
             for full_row in &full_rows {
                 if full_row > &square_row_before_shifting {

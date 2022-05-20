@@ -1,8 +1,6 @@
 use crate::colors::UiColors;
 use crate::engine::game_painter;
-use crate::main_config::{SIDEBAR_WIDTH, SQUARE_BORDER_WIDTH, SQUARE_WIDTH};
-use crate::screens::game::components::shape::Shape;
-use sdl2::pixels::Color;
+use crate::main_config::SIDEBAR_WIDTH;
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
 

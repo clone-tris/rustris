@@ -21,7 +21,9 @@ impl Square {
 
         // // Background
         canvas.set_draw_color(self.color);
-        canvas.fill_rect(Rect::new(x, y, SQUARE_WIDTH as u32, SQUARE_WIDTH as u32));
+        canvas
+            .fill_rect(Rect::new(x, y, SQUARE_WIDTH as u32, SQUARE_WIDTH as u32))
+            .unwrap();
 
         // Left Border
         // mb.polygon(

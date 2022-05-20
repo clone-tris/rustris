@@ -60,7 +60,7 @@ impl PlayField {
 
     pub fn eat_player(&mut self) {
         self.opponent.merge(self.player.clone());
-        let lines_removed = self.opponent.remove_full_lines();
+        let _lines_removed = self.opponent.remove_full_lines();
     }
 
     pub fn spawn_player(&mut self) {
