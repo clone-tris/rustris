@@ -29,8 +29,8 @@ impl Screen for PlayField {
         self.painter.setup(canvas);
         self.painter.background(canvas);
         self.painter.draw_guide(canvas);
-        self.painter.draw_shape(canvas, &self.player);
-        self.painter.draw_shape(canvas, &self.opponent);
+        self.player.draw(canvas);
+        self.opponent.draw(canvas);
     }
 }
 

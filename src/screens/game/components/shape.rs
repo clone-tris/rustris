@@ -1,6 +1,7 @@
 use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
 use crate::screens::game::components::square::Square;
 use sdl2::pixels::Color;
+use sdl2::render::WindowCanvas;
 use std::collections::{HashMap, HashSet};
 use std::fmt::Debug;
 
@@ -32,6 +33,12 @@ impl Shape {
         }
 
         shape
+    }
+
+    pub fn draw(&mut self, canvas: &mut WindowCanvas) {
+        for square in self.grid.iter() {
+            square.draw(canvas, self.row, self.column);
+        }
     }
 
     pub fn compute_size(&mut self) {
