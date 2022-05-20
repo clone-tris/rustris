@@ -60,8 +60,8 @@ impl Game {
         }
 
         if !able_to_move && self.playfield.on_floor {
-            self.next_fall = self.playfield.end_of_lock
-            // update sidebar's next player
+            self.next_fall = self.playfield.end_of_lock;
+            self.sidebar.next_player = self.playfield.next_player.clone();
         }
         self.player_is_falling = false
     }

@@ -6,6 +6,7 @@ use crate::screens::game::playfield::painter::Painter;
 
 use crate::colors::ShapeColors;
 use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
+use crate::screens::game::components::score::Score;
 use crate::screens::game::components::shape::Shape;
 use crate::screens::game::components::tetromino::random_tetromino;
 use sdl2::render::WindowCanvas;
@@ -20,8 +21,9 @@ pub struct PlayField {
     pub fall_rate: Duration,
     pub end_of_lock: Instant,
     player: Shape,
-    next_player: Shape,
+    pub next_player: Shape,
     opponent: Shape,
+    score: Score,
 }
 
 impl Screen for PlayField {
@@ -51,6 +53,7 @@ impl PlayField {
             end_of_lock: Instant::now(),
             game_ended: false,
             fall_rate: Duration::from_millis(1000),
+            score: Score::new(),
         };
 
         screen.spawn_player();
@@ -60,7 +63,35 @@ impl PlayField {
 
     pub fn eat_player(&mut self) {
         self.opponent.merge(self.player.clone());
-        let _lines_removed = self.opponent.remove_full_lines();
+        let lines_removed = self.opponent.remove_full_lines();
+        if lines_removed == 0 {
+            return;
+        }
+        let current_level = self.score.level;
+        self.apply_score(lines_removed as u32);
+        if current_level != self.score.level {
+            self.fall_rate -= self.fall_rate / 3;
+        }
+    }
+
+    pub fn reset_score(&mut self) {
+        self.score = Score::new();
+    }
+
+    pub fn apply_score(&mut self, lives_removed: u32) {
+        let mut points = match lives_removed {
+            1 => 40,
+            2 => 100,
+            3 => 300,
+            4 => 1200,
+            _ => 0,
+        };
+
+        points *= self.score.level + 1;
+
+        self.score.total += points;
+        self.score.lines_cleared += lives_removed;
+        self.score.level = ((self.score.lines_cleared / 10) | 0) + 1
     }
 
     pub fn spawn_player(&mut self) {

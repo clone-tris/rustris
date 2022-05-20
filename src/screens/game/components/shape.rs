@@ -41,6 +41,12 @@ impl Shape {
         }
     }
 
+    pub fn draw_at(&mut self, canvas: &mut WindowCanvas, row: i32, column: i32) {
+        for square in self.grid.iter() {
+            square.draw(canvas, self.row + row, self.column + column);
+        }
+    }
+
     pub fn compute_size(&mut self) {
         let mut min_row: i32 = PUZZLE_HEIGHT as i32;
         let mut max_row: i32 = 0;
