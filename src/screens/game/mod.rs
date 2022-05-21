@@ -4,7 +4,9 @@ pub mod sidebar;
 
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use sdl2::render::WindowCanvas;
+use sdl2::render::{TextureCreator, WindowCanvas};
+use sdl2::ttf::Font;
+use sdl2::video::WindowContext;
 use std::time::{Duration, Instant};
 
 use crate::engine::screen::Screen;
@@ -82,13 +84,20 @@ impl Game {
 
     pub fn restart(&mut self) {
         self.restart = true;
+        self.playfield.reset_score();
     }
 }
 
 impl<'t> Screen for Game {
-    fn paint(&mut self, canvas: &mut WindowCanvas) {
+    fn paint(
+        &mut self,
+        canvas: &mut WindowCanvas,
+        font: &Font,
+        texture_creator: &TextureCreator<WindowContext>,
+    ) {
         self.playfield.paint(canvas);
-        self.sidebar.paint(canvas);
+        self.sidebar
+            .paint(canvas, font, texture_creator, self.playfield.score);
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {

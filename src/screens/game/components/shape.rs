@@ -1,6 +1,5 @@
 use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
 use crate::screens::game::components::square::Square;
-use sdl2::pixels::Color;
 use sdl2::render::WindowCanvas;
 use std::collections::{HashMap, HashSet};
 use std::fmt::Debug;
@@ -12,11 +11,10 @@ pub struct Shape {
     pub column: i32,
     pub width: i32,
     pub height: i32,
-    color: Color,
 }
 
 impl Shape {
-    pub fn new(grid: Vec<Square>, row: i32, column: i32, color: Color) -> Shape {
+    pub fn new(grid: Vec<Square>, row: i32, column: i32) -> Shape {
         let grid_size = grid.len();
 
         let mut shape = Shape {
@@ -25,7 +23,6 @@ impl Shape {
             column,
             width: 0,
             height: 0,
-            color,
         };
 
         if grid_size > 0 {

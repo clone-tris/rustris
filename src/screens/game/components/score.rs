@@ -1,3 +1,4 @@
+#[derive(Copy, Clone)]
 pub struct Score {
     pub lines_cleared: u32,
     pub total: u32,

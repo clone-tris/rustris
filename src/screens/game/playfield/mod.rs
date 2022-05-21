@@ -1,10 +1,7 @@
 mod painter;
 
-use crate::engine::screen::Screen;
-
 use crate::screens::game::playfield::painter::Painter;
 
-use crate::colors::ShapeColors;
 use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
 use crate::screens::game::components::score::Score;
 use crate::screens::game::components::shape::Shape;
@@ -14,7 +11,6 @@ use std::time::{Duration, Instant};
 
 pub struct PlayField {
     painter: Painter,
-    goto_over_screen: bool,
     pub on_floor: bool,
     game_ended: bool,
     floor_rate: Duration,
@@ -23,22 +19,12 @@ pub struct PlayField {
     player: Shape,
     pub next_player: Shape,
     opponent: Shape,
-    score: Score,
-}
-
-impl Screen for PlayField {
-    fn paint(&mut self, canvas: &mut WindowCanvas) {
-        self.painter.setup(canvas);
-        self.painter.background(canvas);
-        self.painter.draw_guide(canvas);
-        self.player.draw(canvas);
-        self.opponent.draw(canvas);
-    }
+    pub score: Score,
 }
 
 impl PlayField {
     pub fn new(width: i32, height: i32) -> PlayField {
-        let mut opponent = Shape::new(Vec::new(), 0, 0, ShapeColors::DefaultSquareColor.value());
+        let mut opponent = Shape::new(Vec::new(), 0, 0);
         opponent.width = PUZZLE_WIDTH;
         opponent.height = PUZZLE_HEIGHT;
 
@@ -47,7 +33,6 @@ impl PlayField {
             player: random_tetromino(),
             next_player: random_tetromino(),
             opponent,
-            goto_over_screen: false,
             on_floor: false,
             floor_rate: Duration::from_millis(500),
             end_of_lock: Instant::now(),
@@ -59,6 +44,14 @@ impl PlayField {
         screen.spawn_player();
 
         screen
+    }
+
+    pub fn paint(&mut self, canvas: &mut WindowCanvas) {
+        self.painter.setup(canvas);
+        self.painter.background(canvas);
+        self.painter.draw_guide(canvas);
+        self.player.draw(canvas);
+        self.opponent.draw(canvas);
     }
 
     pub fn eat_player(&mut self) {

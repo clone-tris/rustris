@@ -1,8 +1,10 @@
 mod painter;
 
-use sdl2::render::WindowCanvas;
+use crate::screens::game::components::score::Score;
+use sdl2::render::{TextureCreator, WindowCanvas};
+use sdl2::ttf::Font;
+use sdl2::video::WindowContext;
 
-use crate::engine::screen::Screen;
 use crate::screens::game::components::shape::Shape;
 use crate::screens::game::sidebar::painter::Painter;
 
@@ -20,11 +22,18 @@ impl Sidebar {
     }
 }
 
-impl Screen for Sidebar {
-    fn paint(&mut self, canvas: &mut WindowCanvas) {
+impl Sidebar {
+    pub fn paint(
+        &mut self,
+        canvas: &mut WindowCanvas,
+        font: &Font,
+        texture_creator: &TextureCreator<WindowContext>,
+        score: Score,
+    ) {
         self.painter.setup(canvas);
         self.painter.background(canvas);
-        // self.painter.draw_guide(canvas);
         self.next_player.draw_at(canvas, 1, 1);
+        self.painter
+            .draw_score(canvas, font, texture_creator, score);
     }
 }

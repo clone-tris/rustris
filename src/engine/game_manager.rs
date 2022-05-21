@@ -23,8 +23,8 @@ impl<'m> GameManager<'m> {
         screen: Box<dyn Screen + 'm>,
         canvas: &'m mut WindowCanvas,
         event_pump: &'m mut EventPump,
-        font: &'m Font,
         texture_creator: &'m TextureCreator<WindowContext>,
+        font: &'m Font<'m, 'm>,
     ) -> GameManager<'m> {
         GameManager {
             canvas,
@@ -88,7 +88,8 @@ impl<'m> GameManager<'m> {
     }
 
     pub(crate) fn paint(&mut self) {
-        self.screen.paint(self.canvas);
+        self.screen
+            .paint(self.canvas, self.font, self.texture_creator);
         self.canvas.present();
     }
 }

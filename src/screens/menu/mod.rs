@@ -4,7 +4,9 @@ use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;
-use sdl2::render::WindowCanvas;
+use sdl2::render::{TextureCreator, WindowCanvas};
+use sdl2::ttf::Font;
+use sdl2::video::WindowContext;
 
 struct Player {
     x: f32,
@@ -30,7 +32,7 @@ impl Menu {
 }
 
 impl Screen for Menu {
-    fn paint(&mut self, canvas: &mut WindowCanvas) {
+    fn paint(&mut self, canvas: &mut WindowCanvas, _: &Font, _: &TextureCreator<WindowContext>) {
         canvas.set_draw_color(Color::RGB(46, 2, 73));
         canvas.clear();
 

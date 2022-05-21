@@ -63,5 +63,5 @@ pub fn random_tetromino() -> Shape {
         .map(|coords| Square::new(coords[0], coords[1], color))
         .collect::<Vec<_>>();
 
-    return Shape::new(square_grid, 0, 0, color);
+    return Shape::new(square_grid, 0, 0);
 }

@@ -1,8 +1,10 @@
 use crate::colors::UiColors;
 use crate::main_config::SQUARE_WIDTH;
 use sdl2::pixels::Color;
-use sdl2::rect::Point;
-use sdl2::render::WindowCanvas;
+use sdl2::rect::{Point, Rect};
+use sdl2::render::{TextureCreator, TextureQuery, WindowCanvas};
+use sdl2::ttf::Font;
+use sdl2::video::WindowContext;
 
 pub fn draw_line(canvas: &mut WindowCanvas, x1: i32, y1: i32, x2: i32, y2: i32, color: Color) {
     let (origin, destination) = (Point::new(x1, y1), Point::new(x2, y2));
@@ -36,4 +38,22 @@ pub fn draw_guide(canvas: &mut WindowCanvas, x: i32, y: i32, width: i32, height:
             UiColors::Guide.value(),
         );
     }
+}
+
+pub fn draw_text(
+    canvas: &mut WindowCanvas,
+    font: &Font,
+    texture_creator: &TextureCreator<WindowContext>,
+    at: Point,
+    text: String,
+    color: Color,
+) {
+    let surface = font.render(text.as_str()).blended(color).unwrap();
+    let texture = texture_creator
+        .create_texture_from_surface(&surface)
+        .unwrap();
+    let TextureQuery { width, height, .. } = texture.query();
+    canvas
+        .copy(&texture, None, Rect::new(at.x, at.y, width, height))
+        .unwrap();
 }
