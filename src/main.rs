@@ -20,8 +20,22 @@ pub fn main() {
         .build()
         .unwrap();
 
+    let ttf = sdl2::ttf::init().unwrap();
+    let mut font = ttf
+        .load_font("./resources/SourceCodePro-Regular.ttf", 16)
+        .unwrap();
+    font.set_style(sdl2::ttf::FontStyle::BOLD);
+
     let mut canvas = window.into_canvas().build().unwrap();
+    let texture_creator = canvas.texture_creator();
     let mut event_pump = sdl.event_pump().unwrap();
-    let mut manager = GameManager::new(Box::new(Game::new()), &mut canvas, &mut event_pump);
+
+    let mut manager = GameManager::new(
+        Box::new(Game::new()),
+        &mut canvas,
+        &mut event_pump,
+        &mut font,
+        &texture_creator,
+    );
     manager.gameloop();
 }

@@ -4,7 +4,6 @@ use sdl2::render::WindowCanvas;
 
 use crate::engine::screen::Screen;
 use crate::screens::game::components::shape::Shape;
-use crate::screens::game::components::tetromino::random_tetromino;
 use crate::screens::game::sidebar::painter::Painter;
 
 pub struct Sidebar {

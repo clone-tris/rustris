@@ -3,7 +3,9 @@ use crate::engine::screen_event::ScreenEvent;
 use crate::{Game, Menu};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use sdl2::render::WindowCanvas;
+use sdl2::render::{TextureCreator, WindowCanvas};
+use sdl2::ttf::Font;
+use sdl2::video::WindowContext;
 use sdl2::EventPump;
 use std::time::Duration;
 
@@ -11,6 +13,8 @@ pub struct GameManager<'m> {
     screen: Box<dyn Screen + 'm>,
     canvas: &'m mut WindowCanvas,
     event_pump: &'m mut EventPump,
+    font: &'m Font<'m, 'm>,
+    texture_creator: &'m TextureCreator<WindowContext>,
     close_application: bool,
 }
 
@@ -19,11 +23,15 @@ impl<'m> GameManager<'m> {
         screen: Box<dyn Screen + 'm>,
         canvas: &'m mut WindowCanvas,
         event_pump: &'m mut EventPump,
+        font: &'m Font,
+        texture_creator: &'m TextureCreator<WindowContext>,
     ) -> GameManager<'m> {
         GameManager {
             canvas,
             screen,
             event_pump,
+            font,
+            texture_creator,
             close_application: false,
         }
     }
