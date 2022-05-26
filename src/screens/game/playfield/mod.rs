@@ -1,3 +1,4 @@
+use crate::colors::UiColors;
 use crate::engine::game_painter;
 use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH, SIDEBAR_WIDTH};
 use crate::screens::game::components::score::Score;
@@ -47,7 +48,12 @@ impl PlayField {
 
     pub fn paint(&mut self, canvas: &mut WindowCanvas) {
         game_painter::set_viewport(canvas, SIDEBAR_WIDTH, 0, self.width, self.height);
-        game_painter::background(canvas, self.width, self.height);
+        game_painter::draw_background(
+            canvas,
+            self.width,
+            self.height,
+            UiColors::Background.value(),
+        );
         game_painter::draw_guide(canvas, 0, 0, self.width, self.height);
         self.player.draw(canvas);
         self.opponent.draw(canvas);

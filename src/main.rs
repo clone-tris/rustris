@@ -7,7 +7,6 @@ mod screens;
 
 use crate::engine::game_manager::GameManager;
 use crate::main_config::{CANVAS_HEIGHT, CANVAS_WIDTH, WINDOW_TITLE};
-use crate::screens::game::Game;
 use crate::screens::menu::Menu;
 
 pub fn main() {
@@ -30,7 +29,7 @@ pub fn main() {
         .unwrap();
 
     let mut manager = GameManager::new(
-        Box::new(Game::new()),
+        Box::new(Menu::new()),
         &mut canvas,
         &mut event_pump,
         &texture_creator,

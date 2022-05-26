@@ -1,5 +1,5 @@
 use crate::colors::UiColors;
-use crate::main_config::{SIDEBAR_WIDTH, SQUARE_WIDTH};
+use crate::main_config::SQUARE_WIDTH;
 use sdl2::pixels::Color;
 use sdl2::rect::{Point, Rect};
 use sdl2::render::{TextureCreator, TextureQuery, WindowCanvas};
@@ -10,8 +10,8 @@ pub fn set_viewport(canvas: &mut WindowCanvas, x: i32, y: i32, width: i32, heigh
     canvas.set_viewport(Rect::new(x, y, width as u32, height as u32));
 }
 
-pub fn background(canvas: &mut WindowCanvas, width: i32, height: i32) {
-    canvas.set_draw_color(UiColors::Background.value());
+pub fn draw_background(canvas: &mut WindowCanvas, width: i32, height: i32, color: Color) {
+    canvas.set_draw_color(color);
     canvas
         .fill_rect(Rect::new(0, 0, width as u32, height as u32))
         .unwrap();

@@ -1,61 +1,44 @@
+mod graphic;
+
+use crate::colors::UiColors;
+use crate::engine::game_painter;
+use crate::{CANVAS_HEIGHT, CANVAS_WIDTH};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use sdl2::pixels::Color;
-use sdl2::rect::Rect;
 use sdl2::render::{TextureCreator, WindowCanvas};
 use sdl2::ttf::Font;
 use sdl2::video::WindowContext;
 
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
+use crate::screens::game::components::shape::Shape;
+use crate::screens::menu::graphic::get_graphic;
 
-struct Player {
-    x: f32,
-    y: f32,
-}
 pub struct Menu {
-    player: Player,
     goto_game: bool,
-    close_application: bool,
+    graphic: Shape,
 }
 
 impl Menu {
     pub fn new() -> Menu {
         Menu {
-            player: Player {
-                x: 700f32,
-                y: 500f32,
-            },
             goto_game: false,
-            close_application: false,
+            graphic: Shape::new(get_graphic(), 0, 0),
         }
     }
 }
 
 impl Screen for Menu {
     fn paint(&mut self, canvas: &mut WindowCanvas, _: &Font, _: &TextureCreator<WindowContext>) {
-        canvas.set_draw_color(Color::RGB(46, 2, 73));
+        canvas.set_draw_color(UiColors::Background.value());
         canvas.clear();
-
-        canvas.set_draw_color(Color::RGB(169, 16, 121));
-        canvas
-            .fill_rect(Rect::new(
-                self.player.x as i32,
-                self.player.y as i32,
-                100,
-                100,
-            ))
-            .unwrap();
+        game_painter::draw_guide(canvas, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        self.graphic.draw(canvas);
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {
-        self.player.x -= 0.1;
-        self.player.y -= 0.1;
         if self.goto_game {
             return Some(ScreenEvent::GoToGame);
-        }
-        if self.close_application {
-            return Some(ScreenEvent::CloseApplication);
         }
         None
     }
@@ -66,10 +49,6 @@ impl Screen for Menu {
                 keycode: Some(Keycode::S),
                 ..
             } => self.goto_game = true,
-            Event::KeyDown {
-                keycode: Some(Keycode::Q),
-                ..
-            } => self.close_application = true,
             _ => {}
         };
     }

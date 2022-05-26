@@ -1,5 +1,6 @@
 mod painter;
 
+use crate::colors::UiColors;
 use crate::engine::game_painter;
 use crate::screens::game::components::score::Score;
 use sdl2::render::{TextureCreator, WindowCanvas};
@@ -33,7 +34,12 @@ impl Sidebar {
         score: Score,
     ) {
         game_painter::set_viewport(canvas, 0, 0, self.width, self.height);
-        game_painter::background(canvas, self.width, self.height);
+        game_painter::draw_background(
+            canvas,
+            self.width,
+            self.height,
+            UiColors::SidebarBackground.value(),
+        );
         self.next_player.draw_at(canvas, 1, 1);
         painter::draw_score(canvas, font, texture_creator, score);
     }
