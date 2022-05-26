@@ -10,7 +10,8 @@ pub const BACKGROUND: RGBA = (0x33, 0x33, 0x33, 0xFF);
 pub const SIDEBAR_BACKGROUND: RGBA = (0x44, 0x44, 0x44, 0xFF);
 pub const POPUP_BACKGROUND: RGBA = (0x21, 0x21, 0x21, 0xFF);
 pub const GUIDE: RGBA = (0x65, 0x65, 0x65, 0xFF);
-pub const WHITE_TEXT: RGBA = (0xFF, 0xFF, 0xFF, 0xFF);
+pub const LIGHT_TEXT: RGBA = (0xFF, 0xFF, 0xFF, 0xFF);
+pub const DARK_TEXT: RGBA = (0x21, 0x21, 0x21, 0xFF);
 pub const POPUP_TEXT: RGBA = (0xEF, 0xEF, 0xEF, 0xFF);
 
 // Shapes
@@ -33,6 +34,8 @@ pub enum UiColors {
     Guide,
     WhiteText,
     PopupText,
+    ButtonText,
+    ButtonBackground,
 }
 
 impl UiColors {
@@ -41,9 +44,11 @@ impl UiColors {
             UiColors::Background => Color::from(BACKGROUND),
             UiColors::SidebarBackground => Color::from(SIDEBAR_BACKGROUND),
             UiColors::PopupBackground => Color::from(POPUP_BACKGROUND),
+            UiColors::ButtonBackground => Color::from(CYAN),
             UiColors::Guide => Color::from(GUIDE),
-            UiColors::WhiteText => Color::from(WHITE_TEXT),
+            UiColors::WhiteText => Color::from(LIGHT_TEXT),
             UiColors::PopupText => Color::from(POPUP_TEXT),
+            UiColors::ButtonText => Color::from(DARK_TEXT),
         }
     }
 }

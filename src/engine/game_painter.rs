@@ -1,8 +1,8 @@
-use crate::colors::UiColors;
+use crate::colors::{ShapeColors, UiColors};
 use crate::main_config::SQUARE_WIDTH;
 use sdl2::pixels::Color;
 use sdl2::rect::{Point, Rect};
-use sdl2::render::{TextureCreator, TextureQuery, WindowCanvas};
+use sdl2::render::{Texture, TextureCreator, TextureQuery, WindowCanvas};
 use sdl2::ttf::Font;
 use sdl2::video::WindowContext;
 
@@ -51,20 +51,40 @@ pub fn draw_guide(canvas: &mut WindowCanvas, x: i32, y: i32, width: i32, height:
     }
 }
 
-pub fn draw_text(
+pub fn draw_text<'t>(
+    canvas: &mut WindowCanvas,
+    font: &Font,
+    texture_creator: &'t TextureCreator<WindowContext>,
+    at: Point,
+    text: String,
+    color: Color,
+) -> Texture<'t> {
+    let surface = font.render(text.as_str()).blended(color).unwrap();
+    let texture = texture_creator
+        .create_texture_from_surface(&surface)
+        .unwrap();
+
+    let TextureQuery { width, height, .. } = texture.query();
+    canvas
+        .copy(&texture, None, Rect::new(at.x, at.y, width, height))
+        .unwrap();
+
+    texture
+}
+
+pub fn draw_button(
     canvas: &mut WindowCanvas,
     font: &Font,
     texture_creator: &TextureCreator<WindowContext>,
     at: Point,
     text: String,
-    color: Color,
 ) {
-    let surface = font.render(text.as_str()).blended(color).unwrap();
-    let texture = texture_creator
-        .create_texture_from_surface(&surface)
-        .unwrap();
-    let TextureQuery { width, height, .. } = texture.query();
-    canvas
-        .copy(&texture, None, Rect::new(at.x, at.y, width, height))
-        .unwrap();
+    let texture = draw_text(
+        canvas,
+        font,
+        texture_creator,
+        at,
+        text,
+        UiColors::ButtonText.value(),
+    );
 }

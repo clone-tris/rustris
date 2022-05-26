@@ -5,6 +5,7 @@ use crate::engine::game_painter;
 use crate::{CANVAS_HEIGHT, CANVAS_WIDTH};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
+use sdl2::rect::Point;
 use sdl2::render::{TextureCreator, WindowCanvas};
 use sdl2::ttf::Font;
 use sdl2::video::WindowContext;
@@ -29,11 +30,23 @@ impl Menu {
 }
 
 impl Screen for Menu {
-    fn paint(&mut self, canvas: &mut WindowCanvas, _: &Font, _: &TextureCreator<WindowContext>) {
+    fn paint(
+        &mut self,
+        canvas: &mut WindowCanvas,
+        font: &Font,
+        texture_creator: &TextureCreator<WindowContext>,
+    ) {
         canvas.set_draw_color(UiColors::Background.value());
         canvas.clear();
         game_painter::draw_guide(canvas, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         self.graphic.draw(canvas);
+        game_painter::draw_button(
+            canvas,
+            font,
+            texture_creator,
+            Point::new(0, 0),
+            String::from("Start (S)"),
+        );
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {
