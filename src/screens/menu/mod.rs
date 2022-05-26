@@ -1,5 +1,3 @@
-use crate::engine::screen::Screen;
-use crate::engine::screen_event::ScreenEvent;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
@@ -7,6 +5,9 @@ use sdl2::rect::Rect;
 use sdl2::render::{TextureCreator, WindowCanvas};
 use sdl2::ttf::Font;
 use sdl2::video::WindowContext;
+
+use crate::engine::screen::Screen;
+use crate::engine::screen_event::ScreenEvent;
 
 struct Player {
     x: f32,

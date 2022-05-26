@@ -1,10 +1,21 @@
 use crate::colors::UiColors;
-use crate::main_config::SQUARE_WIDTH;
+use crate::main_config::{SIDEBAR_WIDTH, SQUARE_WIDTH};
 use sdl2::pixels::Color;
 use sdl2::rect::{Point, Rect};
 use sdl2::render::{TextureCreator, TextureQuery, WindowCanvas};
 use sdl2::ttf::Font;
 use sdl2::video::WindowContext;
+
+pub fn set_viewport(canvas: &mut WindowCanvas, x: i32, y: i32, width: i32, height: i32) {
+    canvas.set_viewport(Rect::new(x, y, width as u32, height as u32));
+}
+
+pub fn background(canvas: &mut WindowCanvas, width: i32, height: i32) {
+    canvas.set_draw_color(UiColors::Background.value());
+    canvas
+        .fill_rect(Rect::new(0, 0, width as u32, height as u32))
+        .unwrap();
+}
 
 pub fn draw_line(canvas: &mut WindowCanvas, x1: i32, y1: i32, x2: i32, y2: i32, color: Color) {
     let (origin, destination) = (Point::new(x1, y1), Point::new(x2, y2));

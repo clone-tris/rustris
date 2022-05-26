@@ -1,8 +1,5 @@
-mod painter;
-
-use crate::screens::game::playfield::painter::Painter;
-
-use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
+use crate::engine::game_painter;
+use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH, SIDEBAR_WIDTH};
 use crate::screens::game::components::score::Score;
 use crate::screens::game::components::shape::Shape;
 use crate::screens::game::components::tetromino::random_tetromino;
@@ -10,7 +7,6 @@ use sdl2::render::WindowCanvas;
 use std::time::{Duration, Instant};
 
 pub struct PlayField {
-    painter: Painter,
     pub on_floor: bool,
     game_ended: bool,
     floor_rate: Duration,
@@ -20,6 +16,8 @@ pub struct PlayField {
     pub next_player: Shape,
     opponent: Shape,
     pub score: Score,
+    width: i32,
+    height: i32,
 }
 
 impl PlayField {
@@ -29,7 +27,6 @@ impl PlayField {
         opponent.height = PUZZLE_HEIGHT;
 
         let mut screen = PlayField {
-            painter: Painter::new(width, height),
             player: random_tetromino(),
             next_player: random_tetromino(),
             opponent,
@@ -39,6 +36,8 @@ impl PlayField {
             game_ended: false,
             fall_rate: Duration::from_millis(1000),
             score: Score::new(),
+            width,
+            height,
         };
 
         screen.spawn_player();
@@ -47,9 +46,9 @@ impl PlayField {
     }
 
     pub fn paint(&mut self, canvas: &mut WindowCanvas) {
-        self.painter.setup(canvas);
-        self.painter.background(canvas);
-        self.painter.draw_guide(canvas);
+        game_painter::set_viewport(canvas, SIDEBAR_WIDTH, 0, self.width, self.height);
+        game_painter::background(canvas, self.width, self.height);
+        game_painter::draw_guide(canvas, 0, 0, self.width, self.height);
         self.player.draw(canvas);
         self.opponent.draw(canvas);
     }
