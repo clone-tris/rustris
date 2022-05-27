@@ -10,30 +10,36 @@ use sdl2::video::WindowContext;
 use sdl2::EventPump;
 use std::time::Duration;
 
-pub struct GameManager<'m> {
-    screen: Box<dyn Screen + 'm>,
-    canvas: &'m mut WindowCanvas,
-    event_pump: &'m mut EventPump,
-    font: &'m Font<'m, 'm>,
-    texture_creator: &'m TextureCreator<WindowContext>,
-    close_application: bool,
+pub struct SdlContext<'a> {
+    canvas: &'a mut WindowCanvas,
+    font: &'a Font<'a, 'a>,
+    texture_creator: &'a TextureCreator<WindowContext>,
+    event_pump: &'a mut EventPump,
 }
 
-impl<'m> GameManager<'m> {
+pub struct GameManager<'a> {
+    screen: Box<dyn Screen + 'a>,
+    close_application: bool,
+    sdl_context: SdlContext<'a>,
+}
+
+impl<'a> GameManager<'a> {
     pub(crate) fn new(
-        screen: Box<dyn Screen + 'm>,
-        canvas: &'m mut WindowCanvas,
-        event_pump: &'m mut EventPump,
-        texture_creator: &'m TextureCreator<WindowContext>,
-        font: &'m Font<'m, 'm>,
-    ) -> GameManager<'m> {
+        screen: Box<dyn Screen + 'a>,
+        canvas: &'a mut WindowCanvas,
+        event_pump: &'a mut EventPump,
+        texture_creator: &'a TextureCreator<WindowContext>,
+        font: &'a Font<'a, 'a>,
+    ) -> GameManager<'a> {
         GameManager {
-            canvas,
-            screen,
-            event_pump,
-            font,
-            texture_creator,
             close_application: false,
+            screen,
+            sdl_context: SdlContext {
+                canvas,
+                event_pump,
+                texture_creator,
+                font,
+            },
         }
     }
 
@@ -42,7 +48,7 @@ impl<'m> GameManager<'m> {
             if self.close_application {
                 break;
             }
-            for event in self.event_pump.poll_iter().collect::<Vec<_>>() {
+            for event in self.sdl_context.event_pump.poll_iter().collect::<Vec<_>>() {
                 self.handle_event(event.clone());
                 self.screen.handle_event(event.clone());
             }
@@ -89,8 +95,11 @@ impl<'m> GameManager<'m> {
     }
 
     pub(crate) fn paint(&mut self) {
-        self.screen
-            .paint(self.canvas, self.font, self.texture_creator);
-        self.canvas.present();
+        self.screen.paint(
+            self.sdl_context.canvas,
+            self.sdl_context.font,
+            self.sdl_context.texture_creator,
+        );
+        self.sdl_context.canvas.present();
     }
 }
