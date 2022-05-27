@@ -51,10 +51,10 @@ pub fn draw_guide(canvas: &mut WindowCanvas, x: i32, y: i32, width: i32, height:
     }
 }
 
-fn texture_for_text<'t>(
+pub fn texture_for_text<'t>(
     font: &Font,
     texture_creator: &'t TextureCreator<WindowContext>,
-    text: String,
+    text: &String,
     color: Color,
 ) -> Texture<'t> {
     let surface = font.render(text.as_str()).blended(color).unwrap();
@@ -68,7 +68,7 @@ pub fn draw_text<'t>(
     font: &Font,
     texture_creator: &'t TextureCreator<WindowContext>,
     at: Point,
-    text: String,
+    text: &String,
     color: Color,
 ) {
     let texture = texture_for_text(font, texture_creator, text, color);
@@ -86,7 +86,7 @@ pub fn draw_button(
     font: &Font,
     texture_creator: &TextureCreator<WindowContext>,
     at: Point,
-    text: String,
+    text: &String,
 ) {
     let texture = texture_for_text(font, texture_creator, text, UiColors::ButtonText.value());
 

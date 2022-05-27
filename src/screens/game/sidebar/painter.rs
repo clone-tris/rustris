@@ -18,7 +18,7 @@ pub fn draw_score(
         font,
         texture_creator,
         Point::new(SQUARE_WIDTH / 3, SQUARE_WIDTH * 4),
-        format!("Level {:>9}", score.level),
+        &format!("Level {:>9}", score.level),
         UiColors::WhiteText.value(),
     );
     draw_text(
@@ -26,7 +26,7 @@ pub fn draw_score(
         font,
         texture_creator,
         Point::new(SQUARE_WIDTH / 3, SQUARE_WIDTH * 5),
-        format!("Cleared {:>7}", score.lines_cleared),
+        &format!("Cleared {:>7}", score.lines_cleared),
         UiColors::WhiteText.value(),
     );
     draw_text(
@@ -34,7 +34,7 @@ pub fn draw_score(
         font,
         texture_creator,
         Point::new(SQUARE_WIDTH / 3, SQUARE_WIDTH * 6),
-        format!("Score {:>9}", score.total),
+        &format!("Score {:>9}", score.total),
         UiColors::WhiteText.value(),
     );
 }

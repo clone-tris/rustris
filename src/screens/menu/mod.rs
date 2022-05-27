@@ -1,6 +1,7 @@
 mod graphic;
 
 use crate::colors::UiColors;
+use crate::engine::components::button::Button;
 use crate::engine::game_painter;
 use crate::{CANVAS_HEIGHT, CANVAS_WIDTH};
 use sdl2::event::Event;
@@ -17,13 +18,20 @@ use crate::screens::game::components::shape::Shape;
 use crate::screens::menu::graphic::get_graphic;
 
 pub struct Menu {
+    button: Button,
     goto_game: bool,
     graphic: Shape,
 }
 
 impl Menu {
     pub fn new() -> Menu {
+        let button = Button::new(
+            String::from("Start (S)"),
+            Point::new(6 * SQUARE_WIDTH, 17 * SQUARE_WIDTH),
+        );
+
         Menu {
+            button,
             goto_game: false,
             graphic: Shape::new(get_graphic(), 0, 0),
         }
@@ -41,13 +49,8 @@ impl Screen for Menu {
         canvas.clear();
         game_painter::draw_guide(canvas, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         self.graphic.draw(canvas);
-        game_painter::draw_button(
-            canvas,
-            font,
-            texture_creator,
-            Point::new(6 * SQUARE_WIDTH, 17 * SQUARE_WIDTH),
-            String::from("Start (S)"),
-        );
+        self.button
+            .draw(canvas, font, texture_creator, String::from("Start (S)"));
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {
