@@ -31,7 +31,7 @@ impl Game {
         let playfield = PlayField::new(WAR_ZONE_WIDTH, CANVAS_HEIGHT);
         let next_player = playfield.next_player.clone();
         Game {
-            playfield: playfield,
+            playfield,
             sidebar: Sidebar::new(SIDEBAR_WIDTH, CANVAS_HEIGHT, next_player),
             player_is_falling: false,
             paused: false,
@@ -95,6 +95,10 @@ impl<'t> Screen for Game {
         font: &Font,
         texture_creator: &TextureCreator<WindowContext>,
     ) {
+        if self.goto_over_screen {
+            return;
+        }
+
         self.playfield.paint(canvas);
         self.sidebar
             .paint(canvas, font, texture_creator, self.playfield.score);
@@ -105,7 +109,7 @@ impl<'t> Screen for Game {
             return None;
         }
         if self.goto_over_screen {
-            return Some(ScreenEvent::GoToMenu);
+            return Some(ScreenEvent::GoToOver);
         }
         if self.restart {
             return Some(ScreenEvent::GoToGame);

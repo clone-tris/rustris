@@ -1,6 +1,7 @@
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
 use crate::screens::game::Game;
+use crate::screens::over::Over;
 use crate::Menu;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
@@ -54,8 +55,23 @@ impl<'a> GameManager<'a> {
             }
             self.update();
             self.paint();
-            ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
+            std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
         }
+    }
+
+    pub(crate) fn update(&mut self) {
+        if let Some(screen_event) = self.screen.update() {
+            self.handle_screen_events(screen_event);
+        }
+    }
+
+    pub(crate) fn paint(&mut self) {
+        self.screen.paint(
+            self.sdl_context.canvas,
+            self.sdl_context.font,
+            self.sdl_context.texture_creator,
+        );
+        self.sdl_context.canvas.present();
     }
 
     pub(crate) fn handle_event(&mut self, event: Event) {
@@ -69,16 +85,11 @@ impl<'a> GameManager<'a> {
         };
     }
 
-    pub(crate) fn update(&mut self) {
-        if let Some(screen_event) = self.screen.update() {
-            self.handle_screen_events(screen_event);
-        }
-    }
-
     fn handle_screen_events(&mut self, screen: ScreenEvent) {
         match screen {
             ScreenEvent::GoToMenu => self.swap_screen(Box::new(Menu::new())),
             ScreenEvent::GoToGame => self.swap_screen(Box::new(Game::new())),
+            ScreenEvent::GoToOver => self.swap_screen(Box::new(Over::new())),
             ScreenEvent::CloseApplication => {
                 self.close_application();
             }
@@ -92,14 +103,5 @@ impl<'a> GameManager<'a> {
     pub(crate) fn swap_screen(&mut self, screen: Box<dyn Screen>) {
         self.screen.unload();
         self.screen = screen;
-    }
-
-    pub(crate) fn paint(&mut self) {
-        self.screen.paint(
-            self.sdl_context.canvas,
-            self.sdl_context.font,
-            self.sdl_context.texture_creator,
-        );
-        self.sdl_context.canvas.present();
     }
 }
