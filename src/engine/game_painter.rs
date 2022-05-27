@@ -1,4 +1,4 @@
-use crate::colors::{ShapeColors, UiColors};
+use crate::colors::UiColors;
 use crate::main_config::SQUARE_WIDTH;
 use sdl2::pixels::Color;
 use sdl2::rect::{Point, Rect};
@@ -51,6 +51,18 @@ pub fn draw_guide(canvas: &mut WindowCanvas, x: i32, y: i32, width: i32, height:
     }
 }
 
+fn texture_for_text<'t>(
+    font: &Font,
+    texture_creator: &'t TextureCreator<WindowContext>,
+    text: String,
+    color: Color,
+) -> Texture<'t> {
+    let surface = font.render(text.as_str()).blended(color).unwrap();
+    texture_creator
+        .create_texture_from_surface(&surface)
+        .unwrap()
+}
+
 pub fn draw_text<'t>(
     canvas: &mut WindowCanvas,
     font: &Font,
@@ -58,19 +70,16 @@ pub fn draw_text<'t>(
     at: Point,
     text: String,
     color: Color,
-) -> Texture<'t> {
-    let surface = font.render(text.as_str()).blended(color).unwrap();
-    let texture = texture_creator
-        .create_texture_from_surface(&surface)
-        .unwrap();
-
+) {
+    let texture = texture_for_text(font, texture_creator, text, color);
     let TextureQuery { width, height, .. } = texture.query();
     canvas
         .copy(&texture, None, Rect::new(at.x, at.y, width, height))
         .unwrap();
-
-    texture
 }
+
+const BUTTON_PADDING_LEFT: u32 = 8;
+const BUTTON_PADDING_TOP: u32 = 8;
 
 pub fn draw_button(
     canvas: &mut WindowCanvas,
@@ -79,12 +88,30 @@ pub fn draw_button(
     at: Point,
     text: String,
 ) {
-    let texture = draw_text(
-        canvas,
-        font,
-        texture_creator,
-        at,
-        text,
-        UiColors::ButtonText.value(),
-    );
+    let texture = texture_for_text(font, texture_creator, text, UiColors::ButtonText.value());
+
+    let TextureQuery {
+        width: text_width,
+        height: text_height,
+        ..
+    } = texture.query();
+
+    let width = 2 * BUTTON_PADDING_LEFT + text_width;
+    let height = 2 * BUTTON_PADDING_TOP + text_height;
+
+    let text_x = at.x + ((width - text_width) / 2) as i32;
+    let text_y = at.y + ((height - text_height) / 2) as i32;
+
+    canvas.set_draw_color(UiColors::ButtonBackground.value());
+    canvas
+        .fill_rect(Rect::new(at.x, at.y, width, height))
+        .unwrap();
+
+    canvas
+        .copy(
+            &texture,
+            None,
+            Rect::new(text_x, text_y, text_width, text_height),
+        )
+        .unwrap();
 }

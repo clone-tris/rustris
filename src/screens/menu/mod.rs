@@ -12,6 +12,7 @@ use sdl2::video::WindowContext;
 
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
+use crate::main_config::SQUARE_WIDTH;
 use crate::screens::game::components::shape::Shape;
 use crate::screens::menu::graphic::get_graphic;
 
@@ -44,7 +45,7 @@ impl Screen for Menu {
             canvas,
             font,
             texture_creator,
-            Point::new(0, 0),
+            Point::new(6 * SQUARE_WIDTH, 17 * SQUARE_WIDTH),
             String::from("Start (S)"),
         );
     }
