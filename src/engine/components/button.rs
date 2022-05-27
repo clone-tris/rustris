@@ -9,12 +9,14 @@ const BUTTON_PADDING_LEFT: u32 = 8;
 const BUTTON_PADDING_TOP: u32 = 8;
 
 pub struct Button {
-    position: Point,
+    area: Rect,
 }
 
 impl Button {
     pub(crate) fn new(position: Point) -> Button {
-        Button { position }
+        Button {
+            area: Rect::new(position.x, position.y, 0, 0),
+        }
     }
 
     pub(crate) fn draw(
@@ -23,7 +25,7 @@ impl Button {
         font: &Font,
         texture_creator: &TextureCreator<WindowContext>,
         text: String,
-    ) {
+    ) -> Rect {
         let texture =
             texture_for_text(&font, &texture_creator, &text, UiColors::ButtonText.value());
         let TextureQuery {
@@ -32,16 +34,20 @@ impl Button {
             ..
         } = texture.query();
 
-        let width = 2 * BUTTON_PADDING_LEFT + text_width;
-        let height = 2 * BUTTON_PADDING_TOP + text_height;
+        self.area.set_width(2 * BUTTON_PADDING_LEFT + text_width);
+        self.area.set_height(2 * BUTTON_PADDING_TOP + text_height);
 
-        let text_x = self.position.x + ((width - text_width) / 2) as i32;
-        let text_y = self.position.y + ((height - text_height) / 2) as i32;
+        let text_x = self.area.x + ((self.area.width() - text_width) / 2) as i32;
+        let text_y = self.area.y + ((self.area.height() - text_height) / 2) as i32;
 
         canvas.set_draw_color(UiColors::ButtonBackground.value());
-        canvas
-            .fill_rect(Rect::new(self.position.x, self.position.y, width, height))
-            .unwrap();
+        let button_area = Rect::new(
+            self.area.x,
+            self.area.y,
+            self.area.width(),
+            self.area.height(),
+        );
+        canvas.fill_rect(button_area).unwrap();
         canvas
             .copy(
                 &texture,
@@ -49,5 +55,13 @@ impl Button {
                 Rect::new(text_x, text_y, text_width, text_height),
             )
             .unwrap();
+        button_area
+    }
+
+    pub fn contains(self: &Self, point: Point) -> bool {
+        return point.x >= self.area.x
+            && point.x <= self.area.x + self.area.width() as i32
+            && point.y >= self.area.y
+            && point.y <= self.area.y + self.area.height() as i32;
     }
 }

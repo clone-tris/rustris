@@ -74,6 +74,14 @@ impl Screen for Menu {
                 keycode: Some(Keycode::Q),
                 ..
             } => self.quit_game = true,
+            Event::MouseButtonDown { x, y, .. } => {
+                if self.start_button.contains(Point::new(x, y)) {
+                    self.goto_game = true;
+                }
+                if self.quit_button.contains(Point::new(x, y)) {
+                    self.quit_game = true;
+                }
+            }
             _ => {}
         };
     }
