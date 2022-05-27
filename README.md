@@ -1,6 +1,7 @@
 # rustris
 
-Requires
-- SDL2.dll
-- SDL2_gfx.dll
-- SDL2_ttf.dll
+```
+cargo install cargo-vcpkg
+cargo vcpkg build
+cargo build
+```
