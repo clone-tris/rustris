@@ -1,7 +1,7 @@
 use crate::colors::UiColors;
 use crate::engine::game_painter::texture_for_text;
 use sdl2::rect::{Point, Rect};
-use sdl2::render::{Texture, TextureCreator, TextureQuery, WindowCanvas};
+use sdl2::render::{TextureCreator, TextureQuery, WindowCanvas};
 use sdl2::ttf::Font;
 use sdl2::video::WindowContext;
 
@@ -9,13 +9,12 @@ const BUTTON_PADDING_LEFT: u32 = 8;
 const BUTTON_PADDING_TOP: u32 = 8;
 
 pub struct Button {
-    text: String,
     position: Point,
 }
 
 impl Button {
-    pub(crate) fn new(text: String, position: Point) -> Button {
-        Button { text, position }
+    pub(crate) fn new(position: Point) -> Button {
+        Button { position }
     }
 
     pub(crate) fn draw(

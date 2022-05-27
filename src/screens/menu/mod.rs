@@ -18,21 +18,20 @@ use crate::screens::game::components::shape::Shape;
 use crate::screens::menu::graphic::get_graphic;
 
 pub struct Menu {
-    button: Button,
+    start_button: Button,
+    quit_button: Button,
     goto_game: bool,
+    quit_game: bool,
     graphic: Shape,
 }
 
 impl Menu {
     pub fn new() -> Menu {
-        let button = Button::new(
-            String::from("Start (S)"),
-            Point::new(6 * SQUARE_WIDTH, 17 * SQUARE_WIDTH),
-        );
-
         Menu {
-            button,
+            start_button: Button::new(Point::new(4 * SQUARE_WIDTH, 17 * SQUARE_WIDTH)),
+            quit_button: Button::new(Point::new(8 * SQUARE_WIDTH, 17 * SQUARE_WIDTH)),
             goto_game: false,
+            quit_game: false,
             graphic: Shape::new(get_graphic(), 0, 0),
         }
     }
@@ -49,13 +48,18 @@ impl Screen for Menu {
         canvas.clear();
         game_painter::draw_guide(canvas, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         self.graphic.draw(canvas);
-        self.button
-            .draw(canvas, font, texture_creator, String::from("Start (S)"));
+        self.start_button
+            .draw(canvas, font, texture_creator, String::from("[S]tart"));
+        self.quit_button
+            .draw(canvas, font, texture_creator, String::from("[Q]uit"));
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {
         if self.goto_game {
             return Some(ScreenEvent::GoToGame);
+        }
+        if self.quit_game {
+            return Some(ScreenEvent::CloseApplication);
         }
         None
     }
@@ -66,6 +70,10 @@ impl Screen for Menu {
                 keycode: Some(Keycode::S),
                 ..
             } => self.goto_game = true,
+            Event::KeyDown {
+                keycode: Some(Keycode::Q),
+                ..
+            } => self.quit_game = true,
             _ => {}
         };
     }
