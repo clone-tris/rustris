@@ -1,7 +1,6 @@
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
 use crate::screens::game::Game;
-use crate::screens::over::Over;
 use crate::Menu;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
@@ -89,7 +88,6 @@ impl<'a> GameManager<'a> {
         match screen {
             ScreenEvent::GoToMenu => self.swap_screen(Box::new(Menu::new())),
             ScreenEvent::GoToGame => self.swap_screen(Box::new(Game::new())),
-            ScreenEvent::GoToOver => self.swap_screen(Box::new(Over::new())),
             ScreenEvent::CloseApplication => {
                 self.close_application();
             }

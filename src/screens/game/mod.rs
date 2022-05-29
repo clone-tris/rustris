@@ -1,4 +1,5 @@
 pub mod components;
+pub mod game_over;
 pub mod playfield;
 pub mod sidebar;
 
@@ -12,18 +13,21 @@ use std::time::{Duration, Instant};
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
 use crate::game_config::{CANVAS_HEIGHT, SIDEBAR_WIDTH, WAR_ZONE_WIDTH};
+use crate::screens::game::game_over::Over;
 use crate::screens::game::playfield::PlayField;
 use crate::screens::game::sidebar::Sidebar;
 
 pub struct Game {
     playfield: PlayField,
     sidebar: Sidebar,
+    game_over: Over,
     player_is_falling: bool,
     paused: bool,
     next_fall: Instant,
     remaining_after_paused: Duration,
-    goto_over_screen: bool,
+    show_game_over: bool,
     restart: bool,
+    go_to_menu: bool,
 }
 
 impl Game {
@@ -33,12 +37,14 @@ impl Game {
         Game {
             playfield,
             sidebar: Sidebar::new(SIDEBAR_WIDTH, CANVAS_HEIGHT, next_player),
+            game_over: Over::new(),
             player_is_falling: false,
             paused: false,
             next_fall: Instant::now(),
             remaining_after_paused: Duration::from_millis(0),
-            goto_over_screen: false,
+            show_game_over: false,
             restart: false,
+            go_to_menu: false,
         }
     }
 
@@ -59,7 +65,7 @@ impl Game {
         self.player_is_falling = true;
         let able_to_move = self.playfield.fall_down();
         if !able_to_move && self.playfield.is_game_ended() {
-            self.goto_over_screen = true;
+            self.show_game_over = true;
             return;
         }
 
@@ -95,25 +101,27 @@ impl<'t> Screen for Game {
         font: &Font,
         texture_creator: &TextureCreator<WindowContext>,
     ) {
-        if self.goto_over_screen {
-            return;
-        }
-
         self.playfield.paint(canvas);
         self.sidebar
             .paint(canvas, font, texture_creator, self.playfield.score);
+        if self.show_game_over {
+            self.game_over.paint(canvas, font, texture_creator);
+        }
     }
 
     fn update(&mut self) -> Option<ScreenEvent> {
-        if self.paused {
-            return None;
-        }
-        if self.goto_over_screen {
-            return Some(ScreenEvent::GoToOver);
-        }
         if self.restart {
             return Some(ScreenEvent::GoToGame);
         }
+
+        if self.go_to_menu {
+            return Some(ScreenEvent::GoToMenu);
+        }
+
+        if self.paused || self.show_game_over {
+            return None;
+        }
+
         self.apply_gravity();
         None
     }
@@ -148,9 +156,17 @@ impl<'t> Screen for Game {
             Event::KeyDown {
                 keycode: Some(Keycode::O),
                 ..
-            } => self.goto_over_screen = true,
+            } => self.show_game_over = true,
 
             _ => {}
         };
+
+        if let Some(sceen_event) = self.game_over.handle_event(event) {
+            match sceen_event {
+                ScreenEvent::GoToGame => self.restart(),
+                ScreenEvent::GoToMenu => self.go_to_menu = true,
+                _ => {}
+            }
+        }
     }
 }
