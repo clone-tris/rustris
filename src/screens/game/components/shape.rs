@@ -1,4 +1,4 @@
-use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
+use crate::game_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH};
 use crate::screens::game::components::square::Square;
 use sdl2::render::WindowCanvas;
 use std::collections::{HashMap, HashSet};

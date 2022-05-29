@@ -1,6 +1,6 @@
 use crate::colors::UiColors;
 use crate::engine::game_painter;
-use crate::main_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH, SIDEBAR_WIDTH};
+use crate::game_config::{PUZZLE_HEIGHT, PUZZLE_WIDTH, SIDEBAR_WIDTH};
 use crate::screens::game::components::score::Score;
 use crate::screens::game::components::shape::Shape;
 use crate::screens::game::components::tetromino::random_tetromino;

@@ -1,6 +1,6 @@
 use crate::colors::UiColors;
 use crate::engine::game_painter::draw_text;
-use crate::main_config::SQUARE_WIDTH;
+use crate::game_config::SQUARE_WIDTH;
 use crate::screens::game::components::score::Score;
 use sdl2::rect::Point;
 use sdl2::render::{TextureCreator, WindowCanvas};

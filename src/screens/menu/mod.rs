@@ -13,7 +13,7 @@ use sdl2::video::WindowContext;
 
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
-use crate::main_config::SQUARE_WIDTH;
+use crate::game_config::SQUARE_WIDTH;
 use crate::screens::game::components::shape::Shape;
 use crate::screens::menu::graphic::get_graphic;
 

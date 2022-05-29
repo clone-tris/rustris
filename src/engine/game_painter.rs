@@ -1,5 +1,5 @@
 use crate::colors::UiColors;
-use crate::main_config::SQUARE_WIDTH;
+use crate::game_config::SQUARE_WIDTH;
 use sdl2::pixels::Color;
 use sdl2::rect::{Point, Rect};
 use sdl2::render::{Texture, TextureCreator, TextureQuery, WindowCanvas};

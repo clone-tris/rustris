@@ -1,5 +1,5 @@
 use crate::colors::ShapeColors::{BorderBottom, BorderSide, BorderTop};
-use crate::main_config::{SQUARE_BORDER_WIDTH, SQUARE_WIDTH};
+use crate::game_config::{SQUARE_BORDER_WIDTH, SQUARE_WIDTH};
 use sdl2::gfx::primitives::DrawRenderer;
 use sdl2::pixels::Color;
 use sdl2::rect::Rect;

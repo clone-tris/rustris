@@ -11,7 +11,7 @@ use std::time::{Duration, Instant};
 
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
-use crate::main_config::{CANVAS_HEIGHT, SIDEBAR_WIDTH, WAR_ZONE_WIDTH};
+use crate::game_config::{CANVAS_HEIGHT, SIDEBAR_WIDTH, WAR_ZONE_WIDTH};
 use crate::screens::game::playfield::PlayField;
 use crate::screens::game::sidebar::Sidebar;
 

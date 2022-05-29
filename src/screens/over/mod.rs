@@ -3,7 +3,7 @@ use crate::engine::components::button::Button;
 use crate::engine::game_painter;
 use crate::engine::screen::Screen;
 use crate::engine::screen_event::ScreenEvent;
-use crate::main_config::SQUARE_WIDTH;
+use crate::game_config::SQUARE_WIDTH;
 use crate::{CANVAS_HEIGHT, CANVAS_WIDTH};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;

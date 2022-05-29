@@ -2,11 +2,11 @@ extern crate sdl2;
 
 mod colors;
 mod engine;
-mod main_config;
+mod game_config;
 mod screens;
 
 use crate::engine::game_manager::GameManager;
-use crate::main_config::{CANVAS_HEIGHT, CANVAS_WIDTH, WINDOW_TITLE};
+use crate::game_config::{CANVAS_HEIGHT, CANVAS_WIDTH, WINDOW_TITLE};
 use crate::screens::menu::Menu;
 
 pub fn main() {
