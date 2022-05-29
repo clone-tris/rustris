@@ -131,17 +131,37 @@ impl<'t> Screen for Game {
             Event::KeyDown {
                 keycode: Some(Keycode::W),
                 ..
+            }
+            | Event::KeyDown {
+                keycode: Some(Keycode::Up),
+                ..
+            }
+            | Event::KeyDown {
+                keycode: Some(Keycode::Space),
+                ..
             } => self.playfield.rotate_player(),
             Event::KeyDown {
                 keycode: Some(Keycode::A),
+                ..
+            }
+            | Event::KeyDown {
+                keycode: Some(Keycode::Left),
                 ..
             } => self.playfield.move_left(),
             Event::KeyDown {
                 keycode: Some(Keycode::S),
                 ..
+            }
+            | Event::KeyDown {
+                keycode: Some(Keycode::Down),
+                ..
             } => self.make_player_fall(),
             Event::KeyDown {
                 keycode: Some(Keycode::D),
+                ..
+            }
+            | Event::KeyDown {
+                keycode: Some(Keycode::Right),
                 ..
             } => self.playfield.move_right(),
             Event::KeyDown {
