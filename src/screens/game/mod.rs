@@ -152,12 +152,6 @@ impl<'t> Screen for Game {
                 keycode: Some(Keycode::P),
                 ..
             } => self.toggle_paused(),
-
-            Event::KeyDown {
-                keycode: Some(Keycode::O),
-                ..
-            } => self.show_game_over = true,
-
             _ => {}
         };
 
