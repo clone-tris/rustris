@@ -4,4 +4,5 @@
 cargo install cargo-vcpkg
 cargo vcpkg build
 cargo build
+cargo run
 ```
